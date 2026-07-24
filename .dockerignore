@@ -1,0 +1,16 @@
+.git
+.gitignore
+node_modules
+.next
+.vercel
+.open-next
+.env
+.env.sample
+README.md
+*.log
+data/db.json
+.claude
+.clinerules
+.windsurfrules
+.agents
+compound-engineering
