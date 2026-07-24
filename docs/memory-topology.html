@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Social Skills — Memory Topology</title>
+<style>
+  :root{
+    --ink:#0f1f1a; --muted:#5c7268; --line:#d8e5dd; --bg:#f7faf8;
+    --emerald:#10b981; --emerald-d:#059669; --sky:#0ea5e9; --violet:#8b5cf6;
+    --amber:#f59e0b; --pink:#ec4899;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg);color:var(--ink);padding:32px 20px}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.02em}
+  p.sub{color:var(--muted);margin:0 0 28px;max-width:640px;font-size:14px;line-height:1.5}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1100px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+  .panel h2{font-size:15px;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+  .panel .tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+  .tag-agent{background:#e7f7f0;color:var(--emerald-d)}
+  .tag-user{background:#eef2ff;color:var(--sky)}
+  .panel p.desc{color:var(--muted);font-size:12.5px;line-height:1.45;margin:6px 0 14px;min-height:54px}
+  svg{width:100%;height:auto;display:block}
+  .node rect{stroke-width:1.5}
+  .lbl{font-size:11px;fill:var(--ink);font-weight:600}
+  .lbl-s{font-size:9.5px;fill:var(--muted)}
+  .edge{stroke:var(--line);stroke-width:1.4}
+  .edge-iso{stroke:var(--amber);stroke-width:1.6;stroke-dasharray:4 3}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;font-size:12px;color:var(--muted);max-width:1100px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
+  .note{max-width:1100px;margin-top:24px;font-size:12.5px;color:var(--muted);line-height:1.6;
+    border-left:3px solid var(--emerald);padding:10px 14px;background:#fff;border-radius:0 10px 10px 0}
+  .note b{color:var(--ink)}
+</style>
+</head>
+<body>
+  <h1>Social Skills — Memory Topology</h1>
+  <p class="sub">One plumbing, two owners. The <b>/journey</b> surface charts memory under Cognitive OS v3 isolation.
+  The only difference is <b>who the memory belongs to</b> and the key it is scoped by.</p>
+
+  <div class="grid">
+    <!-- AGENT VIEW -->
+    <div class="panel">
+      <h2><span class="tag tag-agent">current</span> Agent self-view</h2>
+      <p class="desc">Memory owner = <b>the agent</b> (Hermes). Surfaces what the agent learned: skills, profile memory,
+      this repo's <code>MEMORY.local.md</code>. Operator transparency, not a customer feature.</p>
+      <svg viewBox="0 0 360 300" role="img" aria-label="Agent memory topology">
+        <!-- gbrain store -->
+        <g class="node">
+          <rect x="20" y="20" width="150" height="46" rx="10" fill="#e7f7f0" stroke="var(--emerald-d)"/>
+          <text class="lbl" x="34" y="40">gbrain (global)</text>
+          <text class="lbl-s" x="34" y="56">agent cross-project memory</text>
+        </g>
+        <!-- project local -->
+        <g class="node">
+          <rect x="20" y="92" width="150" height="46" rx="10" fill="#fff7ed" stroke="var(--amber)"/>
+          <text class="lbl" x="34" y="112">MEMORY.local.md</text>
+          <text class="lbl-s" x="34" y="128">project-isolated (this repo)</text>
+        </g>
+        <!-- isolated boundary -->
+        <rect x="12" y="84" width="166" height="62" rx="14" fill="none" stroke="var(--amber)" stroke-dasharray="4 3"/>
+        <text class="lbl-s" x="14" y="80" fill="var(--amber)">scope: project (isolated)</text>
+        <!-- route -->
+        <g class="node">
+          <rect x="205" y="56" width="135" height="40" rx="10" fill="#0f1f1a" stroke="#0f1f1a"/>
+          <text class="lbl" x="219" y="80" fill="#fff">/api/journey</text>
+        </g>
+        <!-- page -->
+        <g class="node">
+          <rect x="205" y="150" width="135" height="40" rx="10" fill="#eef2f0" stroke="var(--line)"/>
+          <text class="lbl" x="222" y="174">/journey page</text>
+        </g>
+        <!-- viewer -->
+        <g class="node">
+          <rect x="205" y="244" width="135" height="40" rx="10" fill="#eef2f0" stroke="var(--line)"/>
+          <text class="lbl" x="240" y="268">operator (you)</text>
+        </g>
+        <!-- edges -->
+        <line class="edge" x1="170" y1="43" x2="205" y2="68"/>
+        <line class="edge-iso" x1="170" y1="115" x2="205" y2="74"/>
+        <line class="edge" x1="272" y1="96" x2="272" y2="150"/>
+        <line class="edge" x1="272" y1="190" x2="272" y2="244"/>
+        <text class="lbl-s" x="178" y="138" transform="rotate(90 178 138)">merge + hygiene</text>
+      </svg>
+    </div>
+
+    <!-- USER VIEW -->
+    <div class="panel">
+      <h2><span class="tag tag-user">proposed</span> Per-user self-view</h2>
+      <p class="desc">Memory owner = <b>each customer</b>. Surfaces what <i>they</i> taught the app: brand voice, cadence,
+      audience insights. Keyed by <code>userId</code>, not repo. Retention + trust feature.</p>
+      <svg viewBox="0 0 360 300" role="img" aria-label="Per-user memory topology">
+        <!-- shared skill -->
+        <g class="node">
+          <rect x="20" y="20" width="150" height="46" rx="10" fill="#e7f7f0" stroke="var(--emerald-d)"/>
+          <text class="lbl" x="34" y="40">learned skills</text>
+          <text class="lbl-s" x="34" y="56">global — shared to all users</text>
+        </g>
+        <!-- per-user stores -->
+        <g class="node">
+          <rect x="20" y="92" width="150" height="38" rx="10" fill="#eff6ff" stroke="var(--sky)"/>
+          <text class="lbl" x="34" y="114">user:A memory</text>
+        </g>
+        <g class="node">
+          <rect x="20" y="138" width="150" height="38" rx="10" fill="#eff6ff" stroke="var(--sky)"/>
+          <text class="lbl" x="34" y="160">user:B memory</text>
+        </g>
+        <g class="node">
+          <rect x="20" y="184" width="150" height="38" rx="10" fill="#eff6ff" stroke="var(--sky)"/>
+          <text class="lbl" x="34" y="206">user:C memory</text>
+        </g>
+        <!-- isolation boundary -->
+        <rect x="12" y="84" width="166" height="148" rx="14" fill="none" stroke="var(--sky)" stroke-dasharray="4 3"/>
+        <text class="lbl-s" x="14" y="80" fill="var(--sky)">scope: user:&lt;id&gt; (isolated)</text>
+        <!-- route -->
+        <g class="node">
+          <rect x="205" y="120" width="135" height="40" rx="10" fill="#0f1f1a" stroke="#0f1f1a"/>
+          <text class="lbl" x="219" y="144" fill="#fff">/api/journey</text>
+        </g>
+        <!-- page -->
+        <g class="node">
+          <rect x="205" y="186" width="135" height="40" rx="10" fill="#eef2f0" stroke="var(--line)"/>
+          <text class="lbl" x="222" y="210">/journey page</text>
+        </g>
+        <!-- viewer -->
+        <g class="node">
+          <rect x="205" y="244" width="135" height="40" rx="10" fill="#eef2f0" stroke="var(--line)"/>
+          <text class="lbl" x="232" y="268">logged-in user</text>
+        </g>
+        <!-- edges -->
+        <line class="edge" x1="170" y1="43" x2="205" y2="132"/>
+        <line class="edge-iso" x1="170" y1="111" x2="205" y2="134"/>
+        <line class="edge-iso" x1="170" y1="157" x2="205" y2="140"/>
+        <line class="edge-iso" x1="170" y1="203" x2="205" y2="146"/>
+        <line class="edge" x1="272" y1="160" x2="272" y2="186"/>
+        <line class="edge" x1="272" y1="226" x2="272" y2="244"/>
+        <text class="lbl-s" x="178" y="176" transform="rotate(90 178 176)">scope filter</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="sw" style="background:#e7f7f0;border-color:#059669"></i> global / shared</span>
+    <span><i class="sw" style="background:#fff7ed;border-color:#f59e0b"></i> project-isolated (agent)</span>
+    <span><i class="sw" style="background:#eff6ff;border-color:#0ea5e9"></i> user-isolated</span>
+    <span><i class="sw" style="background:#0f1f1a"></i> /api/journey</span>
+    <span><svg width="34" height="10"><line class="edge-iso" x1="0" y1="5" x2="34" y2="5"/></svg> isolation boundary</span>
+  </div>
+
+  <div class="note">
+    <b>Same plumbing, different owner.</b> Both topologies run the identical
+    <code>applyHygiene()</code> pipeline (scope tag → forgetting-curve confidence → redaction). The only change is the
+    <b>scope key axis</b>: agent view keys by <code>project</code>; user view keys by <code>userId</code>. Isolation is
+    enforced identically — a user never sees another user's slice, exactly as a project never leaks into global.
+  </div>
+</body>
+</html>
