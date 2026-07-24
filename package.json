@@ -8,7 +8,7 @@
     "start": "next start -p 3456",
     "lint": "eslint",
     "check": "node scripts/check-platforms.mjs",
-    "deploy": "wrangler pages deploy --project-name social-skills"
+    "deploy": "bun run build && wrangler pages deploy --project-name social-skills"
   },
   "dependencies": {
     "next": "16.2.11",

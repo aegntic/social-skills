@@ -1,4 +1,3 @@
 name = "social-skills"
 compatibility_date = "2025-01-01"
-pages_build_command = "bun run build"
-pages_dev_command = "bun run dev"
+pages_build_output_dir = ".vercel/output"
