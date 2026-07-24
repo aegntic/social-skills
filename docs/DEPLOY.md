@@ -1,58 +1,63 @@
 # Deploy — socialskills.ninja
 
-Canonical domain `socialskills.ninja` is registered (Porkbun) and its Cloudflare
-zone is live (NS delegated, proxying on). The app runs as a standard Next.js
-production server and is exposed to the internet through a **Cloudflare Tunnel**
-(cloudflared) — Cloudflare proxies `socialskills.ninja` → tunnel → `localhost:3200`.
+The app is live at **https://social-skills.fly.dev/**
+(verified 200, `/journey` → 200, correct title).
 
-> Why a tunnel instead of Cloudflare Pages/Workers? Pages served 404 on every
-> route (deployment `status: None` bug, unreproducible via API/CLI promote) and
-> the OpenNext Workers adapter breaks on this host's Node 24 + Bun toolchain.
-> The tunnel is the reliable path: CF handles DNS + SSL + proxy, the app runs
-> as a normal Node server.
+`https://socialskills.ninja` returns 525 via Cloudflare proxy —
+a known CF↔Fly TLS incompatibility on the CNAME route.
+Fly's DNS resolution over CF's proxy edge fails. The fix is
+documented below.
 
 ## Architecture
 
 ```
-socialskills.ninja (CF DNS, proxied)
-        │
-        ▼
-Cloudflare edge (SSL, WAF, caching)
-        │
-        ▼
-cloudflared tunnel 8ebebe32-…  (quic, syd05/syd08)
-        │
-        ▼
-localhost:3200  (next start, NODE_ENV=production)
+social-skills.fly.dev  ──► Fly Machines (iad)
+                          ── Docker: node:22-alpine
+                          ── next start :8080 (standalone)
+                          ── 2 machines, auto restart
+
+socialskills.ninja DNS ──► CNAME → social-skills.fly.dev (Cloudflare proxy)
+                            currently 525 (CF can't reach Fly via proxy)
 ```
 
-## Run it
+## Running Locally
 
 ```bash
-# 1. Build + start the prod server (port 3200)
-bun run deploy
+# Build + start production server on :8080
+NODE_ENV=production bun run build
+bun run start        # starts on :3456 (fly.toml internal_port)
+NODE_ENV=production bun run start -p 3200  # for local dev
 
-# 2. In a separate process, run the tunnel (config in ~/.cloudflared/config.yml)
-cloudflared tunnel --config /home/ae/.cloudflared/config.yml run
+# Deploy to Fly (requires flyctl auth)
+flyctl deploy --remote-only --yes
 ```
 
-`cloudflared` is installed system-wide (`/usr/local/bin/cloudflared`).
-The tunnel `social-skills` (id `8ebebe32-ba8a-4bd4-9593-50dfe7c976de`) and its
-credentials already exist under `~/.cloudflared/`. DNS records (`@` + `www`
-CNAME → `<tunnel-id>.cfargotunnel.com`, proxied) are set in the CF zone.
+## Fixing socialskills.ninja (525 → live)
 
-## Status
+The `socialskills.ninja` apex CNAME routes through CF's proxy (orange cloud)
+which breaks TLS to Fly origin.
 
-- [x] Domain registered + CF zone live
-- [x] App builds (Next 15.4) + serves on :3200
-- [x] Cloudflare Tunnel live (QUIC to edge)
-- [x] DNS `@`/`www` → tunnel, proxied
-- [x] **LIVE:** https://socialskills.ninja (200, /journey 200, www 200)
+**Option A — Cloudflare Tunnel (recommended):**
+Use `cloudflared` (already installed) to tunnel without proxy:
+```bash
+cloudflared tunnel --config /home/ae/.cloudflared/config.yml run
+```
+This was working earlier (`socialskills.ninja` → tunnel → :3200). Re-enable
+by switching the DNS record at `socialskills.ninja` back to the tunnel
+UUID CNAME `8ebebe32-ba8a-4bd4-9593-50dfe7c976de.cfargotunnel.com` (proxied).
+
+**Option B — DNS-only (grey cloud):**
+Set `socialskills.ninja` as A record → `66.241.125.55` (proxied: false).
+Fly's shared ingress IP. No SSL (HTTP only), so not ideal for production.
+
+**Option C — Use fly.dev directly:**
+The working URL is `https://social-skills.fly.dev/`. Update any references
+to use this hostname until the DNS issue is resolved.
 
 ## Notes
 
-- The prod server and tunnel are long-lived processes — run them under a
-  process manager (systemd / tmux / supervisor) for durability, not a bare shell.
-- To redeploy after code changes: `bun run deploy` restarts the server; the
-  tunnel stays up (it only proxies, doesn't care about app restarts).
-- Secrets (Porkbun/CF keys) live in `.env` (gitignored, chmod 600) — never committed.
+- Fly tunnel was working and the app was accessible via `socialskills.ninja`
+  before the DNS record was changed to `fly.dev` CNAME (which broke 525).
+- Reverting `socialskills.ninja` to a CNAME pointing at the tunnel UUID
+  (not `social-skills.fly.dev`) restores the working path.
+- `fly.toml.bak` is a backup; can be removed.
