@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const localPath = path.join(repoRoot, "MEMORY.local.md");
   const source = process.env.GBRAIN_SOURCE || ".gbrain-source";
 
-  return new Promise((resolve) => {
+  return new Promise<NextResponse>((resolve) => {
     execFile(
       PY,
       [
