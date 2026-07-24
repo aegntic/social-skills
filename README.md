@@ -59,6 +59,24 @@ Both run the result through `applyHygiene()` (Cognitive OS v3): signals fade on
 a forgetting curve rather than being deleted, and credential-shaped text is
 redacted at the boundary.
 
+## Domain
+
+Canonical: **`socialskills.ninja`** (Porkbun, DNS-confirmed available).
+Set it via the `NEXT_PUBLIC_SITE_URL` env var — every route (sitemap,
+robots, metadata, `/journey` fetch) reads it, so it's a one-line switch:
+
+```bash
+export NEXT_PUBLIC_SITE_URL=https://socialskills.ninja
+```
+
+Other cheap TLDs probed open: `.live`, `.studio`, `.io`. `.fun` / `.xyz` /
+`.app` / `.dev` / `.co` / `.com` were taken at probe time. Register on
+Porkbun, point DNS at the deploy, set the env var. `.env.example` has the
+template.
+
+> Note: the demo login (`demo@socialskills.app`) is the demo *account*
+> namespace, independent of the public site domain above.
+
 ## Run it
 
 ```bash
