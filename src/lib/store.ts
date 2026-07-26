@@ -5,8 +5,11 @@ import type {
   DbShape,
   JourneyMemoryNode,
   MediaAsset,
+  Platform,
+  PlatformOverride,
   PlatformResult,
   Post,
+  PostMetrics,
   PostStatus,
   SocialAccount,
   User,
@@ -198,25 +201,46 @@ export async function saveUpload(
   return asset;
 }
 
-/** Real publish logic: validate per platform, transform caption, produce results. */
+/**
+ * Real publish logic: validate per platform, transform caption, produce results.
+ *
+ * Per-platform authoring override (shape borrowed from Post Bridge's
+ * `PlatformConfigurationsDto`): if `overrides[platform]` is set, its `caption`
+ * replaces the base caption *before* platform transforms run, `title` is
+ * surfaced on platforms that have one, and `mediaIds` overrides the post media
+ * set for that platform. A missing override field falls back to the post-level
+ * value — same semantics as Post Bridge.
+ */
 export function publishToAccounts(
   caption: string,
   accounts: SocialAccount[],
-  media: MediaAsset[]
+  media: MediaAsset[],
+  overrides?: Partial<Record<Platform, PlatformOverride>>
 ): PlatformResult[] {
-  const hasImage = media.some((m) => m.mimeType.startsWith("image/"));
   const hasVideo = media.some((m) => m.mimeType.startsWith("video/"));
   const hasMedia = media.length > 0;
 
   return accounts.map((account) => {
     const meta = platformMeta(account.platform);
-    let text = caption;
+    const override = overrides?.[account.platform];
+    const baseText = override?.caption !== undefined ? override.caption : caption;
+    // ponytail: per-platform media override is honoured for validation only —
+    // the demo publisher doesn't actually re-upload. Real OAuth path will.
+    const overrideMediaIds = override?.mediaIds;
+    const overrideHasMedia =
+      overrideMediaIds !== undefined && overrideMediaIds.length > 0;
+    const effectiveHasMedia = overrideHasMedia || hasMedia;
+    const effectiveHasVideo =
+      overrideMediaIds !== undefined
+        ? false // demo can't introspect override mime types; trust the base set
+        : hasVideo;
+    let text = baseText;
 
     if (meta.stripsLinks) {
-      text = stripLinksForX(caption);
+      text = stripLinksForX(baseText);
     }
 
-    if (!text && !hasMedia) {
+    if (!text && !effectiveHasMedia) {
       return {
         accountId: account.id,
         platform: account.platform,
@@ -226,7 +250,7 @@ export function publishToAccounts(
       };
     }
 
-    if (meta.needsMedia && !hasMedia) {
+    if (meta.needsMedia && !effectiveHasMedia) {
       return {
         accountId: account.id,
         platform: account.platform,
@@ -236,7 +260,7 @@ export function publishToAccounts(
       };
     }
 
-    if (account.platform === "youtube" && !hasVideo) {
+    if (account.platform === "youtube" && !effectiveHasVideo && !overrideHasMedia) {
       return {
         accountId: account.id,
         platform: account.platform,
@@ -246,7 +270,7 @@ export function publishToAccounts(
       };
     }
 
-    if (account.platform === "google_business" && hasVideo) {
+    if (account.platform === "google_business" && effectiveHasVideo) {
       return {
         accountId: account.id,
         platform: account.platform,
@@ -287,7 +311,13 @@ export function publishToAccounts(
       username: account.username,
       success: true,
       url: urlMap[account.platform],
-      publishedCaption: text || (hasImage || hasVideo ? "(media only)" : ""),
+      publishedCaption: text || (effectiveHasMedia ? "(media only)" : ""),
+      // Title is surfaced as part of the published caption snapshot so the
+      // post record shows what each platform actually received. Real
+      // platform adapters will pass it as a separate API field.
+      publishedTitle: meta.hasTitle && override?.title ? override.title : undefined,
+      // Newly published — metrics slot exists but is unsynced.
+      metrics: null,
     };
   });
 }
@@ -314,7 +344,7 @@ export async function processDuePosts(userId?: string): Promise<number> {
 
       const accounts = db.accounts.filter((a) => post.accountIds.includes(a.id));
       const media = db.media.filter((m) => post.mediaIds.includes(m.id));
-      post.results = publishToAccounts(post.caption, accounts, media);
+      post.results = publishToAccounts(post.caption, accounts, media, post.platformOverrides);
       post.status = deriveStatus(post.results, false, null, true);
       post.postedAt = new Date().toISOString();
       post.updatedAt = post.postedAt;
@@ -331,6 +361,7 @@ export async function createPost(input: {
   mediaIds: string[];
   scheduledAt: string | null;
   isDraft: boolean;
+  platformOverrides?: Partial<Record<Platform, PlatformOverride>>;
 }): Promise<Post> {
   await processDuePosts(input.userId);
   return mutateDb((db) => {
@@ -342,6 +373,24 @@ export async function createPost(input: {
       throw new Error("Add a caption or media");
     }
 
+    // Drop overrides for platforms the user didn't select — Post Bridge's shape
+    // allows all platforms in the map, but we only honour selected ones.
+    const selectedPlatforms = new Set(accounts.map((a) => a.platform));
+    const overrides: Partial<Record<Platform, PlatformOverride>> = {};
+    if (input.platformOverrides) {
+      for (const [k, v] of Object.entries(input.platformOverrides)) {
+        const platform = k as Platform;
+        if (selectedPlatforms.has(platform) && v) {
+          const clean: PlatformOverride = {};
+          if (typeof v.caption === "string") clean.caption = v.caption;
+          if (typeof v.title === "string") clean.title = v.title;
+          if (Array.isArray(v.mediaIds)) clean.mediaIds = v.mediaIds.map(String);
+          overrides[platform] = clean;
+        }
+      }
+    }
+    const hasOverrides = Object.keys(overrides).length > 0;
+
     const now = new Date().toISOString();
     const post: Post = {
       id: `post_${randomUUID().slice(0, 10)}`,
@@ -352,6 +401,7 @@ export async function createPost(input: {
       mediaIds: input.mediaIds,
       scheduledAt: input.isDraft ? null : input.scheduledAt,
       isDraft: input.isDraft,
+      platformOverrides: hasOverrides ? overrides : undefined,
       results: [],
       createdAt: now,
       updatedAt: now,
@@ -367,7 +417,7 @@ export async function createPost(input: {
       post.status = "scheduled";
     } else {
       const media = db.media.filter((m) => input.mediaIds.includes(m.id) && m.userId === input.userId);
-      post.results = publishToAccounts(post.caption, accounts, media);
+      post.results = publishToAccounts(post.caption, accounts, media, post.platformOverrides);
       post.status = deriveStatus(post.results, false, null, true);
       post.postedAt = new Date().toISOString();
       post.updatedAt = post.postedAt;
@@ -375,6 +425,84 @@ export async function createPost(input: {
 
     db.posts.unshift(post);
     return post;
+  });
+}
+
+/**
+ * Aggregate metrics for a post across all its successful results.
+ * Returns null if no result has metrics yet. This is the "how'd it do" rollup.
+ */
+export function aggregatePostMetrics(post: Post): {
+  totals: PostMetrics;
+  perPlatform: { platform: Platform; metrics: PostMetrics }[];
+} | null {
+  const perPlatform: { platform: Platform; metrics: PostMetrics }[] = [];
+  for (const r of post.results) {
+    if (r.success && r.metrics) {
+      perPlatform.push({ platform: r.platform, metrics: r.metrics });
+    }
+  }
+  if (!perPlatform.length) return null;
+  const totals: PostMetrics = perPlatform.reduce(
+    (acc, { metrics }) => ({
+      views: acc.views + metrics.views,
+      likes: acc.likes + metrics.likes,
+      comments: acc.comments + metrics.comments,
+      shares: acc.shares + metrics.shares,
+      fetchedAt: metrics.fetchedAt > acc.fetchedAt ? metrics.fetchedAt : acc.fetchedAt,
+    }),
+    { views: 0, likes: 0, comments: 0, shares: 0, fetchedAt: "" }
+  );
+  return { totals, perPlatform };
+}
+
+/**
+ * Sync metrics for posted results that don't have any yet. This is the local
+ * adapter standing in for Post Bridge's `POST /v1/analytics/sync` — when real
+ * OAuth analytics adapters exist (TikTok Insights API, YouTube Analytics,
+ * Instagram Graph API), they slot in behind the same `PostMetrics` shape.
+ *
+ * Returns the number of post results updated.
+ */
+export async function syncPostMetrics(userId: string, postId?: string): Promise<number> {
+  return mutateDb((db) => {
+    const now = new Date().toISOString();
+    const day = 86400000;
+    const ageOf = (r: PlatformResult): number => {
+      const parent = db.posts.find((p) => p.results.includes(r));
+      const ts = parent?.postedAt ? Date.parse(parent.postedAt) : Date.now();
+      return Math.max(0, Date.now() - ts);
+    };
+    let updated = 0;
+    for (const post of db.posts) {
+      if (post.userId !== userId) continue;
+      if (postId && post.id !== postId) continue;
+      for (const r of post.results) {
+        if (!r.success) continue;
+        // ponytail: deterministic mock seeded by URL slug — stable across
+        // reads so the same post doesn't bounce numbers every refresh. Real
+        // adapters replace this block.
+        if (!r.metrics) {
+          const seed = (r.url || r.accountId.toString())
+            .split("")
+            .reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+          const ageDays = Math.floor(ageOf(r) / day) + 1;
+          const rand = (n: number, salt: number) =>
+            Math.floor(((seed ^ (salt * 2654435761)) >>> 0) % (n * 10) / 10);
+          const views = 40 + rand(900, 1) + ageDays * rand(50, 2);
+          r.metrics = {
+            views,
+            likes: Math.floor(views * (0.02 + (seed % 50) / 1000)),
+            comments: Math.floor(views * (0.003 + (seed % 17) / 10000)),
+            shares: Math.floor(views * (0.001 + (seed % 9) / 20000)),
+            fetchedAt: now,
+          };
+          updated++;
+        }
+      }
+      post.updatedAt = now;
+    }
+    return updated;
   });
 }
 

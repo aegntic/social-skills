@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { MediaAsset, PlatformResult, Post, SocialAccount } from "@/lib/types";
+import type { MediaAsset, Platform, PlatformOverride, PlatformResult, Post, SocialAccount } from "@/lib/types";
 import { PLATFORMS, platformMeta } from "@/lib/platforms";
 
 type Me = {
@@ -45,6 +45,9 @@ export function DashboardApp() {
   const [lastPostId, setLastPostId] = useState<string | null>(null);
   const [tab, setTab] = useState<"compose" | "posts" | "accounts">("compose");
   const [showTips, setShowTips] = useState(false);
+  const [showOverrides, setShowOverrides] = useState(false);
+  const [overrides, setOverrides] = useState<Partial<Record<Platform, PlatformOverride>>>({});
+  const [syncingPostId, setSyncingPostId] = useState<string | null>(null);
 
   async function refresh() {
     const res = await fetch("/api/me");
@@ -80,6 +83,20 @@ export function DashboardApp() {
     () => (me?.accounts || []).filter((a) => selected.includes(a.id)),
     [me, selected]
   );
+
+  // ponytail: prune overrides for deselected platforms via derivation, not an
+  // effect (setState-in-effect triggers cascading renders). The raw `overrides`
+  // state stays as-authored; `effectiveOverrides` is what we render and submit.
+  const effectiveOverrides = useMemo(() => {
+    const selectedPlatforms = new Set(selectedAccounts.map((a) => a.platform));
+    const next: Partial<Record<Platform, PlatformOverride>> = {};
+    for (const [k, v] of Object.entries(overrides)) {
+      if (selectedPlatforms.has(k as Platform) && v) {
+        next[k as Platform] = v;
+      }
+    }
+    return next;
+  }, [overrides, selectedAccounts]);
 
   const mediaRequiredMissing = useMemo(() => {
     if (mediaIds.length) return [] as string[];
@@ -159,6 +176,9 @@ export function DashboardApp() {
         mediaIds,
         isDraft: scheduleMode === "draft",
       };
+      if (Object.keys(effectiveOverrides).length > 0) {
+        body.platformOverrides = effectiveOverrides;
+      }
       if (scheduleMode === "schedule") {
         if (!scheduledAt) throw new Error("Pick a schedule time");
         body.scheduledAt = new Date(scheduledAt).toISOString();
@@ -174,6 +194,8 @@ export function DashboardApp() {
       setLastResults(post.results || []);
       setLastPostId(post.id);
       setMediaIds([]);
+      setOverrides({});
+      setShowOverrides(false);
       await refresh();
 
       if (post.status === "draft") {
@@ -206,6 +228,26 @@ export function DashboardApp() {
     }
     setSuccess("Post deleted");
     await refresh();
+  }
+
+  async function syncMetrics(postId: string) {
+    setBusy(true);
+    setError("");
+    setSyncingPostId(postId);
+    try {
+      const res = await fetch(`/api/posts/analytics?post_id=${encodeURIComponent(postId)}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Sync failed");
+      await refresh();
+      setSuccess(data.synced > 0 ? `Synced ${data.synced} new result(s)` : "Metrics already up to date");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sync failed");
+    } finally {
+      setBusy(false);
+      setSyncingPostId(null);
+    }
   }
 
   async function logout() {
@@ -372,6 +414,95 @@ export function DashboardApp() {
                 </div>
               )}
 
+              {selectedAccounts.length > 0 && (
+                <div className="mb-4">
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-lg border border-line bg-white px-3 py-2 text-sm font-semibold text-ink"
+                    onClick={() => setShowOverrides((v) => !v)}
+                    aria-expanded={showOverrides}
+                  >
+                    <span>
+                      Per-platform tweaks
+                      {Object.keys(effectiveOverrides).length > 0
+                        ? ` · ${Object.keys(effectiveOverrides).length} overridden`
+                        : ""}
+                    </span>
+                    <span className="text-xs text-muted">{showOverrides ? "hide" : "show"}</span>
+                  </button>
+                  {showOverrides && (
+                    <div className="mt-2 grid gap-3">
+                      <p className="text-xs text-muted">
+                        Override the caption or title for a specific platform. Empty fields fall back to the
+                        base caption above. Shape mirrors Post Bridge&apos;s <code>platform_configurations</code>.
+                      </p>
+                      {selectedAccounts.map((a) => {
+                        const meta = platformMeta(a.platform);
+                        const ov = effectiveOverrides[a.platform] || {};
+                        const hasTitle = meta.hasTitle;
+                        return (
+                          <div key={a.id} className="rounded-lg border border-line bg-white p-3">
+                            <div className="mb-2 flex items-center justify-between">
+                              <span className="text-sm font-semibold text-ink">
+                                {meta.label} <span className="text-muted">@{a.username}</span>
+                              </span>
+                              {(ov.caption !== undefined || ov.title !== undefined) && (
+                                <button
+                                  type="button"
+                                  className="text-xs text-red-600"
+                                  onClick={() =>
+                                    setOverrides((prev) => {
+                                      const next = { ...prev };
+                                      delete next[a.platform];
+                                      return next;
+                                    })
+                                  }
+                                >
+                                  reset
+                                </button>
+                              )}
+                            </div>
+                            {hasTitle && (
+                              <label className="mb-2 block text-xs font-medium text-muted">
+                                Title
+                                <input
+                                  type="text"
+                                  className="input mt-1"
+                                  placeholder={`Defaults to base caption (max 100)`}
+                                  value={ov.title ?? ""}
+                                  onChange={(e) =>
+                                    setOverrides((prev) => ({
+                                      ...prev,
+                                      [a.platform]: { ...prev[a.platform], title: e.target.value },
+                                    }))
+                                  }
+                                />
+                              </label>
+                            )}
+                            <label className="block text-xs font-medium text-muted">
+                              Caption
+                              <textarea
+                                className="textarea mt-1"
+                                style={{ minHeight: 80 }}
+                                placeholder={`Override caption · max ${meta.maxCaption}`}
+                                maxLength={meta.maxCaption}
+                                value={ov.caption ?? ""}
+                                onChange={(e) =>
+                                  setOverrides((prev) => ({
+                                    ...prev,
+                                    [a.platform]: { ...prev[a.platform], caption: e.target.value },
+                                  }))
+                                }
+                              />
+                            </label>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="mb-4 grid gap-3 sm:grid-cols-3">
                 {(
                   [
@@ -535,17 +666,57 @@ export function DashboardApp() {
                   {p.results?.length > 0 && (
                     <div className="mt-3 grid gap-1 border-t border-line pt-3 text-sm">
                       {p.results.map((r) => (
-                        <div key={`${p.id}-${r.accountId}`} className="flex justify-between gap-2">
+                        <div key={`${p.id}-${r.accountId}`} className="flex flex-wrap items-center justify-between gap-2">
                           <span>
-                            {platformMeta(r.platform).label}: {r.success ? "ok" : r.error}
+                            {platformMeta(r.platform).label}
+                            {r.publishedTitle ? ` · “${r.publishedTitle}”` : ""}: {r.success ? "ok" : r.error}
                           </span>
-                          {r.url && (
-                            <a href={r.url} className="text-primary-dark underline" target="_blank" rel="noreferrer">
-                              view
-                            </a>
-                          )}
+                          <span className="flex items-center gap-2">
+                            {r.success && r.metrics && (
+                              <span className="text-xs text-muted" title={`Synced ${new Date(r.metrics.fetchedAt).toLocaleString()}`}>
+                                {r.metrics.views.toLocaleString()} views · {r.metrics.likes.toLocaleString()} likes · {r.metrics.comments} comments · {r.metrics.shares} shares
+                              </span>
+                            )}
+                            {r.success && !r.metrics && (
+                              <span className="text-xs text-muted">no metrics yet</span>
+                            )}
+                            {r.url && (
+                              <a href={r.url} className="text-primary-dark underline" target="_blank" rel="noreferrer">
+                                view
+                              </a>
+                            )}
+                          </span>
                         </div>
                       ))}
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          className="btn btn-ghost"
+                          disabled={busy && syncingPostId === p.id}
+                          onClick={() => syncMetrics(p.id)}
+                        >
+                          {busy && syncingPostId === p.id ? "Syncing…" : "Sync metrics"}
+                        </button>
+                        {(() => {
+                          const tot = p.results
+                            .filter((r) => r.metrics)
+                            .reduce(
+                              (acc, r) => ({
+                                views: acc.views + (r.metrics?.views ?? 0),
+                                likes: acc.likes + (r.metrics?.likes ?? 0),
+                                comments: acc.comments + (r.metrics?.comments ?? 0),
+                                shares: acc.shares + (r.metrics?.shares ?? 0),
+                              }),
+                              { views: 0, likes: 0, comments: 0, shares: 0 }
+                            );
+                          if (!tot.views && !tot.likes && !tot.comments && !tot.shares) return null;
+                          return (
+                            <span className="text-xs font-semibold text-ink">
+                              Totals: {tot.views.toLocaleString()} views · {tot.likes.toLocaleString()} likes · {tot.comments} comments · {tot.shares} shares
+                            </span>
+                          );
+                        })()}
+                      </div>
                     </div>
                   )}
                 </article>
