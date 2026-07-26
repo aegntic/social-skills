@@ -355,142 +355,93 @@ table.compare th {
 
 /* ─── Landing Page System ─── */
 
-.hero-section {
-  position: relative;
-  padding: clamp(4rem, 10vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
-  border-bottom: 1px solid var(--line);
-}
-
-.hero-grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, oklch(90% 0.005 70 / 0.5) 1px, transparent 1px);
-  background-size: 8.333% 100%;
-  pointer-events: none;
-  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-}
-
 .section-label {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--primary);
 }
 
-.dispatch-strip {
-  display: flex;
-  align-items: stretch;
-  border: 1px solid var(--line);
-  border-radius: 0.75rem;
-  overflow: hidden;
-  background: var(--card);
-}
-
-.dispatch-caption {
-  flex: 1;
-  padding: 1.5rem;
-  border-right: 1px solid var(--line);
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  line-height: 1.45;
-  color: var(--ink);
-  font-variation-settings: "opsz" 60, "SOFT" 20;
-}
-
-.dispatch-platforms {
-  display: flex;
-  flex-direction: column;
-  min-width: 260px;
-}
-
-.dispatch-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.82rem;
-  border-bottom: 1px solid var(--line);
-  transition: background 0.2s ease;
-}
-
-.dispatch-row:last-child {
-  border-bottom: none;
-}
-
-.dispatch-row:hover {
-  background: var(--primary-soft);
-}
-
-.dispatch-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.platform-poster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  align-items: baseline;
-}
-
-.platform-poster-item {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 144, "SOFT" 30;
-  font-weight: 600;
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  padding: 0.1em 0.25em 0.1em 0;
-  color: var(--ink);
-  transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: default;
-  position: relative;
-}
-
-.platform-poster-item:hover {
-  color: var(--primary);
-}
-
-.platform-poster-item .platform-rule {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--muted);
-  font-variation-settings: normal;
-  display: block;
-  margin-top: 0.3rem;
-  letter-spacing: 0;
+/* Scroll-gated reveal (blumenkopf gate pattern) */
+.gate {
   opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(1.25rem);
+  transition: opacity var(--duration) var(--ease-expo),
+              transform var(--duration) var(--ease-expo);
 }
-
-.platform-poster-item:hover .platform-rule {
+.gate.is-in {
   opacity: 1;
   transform: translateY(0);
 }
 
-.editorial-numeral {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;
-  font-style: italic;
-  font-size: clamp(3rem, 6vw, 4.5rem);
-  font-weight: 400;
-  color: var(--primary);
-  line-height: 1;
+/* Marquee banner (blumenkopf orange strip pattern) */
+.marquee-banner {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.stat-figure {
+.marquee-banner-track {
+  display: inline-flex;
+  will-change: transform;
+  animation: marquee-banner-x 22s linear infinite;
+}
+
+@keyframes marquee-banner-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-banner-track {
+    animation: none;
+  }
+}
+
+/* Full-screen menu overlay */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  transition: opacity 0.5s var(--ease-expo);
+}
+
+.menu-overlay[data-open="false"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-overlay[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Pillar row (wondermakers 12-col pattern) */
+.pillar-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  border-top: 2px solid var(--ink);
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .pillar-row {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Stats figure (wondermakers stats pattern) */
+.stat-numeral {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 144, "SOFT" 20;
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: var(--tracking-tight);
   line-height: 1;
   color: var(--ink);
 }

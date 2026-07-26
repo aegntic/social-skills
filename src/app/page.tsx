@@ -4,41 +4,48 @@ import { getSessionUser } from "@/lib/auth";
 import { PLATFORMS } from "@/lib/platforms";
 import { competitors } from "@/lib/competitors";
 
-const platformRules: Record<string, string> = {
-  twitter: "Links stripped automatically",
-  instagram: "Media required",
-  tiktok: "Title field supported",
-  youtube: "Title field + video required",
-  linkedin: "Long-form preserved",
-  facebook: "No character limit",
-  pinterest: "Title field supported",
-  threads: "Conversation hook suggested",
-  bluesky: "300 char limit enforced",
-  google_business: "Local business formatted",
-};
-
-const steps = [
+const PILLARS = [
   {
-    num: "01",
+    n: "01",
     title: "Compose",
-    body: "Write your caption. Drop media if the platform needs it. The compose surface stays clean until you want more.",
-    detail: "Per-platform overrides let you set a custom caption or title for YouTube without changing your X post. Same dispatch, different voice per network.",
+    body: "Write your caption. Drop media if the platform needs it. Per-platform overrides let you set a custom caption for YouTube without changing your X post.",
   },
   {
-    num: "02",
+    n: "02",
     title: "Dispatch",
-    body: "Pick your accounts. Hit publish. Each platform gets its own transform applied: X strips links, Instagram validates media, Threads gets a question hook.",
-    detail: "Results come back per account. Success, failure, published URL. If something breaks, you see exactly which platform and why.",
+    body: "Pick your accounts. Hit publish. Each platform gets its own transform: X strips links, Instagram validates media, Threads gets a question hook.",
   },
   {
-    num: "03",
+    n: "03",
     title: "Remember",
     body: "The app learns your voice over time. Brand tone, posting cadence, which platform performs best. The memory layer is the differentiator.",
-    detail: "Journey shows what the app has learned, publicly seeded for trust. Your operator memory stays private behind auth.",
   },
-];
+  {
+    n: "04",
+    title: "Analyze",
+    body: "Results come back per account. Success, failure, published URL. Analytics surface what worked so the next dispatch is sharper.",
+  },
+] as const;
 
-const faqs = [
+const SERVICES = [
+  "Cross-post to 10 networks",
+  "Per-platform transforms",
+  "Per-platform overrides",
+  "Scheduled + immediate publish",
+  "Caption assist (AI)",
+  "Memory layer + journey",
+  "Analytics read-back",
+  "Self-hostable on Fly.io",
+] as const;
+
+const STATS = [
+  { n: "10", l: "platforms supported" },
+  { n: "30s", l: "compose to published" },
+  { n: "0", l: "tabs to manage" },
+  { n: "$0", l: "to start, forever" },
+] as const;
+
+const FAQS = [
   {
     q: "How is this different from Buffer or Later?",
     a: "Buffer is a queue. Social Skills is a desk. The compose surface applies per-platform transforms (X strips links, Instagram validates media, Threads gets a hook) before you publish. The memory layer learns your voice and remembers which posts performed.",
@@ -59,7 +66,7 @@ const faqs = [
     q: "What about self-hosting?",
     a: "Social Skills runs on Fly.io with a Cloudflare Tunnel. If you want to self-host, the repo is structured for it: standalone Next.js server, file-based store, no external database required for the demo workspace.",
   },
-];
+] as const;
 
 export default async function HomePage() {
   const user = await getSessionUser();
@@ -67,99 +74,60 @@ export default async function HomePage() {
   return (
     <>
       <SiteHeader authed={Boolean(user)} />
-      <main>
-        {/* ─── Hero ─── */}
-        <section className="hero-section">
-          <div className="hero-grid-bg" />
-          <div className="container-page relative">
-            <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-              <div className="max-w-3xl">
-                <p className="section-label reveal delay-1 mb-6">
-                  Social Skills &mdash; the cross-post desk
-                </p>
-                {/* Mixed-type headline: Fraunces + Newsreader pairing */}
-                <h1
-                  className="display reveal delay-2"
-                  style={{
-                    fontSize: "clamp(2.75rem, 8vw, 6.5rem)",
-                    fontWeight: 700,
-                    color: "var(--ink)",
-                  }}
-                >
-                  Write once.
-                  <br />
-                  <span className="editorial" style={{ fontWeight: 300 }}>
-                    Show up
-                  </span>{" "}
-                  <em>everywhere.</em>
-                </h1>
-                <p
-                  className="reveal delay-3 mt-8 max-w-xl text-lg leading-relaxed text-muted"
-                  style={{ fontSize: "clamp(1rem, 1.5vw, 1.2rem)" }}
-                >
-                  One caption. Ten networks. Zero tab chaos. The first cross-post desk
-                  with a memory layer that learns your voice and remembers what worked.
-                </p>
-                <div className="reveal delay-4 mt-10 flex flex-wrap items-center gap-4">
-                  <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary">
-                    {user ? "Open desk" : "Start free"}
-                  </Link>
-                  <Link href="/#how" className="btn-link">
-                    See how it works
-                  </Link>
-                </div>
-                <p className="reveal delay-5 mt-6 text-sm text-muted">
-                  Demo:{" "}
-                  <span className="font-medium text-ink">demo@socialskills.app</span>
-                  {" "}/{" "}
-                  <span className="font-medium text-ink">demo1234</span>
-                </p>
-              </div>
-              <div className="reveal-fade delay-4 hidden md:block">
-                <div
-                  className="display text-ink/15"
-                  style={{
-                    fontSize: "clamp(4rem, 8vw, 7rem)",
-                    fontWeight: 900,
-                    lineHeight: 0.85,
-                    fontVariationSettings: '"opsz" 144, "SOFT" 80, "WONK" 1',
-                    fontStyle: "italic",
-                    writingMode: "vertical-rl",
-                    transform: "rotate(180deg)",
-                  }}
-                >
-                  dispatch
-                </div>
-              </div>
-            </div>
+      <main className="relative">
+        {/* ═══════════════════════════════════════════════════════════════
+            HERO — full viewport, oversized lowercase wordmark
+            (blumenkopf pattern: EST stamp + mask-reveal + scroll cue)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="relative flex min-h-[92vh] flex-col justify-between overflow-hidden pt-24 md:pt-28">
+          <div className="container-wide w-full">
+            <p className="reveal delay-1 text-xs uppercase tracking-[0.18em] text-muted">
+              EST. 2025 &mdash; the cross-post desk
+            </p>
+          </div>
 
-            {/* Dispatch strip */}
-            <div className="reveal delay-5 mt-14">
-              <div className="dispatch-strip">
-                <div className="dispatch-caption">
-                  Shipped a cleaner cross-post flow today. One caption, ten platforms,
-                  zero tab chaos.
-                </div>
-                <div className="dispatch-platforms">
-                  {PLATFORMS.slice(0, 7).map((p) => (
-                    <div key={p.id} className="dispatch-row">
-                      <span className="dispatch-dot" style={{ background: p.color }} />
-                      <span className="font-semibold text-ink">{p.short}</span>
-                      <span className="text-muted">{platformRules[p.id]}</span>
-                      <span className="ml-auto text-xs font-semibold text-foreground/40">
-                        sent
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Oversized lowercase wordmark */}
+          <div className="container-wide relative w-full">
+            <div className="mask-reveal">
+              <h1
+                className="display lowercase"
+                style={{
+                  fontSize: "clamp(3.5rem, 14vw, 13rem)",
+                  fontWeight: 500,
+                  lineHeight: 0.82,
+                  letterSpacing: "var(--tracking-tight)",
+                  fontVariationSettings: '"opsz" 144, "SOFT" 30, "WONK" 0',
+                  color: "var(--ink)",
+                }}
+              >
+                dispatch
+              </h1>
             </div>
           </div>
+
+          {/* Bottom strip: tagline + scroll cue */}
+          <div className="container-wide flex w-full items-end justify-between gap-6 pt-10">
+            <p
+              className="display max-w-md text-base font-light md:text-lg"
+              style={{
+                fontVariationSettings: '"opsz" 60, "SOFT" 20',
+                color: "var(--ink)",
+              }}
+            >
+              is no scheduler. with a memory layer that remembers what worked.
+            </p>
+            <p className="shrink-0 text-xs uppercase tracking-[0.18em] text-muted">
+              ( scroll )
+            </p>
+          </div>
+          <div className="mt-8 border-t-2 border-ink" />
         </section>
 
-        {/* ─── Credibility strip (wondermakers awards pattern) ─── */}
-        <section className="border-b border-line py-8">
-          <div className="container-page flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-muted">
+        {/* ═══════════════════════════════════════════════════════════════
+            CREDIBILITY STRIP (wondermakers awards pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink py-8">
+          <div className="container-wide flex flex-wrap items-center gap-x-10 gap-y-3 text-sm text-muted">
             <span className="font-medium text-ink">10 platforms</span>
             <span className="text-line">/</span>
             <span>Per-platform transforms</span>
@@ -169,50 +137,152 @@ export default async function HomePage() {
             <span>Open-source</span>
             <span className="text-line">/</span>
             <span>Self-hostable</span>
+            <span className="text-line">/</span>
+            <span>Analytics read-back</span>
           </div>
         </section>
 
-        {/* ─── How it works — 12-col numbered grid (wondermakers pattern) ─── */}
-        <section id="how" className="border-b border-line py-20 md:py-28">
-          <div className="container-page">
+        {/* ═══════════════════════════════════════════════════════════════
+            MANIFESTO — two-line mixed serif/sans (blumenkopf pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-24 md:px-10 md:py-36">
+          <div className="container-wide">
+            <div className="mask-reveal">
+              <p
+                className="editorial max-w-5xl"
+                style={{
+                  fontSize: "clamp(2rem, 6vw, 4.5rem)",
+                  fontStyle: "italic",
+                  lineHeight: 1.05,
+                  color: "var(--ink)",
+                }}
+              >
+                We make tools
+              </p>
+            </div>
+            <div className="mask-reveal mt-1">
+              <p
+                className="display-thin max-w-5xl"
+                style={{ fontSize: "clamp(2rem, 6vw, 4.5rem)" }}
+              >
+                that hold up.
+              </p>
+            </div>
+
+            <div className="mt-14 grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-16 md:mt-20">
+              <p
+                className="editorial text-base leading-relaxed md:text-lg"
+                style={{ color: "oklch(35% 0.010 55 / 0.85)" }}
+              >
+                Postiz is a scheduling UI with no memory of you. Post Bridge is
+                an agent pipe with no human-facing surface. Social Skills makes
+                the memory visible: your journey page shows what the app has
+                learned about your brand voice, cadence, and top platform.
+              </p>
+              <p
+                className="editorial text-base leading-relaxed md:text-lg"
+                style={{ color: "oklch(35% 0.010 55 / 0.85)" }}
+              >
+                One caption enters the desk. Ten networks get their own
+                transform applied. Results come back per account. The memory
+                layer compounds. That is the whole product, and it works the
+                first time you try it.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════
+            MEGA TYPE — "what we dispatch" (wondermakers pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-16 md:px-10">
+          <div className="container-wide">
+            <h2 className="mega-type text-ink">what we dispatch</h2>
+            <p className="mt-10 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+              The intersection of a clean compose surface and platform-specific
+              intelligence. Each network gets its own transform before publish.
+            </p>
+
+            {/* Platform list (blumenkopf selected-work grid) */}
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 md:gap-x-10 md:gap-y-3">
+              {PLATFORMS.map((p) => (
+                <div
+                  key={p.id}
+                  className="group border-t border-ink/15 py-4 transition-colors hover:border-primary"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span
+                      className="display text-xl font-medium text-ink md:text-2xl"
+                      style={{ fontVariationSettings: '"opsz" 60, "SOFT" 20' }}
+                    >
+                      {p.label}
+                    </span>
+                    <span className="flex items-center gap-2 text-sm text-muted">
+                      <span
+                        className="inline-block h-2 w-2"
+                        style={{ background: p.color }}
+                      />
+                      {p.short}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10">
+              <Link
+                href={user ? "/dashboard" : "/signup"}
+                className="display text-lg uppercase tracking-[0.18em] border-b border-ink pb-1 transition-opacity hover:opacity-60"
+              >
+                try the desk &#8594;
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════
+            NUMBERED PILLARS — 12-col grid (wondermakers pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section id="how" className="border-b-2 border-ink px-5 py-20 md:px-10 md:py-28">
+          <div className="container-wide">
             <div className="mb-16 grid gap-6 md:grid-cols-[auto_1fr] md:items-end">
               <p className="section-label">How it works</p>
               <h2
                 className="display-thin max-w-2xl text-ink"
-                style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
+                style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}
               >
-                Three moves.{" "}
-                <span className="editorial" style={{ color: "var(--primary)", fontStyle: "italic" }}>
-                  That&apos;s the whole tool.
-                </span>
+                four moves.
               </h2>
             </div>
 
-            {/* 12-col grid: col-span-2 numeral + col-span-10 content */}
-            <div className="space-y-0">
-              {steps.map((step) => (
-                <div
-                  key={step.num}
-                  className="grid grid-cols-1 gap-4 border-t-2 border-ink py-10 md:grid-cols-12 md:gap-8"
-                >
+            <div>
+              {PILLARS.map((p) => (
+                <div key={p.n} className="pillar-row">
                   <div className="md:col-span-2">
-                    <span className="editorial-numeral">{step.num}</span>
+                    <span
+                      className="display text-4xl font-light tracking-tight md:text-5xl"
+                      style={{
+                        fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 1',
+                        fontStyle: "italic",
+                        color: "var(--primary)",
+                      }}
+                    >
+                      {p.n}
+                    </span>
                   </div>
                   <div className="md:col-span-10">
                     <h3
-                      className="display mb-4 text-ink"
+                      className="display mb-3 text-ink md:mb-4"
                       style={{
-                        fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                        fontWeight: 600,
+                        fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+                        fontWeight: 500,
+                        fontVariationSettings: '"opsz" 144, "SOFT" 20',
                       }}
                     >
-                      {step.title}
+                      {p.title}
                     </h3>
-                    <p className="mb-4 max-w-xl text-sm leading-relaxed text-muted">
-                      {step.body}
-                    </p>
-                    <p className="max-w-lg text-xs leading-relaxed text-muted/70">
-                      {step.detail}
+                    <p className="max-w-xl text-sm leading-relaxed text-muted md:text-base">
+                      {p.body}
                     </p>
                   </div>
                 </div>
@@ -221,191 +291,182 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ─── Credential quote (alitwotimes pattern) ─── */}
-        <section className="border-b border-line py-24 md:py-36">
-          <div className="container-page max-w-4xl">
+        {/* ═══════════════════════════════════════════════════════════════
+            SERVICES TEASER (wondermakers services pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section id="features" className="border-b-2 border-ink px-5 py-20 md:px-10 md:py-28">
+          <div className="container-wide">
+            <h2
+              className="display-thin uppercase text-ink"
+              style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}
+            >
+              what you get
+            </h2>
+            <p className="mt-6 max-w-xl text-sm text-muted md:text-base">
+              From compose to analytics &mdash; full-scope delivery or targeted
+              expertise. Everything the desk does, in one list.
+            </p>
+
+            <ol className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+              {SERVICES.map((s, i) => (
+                <li
+                  key={s}
+                  className="flex gap-4 border-t border-ink/15 pt-4"
+                >
+                  <span className="text-sm tabular-nums text-muted">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-base md:text-lg">{s}</span>
+                </li>
+              ))}
+            </ol>
+
+            <Link
+              href={user ? "/dashboard" : "/signup"}
+              className="mt-12 inline-block text-sm uppercase tracking-[0.18em] border-b border-ink pb-1 transition-opacity hover:opacity-60"
+            >
+              start free &#8594;
+            </Link>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════
+            CREDENTIAL QUOTE (alitwotimes pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-24 md:px-10 md:py-40">
+          <div className="container-wide max-w-5xl">
             <blockquote
-              className="editorial text-ink"
+              className="display text-ink"
               style={{
-                fontSize: "clamp(1.5rem, 4vw, 2.75rem)",
-                lineHeight: 1.25,
-                fontStyle: "italic",
-                fontWeight: 300,
+                fontSize: "clamp(1.75rem, 5vw, 3.5rem)",
+                lineHeight: 1.15,
+                fontWeight: 500,
+                fontVariationSettings: '"opsz" 144, "SOFT" 30, "WONK" 0',
               }}
             >
-              &ldquo;The first cross-post tool that remembers what worked. Not just a
-              scheduler &mdash; a desk that compounds your voice across every
-              network.&rdquo;
+              &ldquo;The first cross-post tool that remembers what worked. Not
+              just a scheduler &mdash; a desk that compounds your voice across
+              every network.&rdquo;
             </blockquote>
             <p className="mt-8 text-xs uppercase tracking-[0.2em] text-muted">
-              The pitch, distilled
+              the pitch, distilled
             </p>
           </div>
         </section>
 
-        {/* ─── Features — editorial, not card grid ─── */}
-        <section id="features" className="border-b border-line py-20 md:py-28">
-          <div className="container-page">
-            <div className="grid gap-12 md:grid-cols-[2fr_3fr] md:gap-16">
-              <div>
-                <p className="section-label mb-4">Why this exists</p>
-                <h2
-                  className="display-thin text-ink"
-                  style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
-                >
-                  Most tools forget you the moment you hit{" "}
-                  <span className="editorial" style={{ fontStyle: "italic", color: "var(--primary)" }}>
-                    post.
-                  </span>
-                </h2>
-              </div>
-              <div className="max-w-xl space-y-8">
-                <p
-                  className="editorial text-ink"
-                  style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.3rem)", lineHeight: 1.65, fontWeight: 400 }}
-                >
-                  Postiz is a scheduling UI with no memory of you. Post Bridge is an agent
-                  pipe with no human-facing surface. Social Skills makes the memory{" "}
-                  <em className="display-italic font-semibold">visible</em>: your journey
-                  page shows what the app has learned about your brand voice, cadence, and
-                  top platform.
-                </p>
-                <div className="flex gap-12">
-                  <div>
-                    <div className="stat-figure">10</div>
-                    <p className="mt-2 text-sm text-muted">platforms supported</p>
-                  </div>
-                  <div>
-                    <div className="stat-figure">30s</div>
-                    <p className="mt-2 text-sm text-muted">from compose to published</p>
-                  </div>
-                  <div>
-                    <div className="stat-figure">
-                      <em
-                        className="display-italic"
-                        style={{ fontWeight: 500, color: "var(--primary)" }}
-                      >
-                        0
-                      </em>
-                    </div>
-                    <p className="mt-2 text-sm text-muted">tabs to manage</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Platforms — mega type heading (wondermakers pattern) ─── */}
-        <section id="platforms" className="border-b border-line bg-card py-20 md:py-28">
-          <div className="container-page">
-            <div className="mb-12 flex items-end justify-between gap-6">
-              <div>
-                <p className="section-label mb-4">Platforms</p>
-                <h2 className="mega-type text-ink">
-                  ten networks
-                </h2>
-              </div>
-              <p className="hidden max-w-xs text-sm text-muted sm:block">
-                Each platform gets its own transform. Hover to see the rule.
-              </p>
-            </div>
-
-            <div className="platform-poster">
-              {PLATFORMS.map((p) => (
-                <div key={p.id} className="platform-poster-item">
-                  {p.label}
-                  <span className="platform-rule">{platformRules[p.id]}</span>
+        {/* ═══════════════════════════════════════════════════════════════
+            STATS GRID (wondermakers pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-20 md:px-10 md:py-28">
+          <div className="container-wide">
+            <h2
+              className="display-thin mb-12 uppercase text-ink"
+              style={{ fontSize: "clamp(2rem, 6vw, 4rem)" }}
+            >
+              by the numbers
+            </h2>
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              {STATS.map((s, i) => (
+                <div key={i}>
+                  <p className="stat-numeral">{s.n}</p>
+                  <p className="mt-2 text-sm text-muted">{s.l}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ─── Pricing — dark inverted CTA section (reformcollective pattern) ─── */}
-        <section id="pricing" className="dark-section py-20 md:py-28">
-          <div className="container-page">
-            <div className="grid gap-12 md:grid-cols-[3fr_2fr] md:gap-20">
-              <div>
-                <p className="section-label mb-6">Pricing</p>
-                {/* Mixed-type: Fraunces + editorial italic pairing */}
-                <h2
-                  className="display"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
-                    fontWeight: 700,
-                    lineHeight: 1,
-                    color: "var(--background)",
-                  }}
+        {/* ═══════════════════════════════════════════════════════════════
+            PRICING — dark inverted CTA (reformcollective NOVA pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section id="pricing" className="dark-section px-5 py-24 md:px-10 md:py-32">
+          <div className="container-wide">
+            <p className="section-label mb-6">Pricing</p>
+            <div className="mask-reveal">
+              <h2
+                className="display uppercase"
+                style={{
+                  fontSize: "clamp(1.75rem, 4vw, 2.4rem)",
+                  fontWeight: 300,
+                  lineHeight: 1.3,
+                  color: "var(--background)",
+                  maxWidth: "48rem",
+                  fontVariationSettings: '"opsz" 144, "SOFT" 0, "WONK" 0',
+                }}
+              >
+                free to start. $19 when you grow.
+              </h2>
+            </div>
+            <p
+              className="mt-8 max-w-2xl text-xs uppercase leading-relaxed md:text-sm"
+              style={{ color: "oklch(72% 0.008 60)" }}
+            >
+              The demo workspace is free forever: seeded accounts, unlimited
+              local posts, the full compose-and-dispatch flow. Creator is
+              nineteen a month when you need more. No per-channel math.
+            </p>
+
+            {/* Tier list (blumenkopf line-divided pattern) */}
+            <div className="mt-16 max-w-2xl">
+              {[
+                { name: "Starter", price: "$0", desc: "Demo workspace, seeded accounts, unlimited local posts." },
+                { name: "Creator", price: "$19", desc: "15 accounts, caption assist, priority queue.", featured: true },
+                { name: "Pro", price: "$39", desc: "Unlimited accounts, team seats, API access." },
+              ].map((tier) => (
+                <div
+                  key={tier.name}
+                  className="flex items-baseline justify-between border-t py-5"
+                  style={{ borderColor: "oklch(35% 0.008 60)" }}
                 >
-                  Free to start.
-                  <br />
-                  <span className="editorial" style={{ fontStyle: "italic", color: "var(--primary)" }}>
-                    $19/mo
-                  </span>{" "}
-                  when you grow.
-                </h2>
-                <p
-                  className="mt-8 max-w-md text-lg leading-relaxed"
-                  style={{ color: "oklch(72% 0.008 60)" }}
-                >
-                  The demo workspace is free forever: seeded accounts, unlimited local
-                  posts, the full compose-and-dispatch flow. When you need more accounts or
-                  caption assist, Creator is nineteen a month. No per-channel math.
-                </p>
-                <div className="mt-8 flex gap-4">
-                  <Link href="/signup" className="btn btn-primary">
-                    Start free
-                  </Link>
-                  <Link href="/dashboard" className="btn btn-ghost">
-                    Try the demo
-                  </Link>
-                </div>
-              </div>
-              <div className="space-y-px border-l pl-8" style={{ borderColor: "oklch(40% 0.008 60)" }}>
-                <div className="border-b pb-5" style={{ borderColor: "oklch(35% 0.008 60)" }}>
-                  <div className="flex items-baseline justify-between">
-                    <span className="display text-lg font-semibold" style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20', color: "var(--background)" }}>
-                      Starter
+                  <div>
+                    <span
+                      className="display text-lg font-medium"
+                      style={{
+                        fontVariationSettings: '"opsz" 24, "SOFT" 20',
+                        color: "var(--background)",
+                      }}
+                    >
+                      {tier.name}
                     </span>
-                    <span className="display text-2xl font-bold" style={{ color: "var(--background)" }}>$0</span>
+                    <p
+                      className="mt-1 text-sm"
+                      style={{ color: "oklch(65% 0.008 60)" }}
+                    >
+                      {tier.desc}
+                    </p>
                   </div>
-                  <p className="mt-2 text-sm" style={{ color: "oklch(65% 0.008 60)" }}>
-                    Demo workspace, seeded accounts, unlimited local posts.
-                  </p>
+                  <span
+                    className="display text-2xl font-bold"
+                    style={{
+                      color: tier.featured ? "var(--primary)" : "var(--background)",
+                    }}
+                  >
+                    {tier.price}
+                  </span>
                 </div>
-                <div className="border-b py-5" style={{ borderColor: "oklch(35% 0.008 60)" }}>
-                  <div className="flex items-baseline justify-between">
-                    <span className="display text-lg font-semibold" style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20', color: "var(--background)" }}>
-                      Creator
-                    </span>
-                    <span className="display text-2xl font-bold" style={{ color: "var(--primary)" }}>
-                      $19
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm" style={{ color: "oklch(65% 0.008 60)" }}>
-                    15 accounts, caption assist, priority queue.
-                  </p>
-                </div>
-                <div className="pt-5">
-                  <div className="flex items-baseline justify-between">
-                    <span className="display text-lg font-semibold" style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20', color: "var(--background)" }}>
-                      Pro
-                    </span>
-                    <span className="display text-2xl font-bold" style={{ color: "var(--background)" }}>$39</span>
-                  </div>
-                  <p className="mt-2 text-sm" style={{ color: "oklch(65% 0.008 60)" }}>
-                    Unlimited accounts, team seats, API access.
-                  </p>
-                </div>
-              </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/signup" className="btn btn-primary">
+                Start free
+              </Link>
+              <Link
+                href="/dashboard"
+                className="btn btn-ghost"
+                style={{ borderColor: "oklch(50% 0.008 60)", color: "var(--background)" }}
+              >
+                Try the demo
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* ─── Compare teaser ─── */}
-        <section className="border-b border-line py-20 md:py-24">
-          <div className="container-page">
+        {/* ═══════════════════════════════════════════════════════════════
+            COMPARE TEASER
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-20 md:px-10 md:py-24">
+          <div className="container-wide">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div>
                 <p className="section-label mb-3">Comparisons</p>
@@ -413,17 +474,17 @@ export default async function HomePage() {
                   className="display-thin text-ink"
                   style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)" }}
                 >
-                  Honest side-by-sides for{" "}
-                  <span className="editorial" style={{ fontStyle: "italic" }}>
-                    people searching in 2026.
-                  </span>
+                  Honest side-by-sides.
                 </h2>
               </div>
-              <Link href="/compare" className="btn-link">
-                Full comparison hub
+              <Link
+                href="/compare"
+                className="text-sm uppercase tracking-[0.18em] border-b border-ink/30 pb-1 transition-colors hover:border-primary hover:text-primary"
+              >
+                Full comparison hub &#8594;
               </Link>
             </div>
-            <div className="mt-10 grid gap-px bg-line md:grid-cols-4">
+            <div className="mt-10 grid grid-cols-1 gap-px bg-line md:grid-cols-4">
               {competitors.slice(0, 4).map((c) => (
                 <Link
                   key={c.slug}
@@ -431,8 +492,11 @@ export default async function HomePage() {
                   className="block bg-background p-6 transition-colors hover:bg-primary-soft"
                 >
                   <div
-                    className="display mb-2 font-semibold text-ink"
-                    style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20', fontSize: "1.1rem" }}
+                    className="display mb-2 font-medium text-ink"
+                    style={{
+                      fontVariationSettings: '"opsz" 24, "SOFT" 20',
+                      fontSize: "1.1rem",
+                    }}
                   >
                     vs {c.name}
                   </div>
@@ -443,17 +507,19 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ─── FAQ (wondermakers <details> pattern) ─── */}
-        <section className="border-b border-line py-20 md:py-28">
-          <div className="container-page max-w-3xl">
+        {/* ═══════════════════════════════════════════════════════════════
+            FAQ — <details> accordion (wondermakers pattern)
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="border-b-2 border-ink px-5 py-20 md:px-10 md:py-28">
+          <div className="container-wide max-w-3xl">
             <h2
-              className="display-thin mb-12 text-ink"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+              className="display-thin mb-12 uppercase text-ink"
+              style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}
             >
               FAQ
             </h2>
             <div>
-              {faqs.map((faq) => (
+              {FAQS.map((faq) => (
                 <details key={faq.q} className="faq-item">
                   <summary>
                     <span>{faq.q}</span>
@@ -466,31 +532,33 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ─── Closing — split-line mega type ─── */}
-        <section className="py-24 md:py-36">
-          <div className="container-page text-center">
-            <div className="split-line mx-auto max-w-3xl">
+        {/* ═══════════════════════════════════════════════════════════════
+            CLOSING — split-line mega type
+        ═══════════════════════════════════════════════════════════════ */}
+        <section className="px-5 py-24 md:px-10 md:py-36">
+          <div className="container-wide max-w-4xl">
+            <div className="split-line">
               <p
                 className="display-thin text-ink"
-                style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
+                style={{ fontSize: "clamp(2rem, 6vw, 5rem)" }}
               >
-                Stop babysitting tabs.
+                stop babysitting tabs.
               </p>
             </div>
-            <div className="split-line mx-auto max-w-3xl">
+            <div className="split-line">
               <p
-                className="editorial text-ink"
+                className="editorial"
                 style={{
-                  fontSize: "clamp(2rem, 5vw, 4rem)",
+                  fontSize: "clamp(2rem, 6vw, 5rem)",
                   fontStyle: "italic",
                   fontWeight: 300,
                   color: "var(--primary)",
                 }}
               >
-                Start shipping.
+                start shipping.
               </p>
             </div>
-            <div className="mt-10 flex justify-center gap-4">
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary">
                 {user ? "Open desk" : "Start free"}
               </Link>
