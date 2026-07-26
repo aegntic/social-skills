@@ -1,54 +1,52 @@
 import Link from "next/link";
 
-function LogoMark({ size = 8 }: { size?: number }) {
+function LogoMark() {
   return (
     <span
-      className={`inline-flex h-${size} w-${size} items-center justify-center rounded-xl bg-primary text-sm font-black tracking-tight text-white shadow-sm`}
-      style={{ width: size * 4, height: size * 4 }}
+      className="display inline-flex items-center justify-center rounded-md bg-ink px-2 py-0.5 text-sm font-bold tracking-tight"
+      style={{ fontVariationSettings: '"opsz" 14, "SOFT" 0, "WONK" 0' }}
     >
-      Ss
+      <span style={{ color: "var(--background)" }}>S</span>
+      <span style={{ color: "var(--primary)" }}>s</span>
     </span>
   );
 }
 
 export function SiteHeader({ authed }: { authed?: boolean }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-white/85 backdrop-blur">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 border-b border-line bg-background/95">
+      <div className="container-page flex h-14 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2.5 font-bold text-ink">
           <LogoMark />
-          <span className="leading-none">
+          <span className="display text-lg leading-none" style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20' }}>
             Social Skills
-            <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
-              cross-post desk
-            </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
-          <Link href="/#features" className="hover:text-ink">
+        <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          <Link href="/#features" className="transition-colors hover:text-ink">
             Features
           </Link>
-          <Link href="/#pricing" className="hover:text-ink">
+          <Link href="/#how" className="transition-colors hover:text-ink">
+            How
+          </Link>
+          <Link href="/#pricing" className="transition-colors hover:text-ink">
             Pricing
           </Link>
-          <Link href="/compare" className="hover:text-ink">
-            Compare
-          </Link>
-          <Link href="/journey" className="hover:text-ink">
+          <Link href="/journey" className="transition-colors hover:text-ink">
             Journey
           </Link>
-          <Link href="/#platforms" className="hover:text-ink">
-            Platforms
+          <Link href="/compare" className="transition-colors hover:text-ink">
+            Compare
           </Link>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {authed ? (
             <Link href="/dashboard" className="btn btn-primary">
               Open desk
             </Link>
           ) : (
             <>
-              <Link href="/login" className="btn btn-ghost hidden sm:inline-flex">
+              <Link href="/login" className="btn-link hidden sm:inline-flex">
                 Log in
               </Link>
               <Link href="/signup" className="btn btn-primary">
@@ -64,42 +62,52 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-line bg-white">
-      <div className="container-page grid gap-8 py-12 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="mb-3 flex items-center gap-2 font-bold text-ink">
-            <LogoMark />
-            Social Skills
+    <footer className="mt-auto border-t border-line">
+      <div className="container-page py-14">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+          <div>
+            <div className="mb-4 flex items-center gap-2.5">
+              <LogoMark />
+              <span
+                className="display text-xl font-bold text-ink"
+                style={{ fontVariationSettings: '"opsz" 24, "SOFT" 20' }}
+              >
+                Social Skills
+              </span>
+            </div>
+            <p className="prose-mute max-w-sm text-sm">
+              The cross-post desk for creators who ship. One caption, ten networks, and a memory layer
+              that actually remembers your voice.
+            </p>
+            <p className="mt-4 text-sm text-muted">hello@socialskills.app</p>
           </div>
-          <p className="prose-mute max-w-md text-sm">
-            The social skill that actually pays: post once, show up everywhere. Built for creators who would rather ship than babysit tabs.
-          </p>
-          <p className="mt-3 text-sm text-muted">
-            hello@socialskills.app
-          </p>
-        </div>
-        <div>
-          <div className="mb-3 text-sm font-semibold text-ink">Product</div>
-          <div className="flex flex-col gap-2 text-sm text-muted">
-            <Link href="/signup">Start free</Link>
-            <Link href="/dashboard">Compose desk</Link>
-            <Link href="/journey">Journey</Link>
-            <Link href="/compare">Comparisons</Link>
-            <Link href="/#pricing">Pricing</Link>
+          <div>
+            <div className="mb-4 section-label">Product</div>
+            <div className="flex flex-col gap-2.5 text-sm text-muted">
+              <Link href="/signup" className="transition-colors hover:text-ink">Start free</Link>
+              <Link href="/dashboard" className="transition-colors hover:text-ink">Compose desk</Link>
+              <Link href="/journey" className="transition-colors hover:text-ink">Journey</Link>
+              <Link href="/#pricing" className="transition-colors hover:text-ink">Pricing</Link>
+            </div>
           </div>
-        </div>
-        <div>
-          <div className="mb-3 text-sm font-semibold text-ink">Get found</div>
-          <div className="flex flex-col gap-2 text-sm text-muted">
-            <Link href="/compare/post-bridge">Post Bridge alternative</Link>
-            <Link href="/compare/buffer">Buffer alternative</Link>
-            <Link href="/compare/postiz">Postiz alternative</Link>
-            <Link href="/compare">All comparisons</Link>
+          <div>
+            <div className="mb-4 section-label">Comparisons</div>
+            <div className="flex flex-col gap-2.5 text-sm text-muted">
+              <Link href="/compare/post-bridge" className="transition-colors hover:text-ink">vs Post Bridge</Link>
+              <Link href="/compare/buffer" className="transition-colors hover:text-ink">vs Buffer</Link>
+              <Link href="/compare/postiz" className="transition-colors hover:text-ink">vs Postiz</Link>
+              <Link href="/compare" className="transition-colors hover:text-ink">All comparisons</Link>
+            </div>
           </div>
         </div>
       </div>
-      <div className="border-t border-line py-4 text-center text-xs text-muted">
-        © {new Date().getFullYear()} Social Skills · Cross-posting for people who ship
+      <div className="border-t border-line">
+        <div className="container-page flex items-center justify-between py-5 text-xs text-muted">
+          <span>(c) {new Date().getFullYear()} Social Skills</span>
+          <span className="display italic" style={{ fontVariationSettings: '"opsz" 14, "SOFT" 50, "WONK" 1' }}>
+            ship once, show up everywhere
+          </span>
+        </div>
       </div>
     </footer>
   );
