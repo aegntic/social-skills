@@ -29,7 +29,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
         style={{
-          background: "oklch(10% 0.006 250 / 0.85)",
+          background: "rgba(250, 247, 242, 0.85)",
           borderBottom: "1px solid var(--line)",
         }}
       >
@@ -37,10 +37,10 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <span
-              className="flex items-center justify-center rounded-lg px-2 py-1 font-mono text-sm font-black"
-              style={{ background: "var(--card-elevated)", border: "1px solid var(--line-bright)", color: "var(--foreground)" }}
+              className="flex items-center justify-center rounded-xl px-2 py-1 text-sm font-black"
+              style={{ background: "var(--card)", border: "1px solid var(--line-bright)", color: "var(--foreground)", boxShadow: "var(--shadow-sm)" }}
             >
-              <span style={{ color: "var(--electric)" }}>~</span><span style={{ color: "var(--wutang)" }}>/</span>
+              <span style={{ color: "var(--electric)" }}>s</span><span style={{ color: "var(--wutang)" }}>/</span>
             </span>
             <span className="text-sm font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
               social<span style={{ color: "var(--muted)" }}>.</span>skills
@@ -53,7 +53,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-mono text-xs font-medium transition-colors"
+                className="text-sm font-medium transition-colors"
                 style={{ color: "var(--muted)" }}
               >
                 <span className="transition-colors hover:text-[var(--electric)]" style={{ color: "inherit" }}>
@@ -89,7 +89,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <span className="font-mono text-sm font-semibold" style={{ color: "var(--foreground)" }}>
+            <span className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>
               {open ? "Close" : "Menu"}
             </span>
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" style={{ color: "var(--foreground)" }}>
@@ -108,7 +108,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
         id="mobile-menu"
         className="menu-overlay md:hidden"
         data-open={open}
-        style={{ background: "var(--ink)" }}
+        style={{ background: "var(--background)" }}
       >
         <nav className="flex h-full flex-col justify-between px-5 pb-12 pt-24">
           <div className="space-y-1">
@@ -154,12 +154,12 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 export function SiteFooter() {
   return (
     <footer className="mt-auto">
-      {/* Yellow marquee strip */}
+      {/* Gold marquee strip */}
       <div
         className="overflow-hidden border-y-2 py-3"
         style={{
           background: "var(--wutang)",
-          borderColor: "var(--ink)",
+          borderColor: "rgba(0,0,0,0.08)",
         }}
       >
         <div className="marquee-banner">
@@ -167,7 +167,8 @@ export function SiteFooter() {
             {Array.from({ length: 12 }).map((_, i) => (
               <span
                 key={i}
-                className="px-4 text-xs font-bold uppercase tracking-widest text-black"
+                className="px-4 text-xs font-bold uppercase tracking-widest"
+                style={{ color: "#fff" }}
               >
                 content needs distribution &#9733;
               </span>
@@ -177,7 +178,7 @@ export function SiteFooter() {
       </div>
 
       {/* Footer body */}
-      <div style={{ background: "var(--ink)" }}>
+      <div style={{ background: "var(--background)" }}>
         <div className="container-page py-14">
           <div className="mb-12 grid grid-cols-2 gap-8 border-b pb-10 md:grid-cols-4"
             style={{ borderColor: "var(--line)" }}
@@ -191,10 +192,10 @@ export function SiteFooter() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="font-mono text-sm font-medium uppercase tracking-wider transition-colors"
+                className="text-sm font-medium uppercase tracking-wider transition-colors"
                 style={{ color: "var(--muted)" }}
               >
-                <span className="transition-colors hover:text-white" style={{ color: "inherit" }}>
+                <span className="transition-colors hover:text-[var(--foreground)]" style={{ color: "inherit" }}>
                   {l.label}
                 </span>
               </Link>
@@ -203,7 +204,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div>
-              <p className="mb-3 font-mono text-sm uppercase tracking-wider" style={{ color: "var(--muted)" }}>
+              <p className="mb-3 text-sm uppercase tracking-wider" style={{ color: "var(--muted)" }}>
                 Have something to ship?
               </p>
               <Link href="/signup">
@@ -216,18 +217,18 @@ export function SiteFooter() {
               </Link>
             </div>
 
-            <div className="flex flex-wrap gap-5 font-mono text-xs uppercase tracking-wider"
+            <div className="flex flex-wrap gap-5 text-xs uppercase tracking-wider"
               style={{ color: "var(--muted)" }}
             >
-              <Link href="/signup" className="transition-colors hover:text-white">Signup</Link>
-              <Link href="/login" className="transition-colors hover:text-white">Login</Link>
-              <Link href="/dashboard" className="transition-colors hover:text-white">Demo</Link>
-              <Link href="/journey" className="transition-colors hover:text-white">Journey</Link>
+              <Link href="/signup" className="transition-colors hover:text-[var(--foreground)]">Signup</Link>
+              <Link href="/login" className="transition-colors hover:text-[var(--foreground)]">Login</Link>
+              <Link href="/dashboard" className="transition-colors hover:text-[var(--foreground)]">Demo</Link>
+              <Link href="/journey" className="transition-colors hover:text-[var(--foreground)]">Journey</Link>
             </div>
           </div>
 
           <div
-            className="mt-12 flex flex-col justify-between gap-2 border-t pt-6 font-mono text-xs uppercase tracking-wider md:flex-row"
+            className="mt-12 flex flex-col justify-between gap-2 border-t pt-6 text-xs uppercase tracking-wider md:flex-row"
             style={{
               borderColor: "var(--line)",
               color: "var(--muted-dim)",

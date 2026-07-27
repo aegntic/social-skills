@@ -20,20 +20,20 @@ const STEPS = [
   {
     n: "01",
     title: "Compose",
-    cmd: "socialskills compose",
     body: "Type your caption in the compose desk. No tabs, no switching context.",
+    accent: "electric",
   },
   {
     n: "02",
     title: "Select destinations",
-    cmd: "socialskills select --platforms all",
     body: "Pick which platforms get the post. Each one gets its own transform applied automatically.",
+    accent: "wutang",
   },
   {
     n: "03",
     title: "Publish",
-    cmd: "socialskills publish",
     body: "Hit publish. Results come back per account. The memory layer notes what worked.",
+    accent: "coral",
   },
 ] as const;
 
@@ -75,10 +75,11 @@ export default async function HomePage() {
       <SiteHeader authed={Boolean(user)} />
       <main className="relative">
         {/* ═══════════════════════════════════════════════════════════════
-            HERO — dark terminal
+            HERO
         ═══════════════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden px-5 pb-16 pt-12 md:px-10 md:pb-24 md:pt-20">
-          <Parallax speed={0.2} className="parallax-orb" >
+          {/* Soft floating orbs */}
+          <Parallax speed={0.2} className="parallax-orb">
             <div style={{ position: "absolute", top: "5%", left: "-5%", width: "300px", height: "300px", background: "var(--electric)" }} />
           </Parallax>
           <Parallax speed={-0.3} className="parallax-orb">
@@ -86,20 +87,15 @@ export default async function HomePage() {
           </Parallax>
           <div className="container-wide relative z-10">
             <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-              {/* Left: headline + CTA + terminal block */}
+              {/* Left: headline + CTA + compose desk */}
               <div>
-                {/* Live status badge */}
                 <ScrollReveal from="fade" delay={0.1}>
-                  <span
-                    className="status-pill mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1.5"
-                    style={{ borderColor: "var(--line-bright)", background: "var(--card)" }}
-                  >
+                  <span className="status-pill mb-6 inline-flex items-center gap-2">
                     <span className="status-dot" />
                     10 platforms &middot; free to start
                   </span>
                 </ScrollReveal>
 
-                {/* The belief statement */}
                 <ScrollReveal from="up" delay={0.15}>
                   <h1
                     className="font-sans font-extrabold tracking-tight"
@@ -115,7 +111,6 @@ export default async function HomePage() {
                   </h1>
                 </ScrollReveal>
 
-                {/* Outcome statement */}
                 <ScrollReveal from="up" delay={0.25}>
                   <p
                     className="mt-6 max-w-lg text-lg leading-relaxed md:text-xl"
@@ -127,7 +122,6 @@ export default async function HomePage() {
                   </p>
                 </ScrollReveal>
 
-                {/* CTAs */}
                 <ScrollReveal from="up" delay={0.35}>
                   <div className="mt-8 flex flex-wrap items-center gap-4">
                     <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-base">
@@ -142,43 +136,49 @@ export default async function HomePage() {
                   </div>
                 </ScrollReveal>
 
-                {/* Terminal code block */}
+                {/* Compose desk mockup */}
                 <ScrollReveal from="up" delay={0.45}>
-                  <div className="terminal-window mt-8 max-w-md">
-                    <div className="terminal-chrome">
-                      <span className="terminal-dot" style={{ background: "#FF5F57" }} />
-                      <span className="terminal-dot" style={{ background: "#FEBC2E" }} />
-                      <span className="terminal-dot" style={{ background: "#28CA42" }} />
-                      <span className="terminal-title">social-skills &mdash; zsh</span>
+                  <div className="compose-desk mt-8 max-w-md">
+                    <div className="compose-desk-header">
+                      <span className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--foreground)" }}>
+                        <span className="flex h-6 w-6 items-center justify-center rounded-lg" style={{ background: "var(--primary-soft)" }}>
+                          <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--electric)" }}>
+                            <path d="M12 20h9M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                        Compose
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#ff5f57" }} />
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#febc2e" }} />
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: "#28ca42" }} />
+                      </span>
                     </div>
-                    <div className="terminal-body">
-                      <div className="cli-line">
-                        <span className="cli-prompt">$</span>
-                        <span style={{ color: "var(--foreground)" }}>socialskills compose</span>
+                    <div className="compose-desk-body">
+                      <div className="compose-input mb-3" style={{ minHeight: "60px" }}>
+                        Shipping the new cross-post feature today. One desk, ten platforms, zero tabs.
                       </div>
-                      <div className="cli-line">
-                        <span className="cli-success">✓</span>
-                        <span className="cli-output">caption ready &middot; 10 platforms detected</span>
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        {PLATFORMS.slice(0, 6).map((p) => (
+                          <span key={p.id} className="platform-chip active">
+                            <PlatformColorLogo id={p.id} className="h-3.5 w-3.5" />
+                            {p.label}
+                          </span>
+                        ))}
+                        <span className="platform-chip" style={{ color: "var(--muted)" }}>
+                          +4 more
+                        </span>
                       </div>
-                      <div className="cli-line mt-2">
-                        <span className="cli-prompt">$</span>
-                        <span style={{ color: "var(--foreground)" }}>socialskills publish --to all</span>
-                      </div>
-                      <div className="cli-line">
-                        <span className="cli-arrow">→</span>
-                        <span className="cli-output">X: stripped links</span>
-                      </div>
-                      <div className="cli-line">
-                        <span className="cli-arrow">→</span>
-                        <span className="cli-output">Instagram: media validated</span>
-                      </div>
-                      <div className="cli-line">
-                        <span className="cli-arrow">→</span>
-                        <span className="cli-output">LinkedIn: title set</span>
-                      </div>
-                      <div className="cli-line">
-                        <span className="cli-success">✓</span>
-                        <span className="cli-success">published to 10 platforms &middot; 30s</span>
+                      <div className="flex items-center justify-between rounded-xl p-3" style={{ background: "rgba(94,200,160,0.08)" }}>
+                        <div className="flex items-center gap-2">
+                          <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" style={{ color: "var(--mint)" }}>
+                            <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-xs font-semibold" style={{ color: "var(--foreground)" }}>
+                            Published to 10 platforms &middot; 30s
+                          </span>
+                        </div>
+                        <span className="text-xs font-bold" style={{ color: "var(--mint)" }}>done</span>
                       </div>
                     </div>
                   </div>
@@ -202,9 +202,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">The problem</p>
               </ScrollReveal>
-              <MagneticHeading
-                className="font-sans font-bold tracking-tight"
-                >
+              <MagneticHeading className="font-sans font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                   You&rsquo;re losing 30 minutes every day to tab-switching.
                 </span>
@@ -213,13 +211,9 @@ export default async function HomePage() {
 
             <ScrollReveal from="up" stagger={0.08} className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PAIN_POINTS.map((p) => (
-                <div
-                  key={p.text}
-                  className="flex items-center gap-3 rounded-lg border p-4"
-                  style={{ borderColor: "var(--line)", background: "var(--card)" }}
-                >
+                <div key={p.text} className="toy-card flex items-center gap-3 p-4">
                   <span
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl"
                     style={{ background: "var(--primary-soft)" }}
                   >
                     <PainIcon type={p.icon} />
@@ -229,16 +223,14 @@ export default async function HomePage() {
               ))}
             </ScrollReveal>
 
-            {/* Loss aversion callout */}
             <ScrollReveal from="scale" delay={0.2}>
-              <div
-                className="mt-8 flex items-center gap-4 rounded-xl border p-5"
-                style={{
-                  borderColor: "var(--line-bright)",
-                  background: "var(--card-elevated)",
-                }}
-              >
-                <span className="font-mono text-3xl" style={{ color: "var(--electric)" }}>~</span>
+              <div className="toy-card mt-8 flex items-center gap-4 p-5" style={{ borderColor: "var(--wutang)" }}>
+                <span
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl font-bold"
+                  style={{ background: "var(--wutang-soft)", color: "var(--wutang)" }}
+                >
+                  ~
+                </span>
                 <div>
                   <p className="text-sm font-bold" style={{ color: "var(--foreground)" }}>
                     That&rsquo;s 15 hours a month spent on logistics instead of creating.
@@ -253,7 +245,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
-            HOW IT WORKS — 3 steps with CLI commands
+            HOW IT WORKS
         ═══════════════════════════════════════════════════════════════ */}
         <section id="how" className="relative overflow-hidden py-16 md:py-24">
           <Parallax speed={0.15} className="parallax-orb">
@@ -264,9 +256,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">How it works</p>
               </ScrollReveal>
-              <MagneticHeading
-                className="font-sans font-bold tracking-tight"
-              >
+              <MagneticHeading className="font-sans font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                   Three steps. That&rsquo;s the whole tool.
                 </span>
@@ -275,29 +265,21 @@ export default async function HomePage() {
 
             <ScrollReveal from="up" stagger={0.15} className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {STEPS.map((step) => (
-                <div
-                  key={step.n}
-                  className="rounded-2xl border p-6"
-                  style={{ borderColor: "var(--line)", background: "var(--card)" }}
-                >
+                <div key={step.n} className="toy-card p-6">
                   <div className="mb-4 flex items-center justify-between">
                     <span
-                      className="font-mono text-sm font-bold"
-                      style={{ color: "var(--electric)" }}
+                      className="flex h-10 w-10 items-center justify-center rounded-2xl text-sm font-bold"
+                      style={{
+                        background: step.accent === "electric" ? "var(--primary-soft)" : step.accent === "wutang" ? "var(--wutang-soft)" : "rgba(255,107,107,0.1)",
+                        color: step.accent === "electric" ? "var(--electric)" : step.accent === "wutang" ? "var(--wutang)" : "var(--coral)",
+                      }}
                     >
                       {step.n}
                     </span>
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ background: "var(--wutang)" }}
-                    />
+                    <span className="h-2 w-2 rounded-full" style={{ background: "var(--wutang)" }} />
                   </div>
                   <h3 className="mb-2 text-xl font-bold" style={{ color: "var(--foreground)" }}>{step.title}</h3>
-                  <p className="mb-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{step.body}</p>
-                  <div className="cli-line rounded-md border px-2.5 py-1.5" style={{ borderColor: "var(--line)", background: "var(--ink)" }}>
-                    <span className="cli-prompt">$</span>
-                    <span className="font-mono text-xs" style={{ color: "var(--muted)" }}>{step.cmd}</span>
-                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{step.body}</p>
                 </div>
               ))}
             </ScrollReveal>
@@ -305,7 +287,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
-            PER-PLATFORM INTELLIGENCE with live status
+            PER-PLATFORM INTELLIGENCE
         ═══════════════════════════════════════════════════════════════ */}
         <section id="features" className="panel-section relative overflow-hidden py-16 md:py-24">
           <div className="container-page relative z-10">
@@ -314,9 +296,7 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-3">Per-platform intelligence</p>
                 </ScrollReveal>
-                <MagneticHeading
-                  className="font-sans font-bold tracking-tight"
-                >
+                <MagneticHeading className="font-sans font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                     Each network gets its own transform.
                   </span>
@@ -336,16 +316,16 @@ export default async function HomePage() {
               </ScrollReveal>
             </div>
 
-            {/* Platform grid with full color logos */}
             <ScrollReveal from="scale" stagger={0.06}>
-              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 lg:grid-cols-5"
-                style={{ borderColor: "var(--line)", background: "var(--line)" }}
+              <div
+                className="grid grid-cols-1 gap-3 overflow-hidden rounded-3xl border sm:grid-cols-2 lg:grid-cols-5"
+                style={{ borderColor: "var(--line)", background: "var(--background)" }}
               >
                 {PLATFORMS.map((p) => (
                   <div
                     key={p.id}
-                    className="flex flex-col items-start gap-2 p-4 transition-transform hover:scale-[1.02]"
-                    style={{ background: "var(--card)" }}
+                    className="flex flex-col items-start gap-2 rounded-2xl p-4 transition-transform hover:scale-[1.02]"
+                    style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}
                   >
                     <div className="flex w-full items-center justify-between gap-2.5">
                       <div className="flex items-center gap-2.5">
@@ -355,20 +335,14 @@ export default async function HomePage() {
                       <span className="status-dot" style={{ width: 6, height: 6 }} />
                     </div>
                     <div className="flex flex-wrap gap-1.5">
-                      {p.stripsLinks && (
-                        <TransformBadge label="strips links" color="electric" />
-                      )}
-                      {p.needsMedia && (
-                        <TransformBadge label="media required" color="warn" />
-                      )}
-                      {p.hasTitle && (
-                        <TransformBadge label="title field" color="blue" />
-                      )}
+                      {p.stripsLinks && <TransformBadge label="strips links" color="electric" />}
+                      {p.needsMedia && <TransformBadge label="media required" color="warn" />}
+                      {p.hasTitle && <TransformBadge label="title field" color="blue" />}
                       {!p.stripsLinks && !p.needsMedia && !p.hasTitle && (
                         <TransformBadge label="direct post" color="muted" />
                       )}
                     </div>
-                    <span className="mt-1 font-mono text-xs" style={{ color: "var(--muted)" }}>
+                    <span className="mt-1 text-xs font-medium" style={{ color: "var(--muted)" }}>
                       {p.maxCaption.toLocaleString()} chars
                     </span>
                   </div>
@@ -379,7 +353,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
-            THE MEMORY LAYER — terminal data card
+            THE MEMORY LAYER
         ═══════════════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden py-16 md:py-24">
           <Parallax speed={-0.2} className="parallax-orb">
@@ -387,36 +361,34 @@ export default async function HomePage() {
           </Parallax>
           <div className="container-page relative z-10">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-              {/* Left: terminal data card */}
+              {/* Left: memory card */}
               <ScrollReveal from="left" duration={1.0} className="order-2 lg:order-1">
-                <div className="terminal-window">
-                  <div className="terminal-chrome">
-                    <span className="terminal-dot" style={{ background: "#FF5F57" }} />
-                    <span className="terminal-dot" style={{ background: "#FEBC2E" }} />
-                    <span className="terminal-dot" style={{ background: "#28CA42" }} />
-                    <span className="terminal-title">memory &mdash; read</span>
-                  </div>
-                  <div className="terminal-body">
-                    <div className="cli-line mb-3">
-                      <span className="cli-prompt">$</span>
-                      <span style={{ color: "var(--foreground)" }}>socialskills memory --show</span>
-                    </div>
-                    <div className="space-y-2">
-                      <MemoryRow label="brand_voice" value={`"confident, technical"`} />
-                      <MemoryRow label="best_time" value="tue/thu 09-11am" />
-                      <MemoryRow label="top_platform" value="linkedin (3.2x)" />
-                      <MemoryRow label="cadence" value="3-4 posts/week" />
-                      <MemoryRow label="caption_style" value="short, punchy, cta" />
-                    </div>
-                    <div
-                      className="mt-4 flex items-center gap-2 rounded-md border px-3 py-2"
-                      style={{ borderColor: "var(--wutang-soft)", background: "oklch(15% 0.03 88)" }}
-                    >
-                      <span className="status-dot" style={{ width: 6, height: 6 }} />
-                      <span className="font-mono text-xs" style={{ color: "var(--wutang)" }}>
-                        compounding with every post
+                <div className="toy-card overflow-hidden" style={{ boxShadow: "var(--shadow-xl)" }}>
+                  <div className="flex items-center justify-between border-b p-5" style={{ borderColor: "var(--line)" }}>
+                    <span className="flex items-center gap-2 text-sm font-bold" style={{ color: "var(--foreground)" }}>
+                      <span className="flex h-7 w-7 items-center justify-center rounded-xl" style={{ background: "var(--wutang-soft)" }}>
+                        <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" style={{ color: "var(--wutang)" }}>
+                          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                       </span>
-                    </div>
+                      Memory Layer
+                    </span>
+                    <span className="status-pill" style={{ fontSize: "0.6875rem", padding: "0.25rem 0.625rem" }}>
+                      <span className="status-dot" style={{ width: 6, height: 6 }} />
+                      compounding
+                    </span>
+                  </div>
+                  <div className="space-y-3 p-5">
+                    <MemoryRow label="Brand voice" value={`"confident, technical"`} />
+                    <MemoryRow label="Best time" value="Tue / Thu 9-11am" />
+                    <MemoryRow label="Top platform" value="LinkedIn (3.2x)" />
+                    <MemoryRow label="Cadence" value="3-4 posts / week" />
+                    <MemoryRow label="Caption style" value="Short, punchy, CTA" />
+                  </div>
+                  <div className="border-t p-4" style={{ borderColor: "var(--line)", background: "var(--wutang-soft)" }}>
+                    <p className="text-center text-xs font-semibold" style={{ color: "var(--wutang)" }}>
+                      Gets smarter with every post you publish
+                    </p>
                   </div>
                 </div>
               </ScrollReveal>
@@ -426,9 +398,7 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-3">The differentiator</p>
                 </ScrollReveal>
-                <MagneticHeading
-                  className="font-sans font-bold tracking-tight"
-                >
+                <MagneticHeading className="font-sans font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                     A memory layer that actually remembers.
                   </span>
@@ -448,9 +418,11 @@ export default async function HomePage() {
                     "Public journey page builds trust with your audience",
                   ].map((item) => (
                     <div key={item} className="flex items-start gap-2.5">
-                      <svg viewBox="0 0 24 24" fill="none" className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--electric)" }}>
-                        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: "var(--primary-soft)" }}>
+                        <svg viewBox="0 0 24 24" fill="none" className="h-3 w-3" style={{ color: "var(--electric)" }}>
+                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
                       <span className="text-sm" style={{ color: "var(--foreground)" }}>{item}</span>
                     </div>
                   ))}
@@ -473,7 +445,7 @@ export default async function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
-            STATS — terminal metrics
+            STATS
         ═══════════════════════════════════════════════════════════════ */}
         <section className="panel-section relative overflow-hidden py-12 md:py-16">
           <div className="container-page">
@@ -481,18 +453,16 @@ export default async function HomePage() {
               {STATS.map((s) => (
                 <div key={s.l} className="text-center md:text-left">
                   <p
-                    className="font-mono font-bold tracking-tight"
+                    className="font-bold tracking-tight"
                     style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", lineHeight: 1, color: "var(--foreground)" }}
                   >
                     {s.l === "to start" ? (
-                      <span>
-                        $<CounterTo target={s.n} />
-                      </span>
+                      <span>${<CounterTo target={s.n} />}</span>
                     ) : (
                       <CounterTo target={s.n} suffix={s.suffix} />
                     )}
                   </p>
-                  <p className="mt-2 font-mono text-sm font-medium" style={{ color: "var(--muted)" }}>{s.l}</p>
+                  <p className="mt-2 text-sm font-medium" style={{ color: "var(--muted)" }}>{s.l}</p>
                 </div>
               ))}
             </ScrollReveal>
@@ -511,9 +481,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">Pricing</p>
               </ScrollReveal>
-              <MagneticHeading
-                className="font-sans font-bold tracking-tight"
-              >
+              <MagneticHeading className="font-sans font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", display: "block" }}>
                   Free to start. Pay when you grow.
                 </span>
@@ -526,7 +494,6 @@ export default async function HomePage() {
             </div>
 
             <ScrollReveal from="up" stagger={0.12} className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {/* Pro — anchor */}
               <PriceCard
                 name="Pro"
                 price="$39"
@@ -535,7 +502,6 @@ export default async function HomePage() {
                 features={["Unlimited accounts", "Team seats", "API access", "Priority queue"]}
                 highlighted
               />
-              {/* Creator */}
               <PriceCard
                 name="Creator"
                 price="$19"
@@ -543,7 +509,6 @@ export default async function HomePage() {
                 desc="The sweet spot. Most people pick this."
                 features={["15 accounts", "Caption assist (AI)", "Scheduled posts", "Memory layer"]}
               />
-              {/* Free */}
               <PriceCard
                 name="Starter"
                 price="$0"
@@ -555,12 +520,8 @@ export default async function HomePage() {
 
             <ScrollReveal from="fade" delay={0.3}>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/signup" className="btn btn-primary">
-                  Start free
-                </Link>
-                <Link href="/dashboard" className="btn btn-ghost">
-                  Try the demo
-                </Link>
+                <Link href="/signup" className="btn btn-primary">Start free</Link>
+                <Link href="/dashboard" className="btn btn-ghost">Try the demo</Link>
               </div>
             </ScrollReveal>
           </div>
@@ -576,34 +537,25 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-2">Comparisons</p>
                 </ScrollReveal>
-                <MagneticHeading
-                  className="font-sans font-bold tracking-tight"
-                >
+                <MagneticHeading className="font-sans font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", display: "block", color: "var(--foreground)" }}>
                     How we stack up.
                   </span>
                 </MagneticHeading>
               </div>
               <ScrollReveal from="fade" delay={0.1}>
-                <Link
-                  href="/compare"
-                  className="text-sm font-semibold"
-                  style={{ color: "var(--electric)" }}
-                >
+                <Link href="/compare" className="text-sm font-semibold" style={{ color: "var(--electric)" }}>
                   Full comparison hub &rarr;
                 </Link>
               </ScrollReveal>
             </div>
             <ScrollReveal from="up" stagger={0.08}>
-              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-4"
-                style={{ borderColor: "var(--line)", background: "var(--line)" }}
-              >
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {competitors.slice(0, 4).map((c) => (
                   <Link
                     key={c.slug}
                     href={`/compare/${c.slug}`}
-                    className="block p-5 transition-all"
-                    style={{ background: "var(--card)" }}
+                    className="toy-card block p-5 transition-all"
                   >
                     <div className="mb-1.5 text-base font-bold" style={{ color: "var(--foreground)" }}>vs {c.name}</div>
                     <p className="text-xs leading-relaxed" style={{ color: "var(--muted)" }}>{c.blurb}</p>
@@ -619,9 +571,7 @@ export default async function HomePage() {
         ═══════════════════════════════════════════════════════════════ */}
         <section className="py-16 md:py-24">
           <div className="container-page max-w-3xl">
-            <MagneticHeading
-              className="mb-10 font-sans font-bold tracking-tight"
-            >
+            <MagneticHeading className="mb-10 font-sans font-bold tracking-tight">
               <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", display: "block", color: "var(--foreground)" }}>
                 Questions, answered.
               </span>
@@ -743,15 +693,12 @@ function PainIcon({ type }: { type: string }) {
 function TransformBadge({ label, color }: { label: string; color: "electric" | "warn" | "blue" | "muted" }) {
   const styles = {
     electric: { bg: "var(--primary-soft)", color: "var(--electric)" },
-    warn: { bg: "oklch(20% 0.04 65)", color: "var(--warn)" },
-    blue: { bg: "oklch(20% 0.03 250)", color: "oklch(65% 0.15 250)" },
-    muted: { bg: "oklch(18% 0.006 250)", color: "var(--muted)" },
+    warn: { bg: "rgba(232,185,49,0.12)", color: "var(--wutang)" },
+    blue: { bg: "rgba(167,139,250,0.1)", color: "var(--violet)" },
+    muted: { bg: "rgba(113,113,127,0.08)", color: "var(--muted)" },
   }[color];
   return (
-    <span
-      className="rounded px-1.5 py-0.5 font-mono text-[11px] font-medium"
-      style={{ background: styles.bg, color: styles.color }}
-    >
+    <span className="toy-badge" style={{ background: styles.bg, color: styles.color, border: "none" }}>
       {label}
     </span>
   );
@@ -759,9 +706,9 @@ function TransformBadge({ label, color }: { label: string; color: "electric" | "
 
 function MemoryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b pb-1.5" style={{ borderColor: "var(--line)" }}>
-      <span className="font-mono text-xs" style={{ color: "var(--muted)" }}>{label}</span>
-      <span className="font-mono text-xs font-semibold" style={{ color: "var(--electric)" }}>{value}</span>
+    <div className="flex items-center justify-between gap-4 rounded-xl p-2.5" style={{ background: "var(--background)" }}>
+      <span className="text-sm font-medium" style={{ color: "var(--muted)" }}>{label}</span>
+      <span className="text-sm font-bold" style={{ color: "var(--electric)" }}>{value}</span>
     </div>
   );
 }
@@ -783,32 +730,36 @@ function PriceCard({
 }) {
   return (
     <div
-      className="rounded-2xl border p-6"
+      className="rounded-3xl border p-6"
       style={{
         borderColor: highlighted ? "var(--wutang)" : "var(--line-bright)",
-        background: highlighted ? "oklch(16% 0.02 88)" : "var(--card)",
+        background: highlighted ? "linear-gradient(180deg, rgba(232,185,49,0.05) 0%, var(--card) 40%)" : "var(--card)",
+        boxShadow: highlighted ? "var(--shadow-lg), 0 0 0 1px var(--wutang)" : "var(--shadow-md)",
+        borderRadius: "24px",
       }}
     >
       {highlighted && (
         <span
-          className="mb-3 inline-block rounded px-2 py-0.5 font-mono text-xs font-bold uppercase tracking-wide"
-          style={{ background: "var(--wutang)", color: "var(--ink)" }}
+          className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide"
+          style={{ background: "var(--wutang)", color: "#fff" }}
         >
           Best value
         </span>
       )}
       <h3 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>{name}</h3>
       <div className="mt-2 flex items-baseline gap-1">
-        <span className="font-mono text-3xl font-extrabold" style={{ color: "var(--foreground)" }}>{price}</span>
-        {period && <span className="font-mono text-sm" style={{ color: "var(--muted)" }}>{period}</span>}
+        <span className="text-3xl font-extrabold" style={{ color: "var(--foreground)" }}>{price}</span>
+        {period && <span className="text-sm" style={{ color: "var(--muted)" }}>{period}</span>}
       </div>
       <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>{desc}</p>
       <ul className="mt-5 space-y-2.5">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2">
-            <svg viewBox="0 0 24 24" fill="none" className="mt-0.5 h-4 w-4 shrink-0" style={{ color: highlighted ? "var(--wutang)" : "var(--electric)" }}>
-              <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full mt-0.5" style={{ background: highlighted ? "var(--wutang-soft)" : "var(--primary-soft)" }}>
+              <svg viewBox="0 0 24 24" fill="none" className="h-3 w-3" style={{ color: highlighted ? "var(--wutang)" : "var(--electric)" }}>
+                <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
             <span className="text-sm" style={{ color: "var(--foreground)" }}>{f}</span>
           </li>
         ))}
