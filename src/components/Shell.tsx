@@ -29,33 +29,36 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
         style={{
-          background: "oklch(97.5% 0.008 240 / 0.8)",
-          borderBottom: "1px solid oklch(90% 0.005 240)",
+          background: "oklch(10% 0.006 250 / 0.85)",
+          borderBottom: "1px solid var(--line)",
         }}
       >
         <div className="container-page flex items-center justify-between gap-4" style={{ height: "var(--navbar-height)" }}>
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <span
-              className="flex items-center justify-center rounded-lg px-2 py-1 text-sm font-black"
-              style={{ background: "var(--ink)", color: "white" }}
+              className="flex items-center justify-center rounded-lg px-2 py-1 font-mono text-sm font-black"
+              style={{ background: "var(--card-elevated)", border: "1px solid var(--line-bright)", color: "var(--foreground)" }}
             >
-              S<span style={{ color: "var(--wutang)" }}>s</span>
+              <span style={{ color: "var(--electric)" }}>~</span><span style={{ color: "var(--wutang)" }}>/</span>
             </span>
-            <span className="text-sm font-bold tracking-tight text-ink">
-              Social Skills
+            <span className="text-sm font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
+              social<span style={{ color: "var(--muted)" }}>.</span>skills
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-6 md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-ink"
+                className="font-mono text-xs font-medium transition-colors"
+                style={{ color: "var(--muted)" }}
               >
-                {link.label}
+                <span className="transition-colors hover:text-[var(--electric)]" style={{ color: "inherit" }}>
+                  {link.label}
+                </span>
               </Link>
             ))}
           </nav>
@@ -86,10 +89,10 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <span className="text-sm font-semibold text-ink">
+            <span className="font-mono text-sm font-semibold" style={{ color: "var(--foreground)" }}>
               {open ? "Close" : "Menu"}
             </span>
-            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-ink">
+            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" style={{ color: "var(--foreground)" }}>
               {open ? (
                 <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               ) : (
@@ -116,8 +119,8 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
                 onClick={() => setOpen(false)}
                 className="block border-b py-4 text-2xl font-semibold"
                 style={{
-                  borderColor: "oklch(30% 0.008 250)",
-                  color: "oklch(95% 0.005 240)",
+                  borderColor: "var(--line)",
+                  color: "var(--foreground)",
                 }}
               >
                 {link.label}
@@ -137,10 +140,6 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
                 href="/login"
                 onClick={() => setOpen(false)}
                 className="btn btn-ghost w-full"
-                style={{
-                  borderColor: "oklch(40% 0.008 250)",
-                  color: "oklch(90% 0.005 240)",
-                }}
               >
                 Log in
               </Link>
@@ -181,7 +180,7 @@ export function SiteFooter() {
       <div style={{ background: "var(--ink)" }}>
         <div className="container-page py-14">
           <div className="mb-12 grid grid-cols-2 gap-8 border-b pb-10 md:grid-cols-4"
-            style={{ borderColor: "oklch(30% 0.008 250)" }}
+            style={{ borderColor: "var(--line)" }}
           >
             {[
               { href: "/#how", label: "How" },
@@ -192,10 +191,10 @@ export function SiteFooter() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm font-medium uppercase tracking-wider transition-colors"
-                style={{ color: "oklch(65% 0.008 240)" }}
+                className="font-mono text-sm font-medium uppercase tracking-wider transition-colors"
+                style={{ color: "var(--muted)" }}
               >
-                <span className="hover:text-white" style={{ color: "inherit" }}>
+                <span className="transition-colors hover:text-white" style={{ color: "inherit" }}>
                   {l.label}
                 </span>
               </Link>
@@ -204,7 +203,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div>
-              <p className="mb-3 text-sm uppercase tracking-wider" style={{ color: "oklch(60% 0.008 240)" }}>
+              <p className="mb-3 font-mono text-sm uppercase tracking-wider" style={{ color: "var(--muted)" }}>
                 Have something to ship?
               </p>
               <Link href="/signup">
@@ -217,8 +216,8 @@ export function SiteFooter() {
               </Link>
             </div>
 
-            <div className="flex flex-wrap gap-5 text-xs uppercase tracking-wider"
-              style={{ color: "oklch(55% 0.008 240)" }}
+            <div className="flex flex-wrap gap-5 font-mono text-xs uppercase tracking-wider"
+              style={{ color: "var(--muted)" }}
             >
               <Link href="/signup" className="transition-colors hover:text-white">Signup</Link>
               <Link href="/login" className="transition-colors hover:text-white">Login</Link>
@@ -228,14 +227,14 @@ export function SiteFooter() {
           </div>
 
           <div
-            className="mt-12 flex flex-col justify-between gap-2 border-t pt-6 text-xs uppercase tracking-wider md:flex-row"
+            className="mt-12 flex flex-col justify-between gap-2 border-t pt-6 font-mono text-xs uppercase tracking-wider md:flex-row"
             style={{
-              borderColor: "oklch(25% 0.008 250)",
-              color: "oklch(50% 0.008 240)",
+              borderColor: "var(--line)",
+              color: "var(--muted-dim)",
             }}
           >
             <span>&copy; {new Date().getFullYear()} Social Skills</span>
-            <span className="text-muted" style={{ color: "oklch(50% 0.008 240)" }}>
+            <span style={{ color: "var(--muted-dim)" }}>
               the distribution layer for creators
             </span>
           </div>
