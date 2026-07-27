@@ -144,14 +144,61 @@ export async function createUser(email: string, name: string, password: string):
       createdAt: new Date().toISOString(),
     };
     db.users.push(user);
-    // clone demo accounts for new users
-    const base = db.accounts.filter((a) => a.userId === "user_demo");
-    let nextId = Math.max(0, ...db.accounts.map((a) => a.id)) + 1;
-    for (const a of base) {
-      db.accounts.push({ ...a, id: nextId++, userId: user.id });
-    }
+    // New users start with zero accounts — they select their own during onboarding.
     return user;
   });
+}
+
+export async function createAccounts(
+  userId: string,
+  entries: { platform: Platform; username: string; displayName?: string }[]
+): Promise<SocialAccount[]> {
+  if (!entries.length) throw new Error("Select at least one account");
+  return mutateDb((db) => {
+    const existing = new Set(
+      db.accounts.filter((a) => a.userId === userId).map((a) => a.platform)
+    );
+    let nextId = Math.max(0, ...db.accounts.map((a) => a.id)) + 1;
+    const created: SocialAccount[] = [];
+    for (const entry of entries) {
+      const username = entry.username.trim().replace(/^@/, "");
+      if (!username) continue;
+      if (existing.has(entry.platform)) continue;
+      const meta = platformMeta(entry.platform);
+      const account: SocialAccount = {
+        id: nextId++,
+        userId,
+        platform: entry.platform,
+        username,
+        displayName: entry.displayName?.trim() || username,
+        avatarColor: meta.color,
+        connected: true,
+      };
+      db.accounts.push(account);
+      created.push(account);
+      existing.add(entry.platform);
+    }
+    if (!created.length) throw new Error("No new accounts to add");
+    return created;
+  });
+}
+
+export async function deleteAccount(userId: string, accountId: number): Promise<void> {
+  await mutateDb((db) => {
+    const account = db.accounts.find((a) => a.id === accountId && a.userId === userId);
+    if (!account) throw new Error("Account not found");
+    db.accounts = db.accounts.filter((a) => a.id !== accountId);
+    // Detach this account from any posts
+    for (const post of db.posts) {
+      if (post.userId !== userId) continue;
+      post.accountIds = post.accountIds.filter((id) => id !== accountId);
+    }
+  });
+}
+
+export async function hasAccounts(userId: string): Promise<boolean> {
+  const db = await readDb();
+  return db.accounts.some((a) => a.userId === userId);
 }
 
 export async function createSession(userId: string): Promise<string> {

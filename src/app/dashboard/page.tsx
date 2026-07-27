@@ -1,5 +1,6 @@
 import { DashboardApp } from "@/components/DashboardApp";
 import { getSessionUser } from "@/lib/auth";
+import { hasAccounts } from "@/lib/store";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -11,5 +12,7 @@ export const metadata = {
 export default async function DashboardPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login");
+  const hasAccts = await hasAccounts(user.id);
+  if (!hasAccts) redirect("/onboarding");
   return <DashboardApp />;
 }

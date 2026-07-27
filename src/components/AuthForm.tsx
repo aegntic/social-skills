@@ -24,7 +24,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed");
-      router.push("/dashboard");
+      router.push(mode === "signup" ? "/onboarding" : "/dashboard");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed");
@@ -37,7 +37,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     <form onSubmit={onSubmit} className="card mx-auto w-full max-w-md p-6 md:p-8">
       <h1 className="mb-1 text-2xl font-bold text-ink">{mode === "login" ? "Welcome back" : "Create your account"}</h1>
       <p className="mb-6 text-sm text-muted">
-        {mode === "login" ? "Use the demo account or your own." : "Takes under a minute. Demo accounts are pre-connected."}
+        {mode === "login" ? "Use the demo account or your own." : "Takes under a minute. You'll connect your accounts next."}
       </p>
       {mode === "signup" && (
         <label className="mb-3 block text-sm font-medium">

@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import type { MediaAsset, Platform, PlatformOverride, PlatformResult, Post, SocialAccount } from "@/lib/types";
 import { PLATFORMS, platformMeta } from "@/lib/platforms";
+import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import { AccountManager } from "./AccountManager";
 
 type Me = {
   user: { id: string; email: string; name: string };
@@ -48,6 +50,7 @@ export function DashboardApp() {
   const [showOverrides, setShowOverrides] = useState(false);
   const [overrides, setOverrides] = useState<Partial<Record<Platform, PlatformOverride>>>({});
   const [syncingPostId, setSyncingPostId] = useState<string | null>(null);
+  const [showAccountModal, setShowAccountModal] = useState(false);
 
   async function refresh() {
     const res = await fetch("/api/me");
@@ -320,13 +323,13 @@ export function DashboardApp() {
           </div>
         </div>
 
-        {showTips && (
+        {showTips && me.accounts.length > 0 && (
           <div className="card mb-4 border-primary/30 bg-primary-soft/40 p-4 md:p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <div className="font-semibold text-ink">First 60 seconds</div>
                 <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-muted">
-                  <li>Keep the core 4 accounts (or hit Select all)</li>
+                  <li>Select the accounts you want to post to (or hit All)</li>
                   <li>Tweak the caption — or tap Improve caption</li>
                   <li>Upload a clip if IG / TikTok / YouTube are selected</li>
                   <li>Post now and read the per-platform results</li>
@@ -574,9 +577,7 @@ export function DashboardApp() {
                   return (
                     <button key={a.id} type="button" className={`platform-chip ${active ? "active" : ""}`} onClick={() => toggleAccount(a.id)}>
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: a.avatarColor }}>
-                          {meta.short}
-                        </span>
+                        <PlatformColorLogo id={a.platform} className="h-9 w-9 shrink-0" />
                         <div className="min-w-0 text-left">
                           <div className="truncate font-semibold text-ink">@{a.username}</div>
                           <div className="text-xs text-muted">
@@ -732,9 +733,7 @@ export function DashboardApp() {
               return (
                 <div key={a.id} className="card p-5">
                   <div className="mb-3 flex items-center gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: a.avatarColor }}>
-                      {meta.short}
-                    </span>
+                    <PlatformColorLogo id={a.platform} className="h-11 w-11 shrink-0" />
                     <div>
                       <div className="font-semibold">{a.displayName}</div>
                       <div className="text-sm text-muted">@{a.username}</div>
@@ -752,11 +751,24 @@ export function DashboardApp() {
                 </div>
               );
             })}
-            <div className="card border-dashed p-5 text-sm text-muted">
-              <div className="font-semibold text-ink">Connect more later</div>
-              <p className="mt-2">Demo accounts are pre-linked so you can feel the full desk today. Real OAuth connect is the next launch step.</p>
-            </div>
+            <button
+              type="button"
+              className="card flex flex-col items-center justify-center gap-2 border-dashed p-5 text-sm text-muted transition hover:border-primary hover:text-primary-dark"
+              onClick={() => setShowAccountModal(true)}
+            >
+              <span className="text-2xl">+</span>
+              <span className="font-semibold text-ink">Add or manage accounts</span>
+              <span className="text-xs">Connect more platforms or update handles</span>
+            </button>
           </section>
+        )}
+
+        {showAccountModal && (
+          <AccountManager
+            existing={me.accounts}
+            onClose={() => setShowAccountModal(false)}
+            onChanged={refresh}
+          />
         )}
       </div>
     </div>
