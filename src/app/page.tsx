@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/Shell";
 import { ComposeDeskMockup } from "@/components/ComposeDeskMockup";
-import { PlatformIcon } from "@/components/PlatformIcons";
+import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import { ScrollReveal, Parallax, CounterTo, MagneticHeading } from "@/components/ScrollAnim";
 import { getSessionUser } from "@/lib/auth";
 import { PLATFORMS } from "@/lib/platforms";
 import { competitors } from "@/lib/competitors";
@@ -37,10 +38,10 @@ const STEPS = [
 ] as const;
 
 const STATS = [
-  { n: "10", l: "platforms" },
-  { n: "30s", l: "compose to publish" },
-  { n: "0", l: "tabs to manage" },
-  { n: "$0", l: "to start" },
+  { n: 10, suffix: "", l: "platforms" },
+  { n: 30, suffix: "s", l: "compose to publish" },
+  { n: 0, suffix: "", l: "tabs to manage" },
+  { n: 0, suffix: "", l: "to start" },
 ] as const;
 
 const FAQS = [
@@ -77,89 +78,107 @@ export default async function HomePage() {
             HERO — "content NEEDS distribution"
             Trigger: relief + outcome. Show the belief, then the proof.
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="px-5 pb-16 pt-12 md:px-10 md:pb-24 md:pt-20">
-          <div className="container-wide">
+        <section className="relative overflow-hidden px-5 pb-16 pt-12 md:px-10 md:pb-24 md:pt-20">
+          {/* Parallax floating orbs in hero background */}
+          <Parallax speed={0.2} className="parallax-orb" >
+            <div style={{ position: "absolute", top: "5%", left: "-5%", width: "300px", height: "300px", background: "var(--electric)" }} />
+          </Parallax>
+          <Parallax speed={-0.3} className="parallax-orb">
+            <div style={{ position: "absolute", top: "10%", right: "-8%", width: "400px", height: "400px", background: "var(--wutang)" }} />
+          </Parallax>
+          <div className="container-wide relative z-10">
             <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
               {/* Left: headline + CTA */}
               <div>
                 {/* Trust badge */}
-                <div
-                  className="reveal delay-1 mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium"
-                  style={{
-                    borderColor: "oklch(88% 0.01 240)",
-                    background: "white",
-                    color: "var(--muted)",
-                  }}
-                >
+                <ScrollReveal from="fade" delay={0.1} className="mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium"
+                  >
                   <span
-                    className="inline-block h-2 w-2 rounded-full"
-                    style={{ background: "var(--ok)" }}
-                  />
-                  10 platforms &middot; free to start
-                </div>
+                    className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium"
+                    style={{
+                      borderColor: "oklch(88% 0.01 240)",
+                      background: "white",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    <span
+                      className="inline-block h-2 w-2 rounded-full"
+                      style={{ background: "var(--ok)" }}
+                    />
+                    10 platforms &middot; free to start
+                  </span>
+                </ScrollReveal>
 
                 {/* The belief statement */}
-                <h1
-                  className="reveal delay-2 font-sans font-extrabold tracking-tight text-ink"
-                  style={{
-                    fontSize: "clamp(2.75rem, 7vw, 5.5rem)",
-                    lineHeight: 1.0,
-                  }}
-                >
-                  content{" "}
-                  <span style={{ color: "var(--electric)" }}>needs</span>{" "}
-                  distribution
-                </h1>
+                <ScrollReveal from="up" delay={0.15}>
+                  <h1
+                    className="font-sans font-extrabold tracking-tight text-ink"
+                    style={{
+                      fontSize: "clamp(2.75rem, 7vw, 5.5rem)",
+                      lineHeight: 1.0,
+                    }}
+                  >
+                    content{" "}
+                    <span style={{ color: "var(--electric)" }}>needs</span>{" "}
+                    distribution
+                  </h1>
+                </ScrollReveal>
 
                 {/* Outcome statement */}
-                <p
-                  className="reveal delay-3 mt-6 max-w-lg text-lg leading-relaxed text-muted md:text-xl"
-                >
-                  One compose desk. Ten platforms. Each gets its own transform
-                  applied automatically. Plus a memory layer that learns your
-                  voice over time.
-                </p>
+                <ScrollReveal from="up" delay={0.25}>
+                  <p
+                    className="mt-6 max-w-lg text-lg leading-relaxed text-muted md:text-xl"
+                  >
+                    One compose desk. Ten platforms. Each gets its own transform
+                    applied automatically. Plus a memory layer that learns your
+                    voice over time.
+                  </p>
+                </ScrollReveal>
 
                 {/* CTAs */}
-                <div className="reveal delay-4 mt-8 flex flex-wrap items-center gap-4">
-                  <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-base">
-                    {user ? "Open desk" : "Start free"}
-                    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                  <Link href="/#how" className="btn btn-ghost text-base">
-                    See how it works
-                  </Link>
-                </div>
+                <ScrollReveal from="up" delay={0.35}>
+                  <div className="mt-8 flex flex-wrap items-center gap-4">
+                    <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-base">
+                      {user ? "Open desk" : "Start free"}
+                      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                    <Link href="/#how" className="btn btn-ghost text-base">
+                      See how it works
+                    </Link>
+                  </div>
+                </ScrollReveal>
 
                 {/* Trust signals */}
-                <div className="reveal delay-5 mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-muted">
-                  <span className="flex items-center gap-1.5">
-                    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
-                      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    No credit card
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
-                      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    Free forever plan
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
-                      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    Self-hostable
-                  </span>
-                </div>
+                <ScrollReveal from="fade" delay={0.45}>
+                  <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-muted">
+                    <span className="flex items-center gap-1.5">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
+                        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      No credit card
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
+                        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      Free forever plan
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" style={{ color: "var(--ok)" }}>
+                        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      Self-hostable
+                    </span>
+                  </div>
+                </ScrollReveal>
               </div>
 
               {/* Right: compose desk mockup */}
-              <div className="reveal delay-3 relative">
+              <ScrollReveal from="scale" delay={0.3} duration={1.2} className="relative">
                 <ComposeDeskMockup />
-              </div>
+              </ScrollReveal>
             </div>
           </div>
         </section>
@@ -168,19 +187,22 @@ export default async function HomePage() {
             THE PROBLEM — empathy trigger
             "You're losing 30 minutes every day"
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="border-y" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
-          <div className="container-page py-16 md:py-24">
+        <section className="relative overflow-hidden border-y" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
+          <div className="container-page relative z-10 py-16 md:py-24">
             <div className="max-w-3xl">
-              <p className="section-label mb-3">The problem</p>
-              <h2
+              <ScrollReveal from="fade">
+                <p className="section-label mb-3">The problem</p>
+              </ScrollReveal>
+              <MagneticHeading
                 className="font-sans font-bold tracking-tight text-ink"
-                style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1 }}
-              >
-                You&rsquo;re losing 30 minutes every day to tab-switching.
-              </h2>
+                >
+                <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block" }}>
+                  You&rsquo;re losing 30 minutes every day to tab-switching.
+                </span>
+              </MagneticHeading>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ScrollReveal from="up" stagger={0.08} className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PAIN_POINTS.map((p) => (
                 <div
                   key={p.text}
@@ -196,26 +218,28 @@ export default async function HomePage() {
                   <span className="text-sm font-medium text-ink">{p.text}</span>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
 
             {/* Loss aversion callout */}
-            <div
-              className="mt-8 flex items-center gap-4 rounded-xl border p-5"
-              style={{
-                borderColor: "oklch(88% 0.01 240)",
-                background: "oklch(97% 0.008 240)",
-              }}
-            >
-              <span className="text-3xl" style={{ color: "var(--electric)" }}>~</span>
-              <div>
-                <p className="text-sm font-bold text-ink">
-                  That&rsquo;s 15 hours a month spent on logistics instead of creating.
-                </p>
-                <p className="text-sm text-muted">
-                  Social Skills collapses all of it into one compose surface.
-                </p>
+            <ScrollReveal from="scale" delay={0.2}>
+              <div
+                className="mt-8 flex items-center gap-4 rounded-xl border p-5"
+                style={{
+                  borderColor: "oklch(88% 0.01 240)",
+                  background: "oklch(97% 0.008 240)",
+                }}
+              >
+                <span className="text-3xl" style={{ color: "var(--electric)" }}>~</span>
+                <div>
+                  <p className="text-sm font-bold text-ink">
+                    That&rsquo;s 15 hours a month spent on logistics instead of creating.
+                  </p>
+                  <p className="text-sm text-muted">
+                    Social Skills collapses all of it into one compose surface.
+                  </p>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -223,19 +247,25 @@ export default async function HomePage() {
             HOW IT WORKS — 3 steps
             Trigger: cognitive fluency
         ═══════════════════════════════════════════════════════════════ */}
-        <section id="how" className="py-16 md:py-24">
-          <div className="container-page">
+        <section id="how" className="relative overflow-hidden py-16 md:py-24">
+          <Parallax speed={0.15} className="parallax-orb">
+            <div style={{ position: "absolute", top: "30%", right: "0%", width: "350px", height: "350px", background: "var(--electric)" }} />
+          </Parallax>
+          <div className="container-page relative z-10">
             <div className="mb-12 max-w-2xl">
-              <p className="section-label mb-3">How it works</p>
-              <h2
+              <ScrollReveal from="fade">
+                <p className="section-label mb-3">How it works</p>
+              </ScrollReveal>
+              <MagneticHeading
                 className="font-sans font-bold tracking-tight text-ink"
-                style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1 }}
               >
-                Three steps. That&rsquo;s the whole tool.
-              </h2>
+                <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block" }}>
+                  Three steps. That&rsquo;s the whole tool.
+                </span>
+              </MagneticHeading>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <ScrollReveal from="up" stagger={0.15} className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {STEPS.map((step) => (
                 <div
                   key={step.n}
@@ -258,7 +288,7 @@ export default async function HomePage() {
                   <p className="text-sm leading-relaxed text-muted">{step.body}</p>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -266,55 +296,62 @@ export default async function HomePage() {
             PER-PLATFORM INTELLIGENCE
             Trigger: competence signaling — show the actual transforms
         ═══════════════════════════════════════════════════════════════ */}
-        <section id="features" className="border-y py-16 md:py-24" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
-          <div className="container-page">
+        <section id="features" className="relative overflow-hidden border-y py-16 md:py-24" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
+          <div className="container-page relative z-10">
             <div className="mb-12 max-w-2xl">
-              <p className="section-label mb-3">Per-platform intelligence</p>
-              <h2
+              <ScrollReveal from="fade">
+                <p className="section-label mb-3">Per-platform intelligence</p>
+              </ScrollReveal>
+              <MagneticHeading
                 className="font-sans font-bold tracking-tight text-ink"
-                style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1 }}
               >
-                Each network gets its own transform.
-              </h2>
-              <p className="mt-4 text-base text-muted">
-                You write once. The desk applies the right rules to each platform
-                before publishing. No manual adjustments.
-              </p>
+                <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block" }}>
+                  Each network gets its own transform.
+                </span>
+              </MagneticHeading>
+              <ScrollReveal from="up" delay={0.1}>
+                <p className="mt-4 text-base text-muted">
+                  You write once. The desk applies the right rules to each platform
+                  before publishing. No manual adjustments.
+                </p>
+              </ScrollReveal>
             </div>
 
-            {/* Platform grid with real icons */}
-            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 lg:grid-cols-5"
-              style={{ borderColor: "var(--line)", background: "var(--line)" }}
-            >
-              {PLATFORMS.map((p) => (
-                <div
-                  key={p.id}
-                  className="flex flex-col items-start gap-2 bg-white p-4"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <PlatformIcon id={p.id} className="h-5 w-5 text-ink" />
-                    <span className="text-sm font-bold text-ink">{p.label}</span>
+            {/* Platform grid with full color logos */}
+            <ScrollReveal from="scale" stagger={0.06}>
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 lg:grid-cols-5"
+                style={{ borderColor: "var(--line)", background: "var(--line)" }}
+              >
+                {PLATFORMS.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex flex-col items-start gap-2 bg-white p-4 transition-transform hover:scale-[1.02]"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <PlatformColorLogo id={p.id} className="h-6 w-6" />
+                      <span className="text-sm font-bold text-ink">{p.label}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.stripsLinks && (
+                        <TransformBadge label="strips links" color="electric" />
+                      )}
+                      {p.needsMedia && (
+                        <TransformBadge label="media required" color="warn" />
+                      )}
+                      {p.hasTitle && (
+                        <TransformBadge label="title field" color="blue" />
+                      )}
+                      {!p.stripsLinks && !p.needsMedia && !p.hasTitle && (
+                        <TransformBadge label="direct post" color="muted" />
+                      )}
+                    </div>
+                    <span className="mt-1 text-xs text-muted">
+                      {p.maxCaption.toLocaleString()} chars max
+                    </span>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.stripsLinks && (
-                      <TransformBadge label="strips links" color="electric" />
-                    )}
-                    {p.needsMedia && (
-                      <TransformBadge label="media required" color="warn" />
-                    )}
-                    {p.hasTitle && (
-                      <TransformBadge label="title field" color="blue" />
-                    )}
-                    {!p.stripsLinks && !p.needsMedia && !p.hasTitle && (
-                      <TransformBadge label="direct post" color="muted" />
-                    )}
-                  </div>
-                  <span className="mt-1 text-xs text-muted">
-                    {p.maxCaption.toLocaleString()} chars max
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -322,11 +359,14 @@ export default async function HomePage() {
             THE MEMORY LAYER — the differentiator
             Trigger: the Zeigarnik effect (incomplete curiosity)
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="py-16 md:py-24">
-          <div className="container-page">
+        <section className="relative overflow-hidden py-16 md:py-24">
+          <Parallax speed={-0.2} className="parallax-orb">
+            <div style={{ position: "absolute", bottom: "5%", left: "0%", width: "350px", height: "350px", background: "var(--wutang)" }} />
+          </Parallax>
+          <div className="container-page relative z-10">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
               {/* Left: visual */}
-              <div className="order-2 lg:order-1">
+              <ScrollReveal from="left" duration={1.0} className="order-2 lg:order-1">
                 <div
                   className="rounded-2xl border p-6"
                   style={{
@@ -357,23 +397,28 @@ export default async function HomePage() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Right: copy */}
               <div className="order-1 lg:order-2">
-                <p className="section-label mb-3">The differentiator</p>
-                <h2
+                <ScrollReveal from="fade">
+                  <p className="section-label mb-3">The differentiator</p>
+                </ScrollReveal>
+                <MagneticHeading
                   className="font-sans font-bold tracking-tight text-ink"
-                  style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1 }}
                 >
-                  A memory layer that actually remembers.
-                </h2>
-                <p className="mt-5 text-base leading-relaxed text-muted">
-                  Every other tool forgets you the moment you hit post. Social
-                  Skills tracks your brand voice, posting cadence, and which
-                  platform performs best. The journey page makes this visible.
-                </p>
-                <div className="mt-6 space-y-3">
+                  <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block" }}>
+                    A memory layer that actually remembers.
+                  </span>
+                </MagneticHeading>
+                <ScrollReveal from="up" delay={0.1}>
+                  <p className="mt-5 text-base leading-relaxed text-muted">
+                    Every other tool forgets you the moment you hit post. Social
+                    Skills tracks your brand voice, posting cadence, and which
+                    platform performs best. The journey page makes this visible.
+                  </p>
+                </ScrollReveal>
+                <ScrollReveal from="up" stagger={0.08} delay={0.15} className="mt-6 space-y-3">
                   {[
                     "Learns your tone and applies it to future captions",
                     "Surfaces your best-performing platform automatically",
@@ -387,17 +432,19 @@ export default async function HomePage() {
                       <span className="text-sm text-ink">{item}</span>
                     </div>
                   ))}
-                </div>
-                <Link
-                  href="/journey"
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold"
-                  style={{ color: "var(--electric)" }}
-                >
-                  See the live journey page
-                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
+                </ScrollReveal>
+                <ScrollReveal from="fade" delay={0.3}>
+                  <Link
+                    href="/journey"
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold"
+                    style={{ color: "var(--electric)" }}
+                  >
+                    See the live journey page
+                    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </ScrollReveal>
               </div>
             </div>
           </div>
@@ -406,21 +453,27 @@ export default async function HomePage() {
         {/* ═══════════════════════════════════════════════════════════════
             STATS — social proof
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="border-y py-12 md:py-16" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
+        <section className="relative overflow-hidden border-y py-12 md:py-16" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
           <div className="container-page">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
+            <ScrollReveal from="up" stagger={0.1} className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
               {STATS.map((s) => (
                 <div key={s.l} className="text-center md:text-left">
                   <p
                     className="font-sans font-extrabold tracking-tight text-ink"
                     style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", lineHeight: 1 }}
                   >
-                    {s.n}
+                    {s.l === "to start" ? (
+                      <span>
+                        $<CounterTo target={s.n} />
+                      </span>
+                    ) : (
+                      <CounterTo target={s.n} suffix={s.suffix} />
+                    )}
                   </p>
                   <p className="mt-2 text-sm font-medium text-muted">{s.l}</p>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -428,22 +481,30 @@ export default async function HomePage() {
             PRICING — safe commitment trigger
             Anchored: show Pro first (anchor), Creator second, Free last
         ═══════════════════════════════════════════════════════════════ */}
-        <section id="pricing" className="dark-section py-16 md:py-24">
-          <div className="container-page">
+        <section id="pricing" className="relative overflow-hidden dark-section py-16 md:py-24">
+          <Parallax speed={0.2} className="parallax-orb">
+            <div style={{ position: "absolute", top: "10%", left: "5%", width: "300px", height: "300px", background: "var(--electric)" }} />
+          </Parallax>
+          <div className="container-page relative z-10">
             <div className="mb-12 max-w-2xl">
-              <p className="section-label mb-3">Pricing</p>
-              <h2
+              <ScrollReveal from="fade">
+                <p className="section-label mb-3">Pricing</p>
+              </ScrollReveal>
+              <MagneticHeading
                 className="font-sans font-bold tracking-tight"
-                style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, color: "white" }}
               >
-                Free to start. Pay when you grow.
-              </h2>
-              <p className="mt-4 text-base" style={{ color: "oklch(65% 0.008 240)" }}>
-                No per-channel math. No credit card to start.
-              </p>
+                <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, color: "white", display: "block" }}>
+                  Free to start. Pay when you grow.
+                </span>
+              </MagneticHeading>
+              <ScrollReveal from="up" delay={0.1}>
+                <p className="mt-4 text-base" style={{ color: "oklch(65% 0.008 240)" }}>
+                  No per-channel math. No credit card to start.
+                </p>
+              </ScrollReveal>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <ScrollReveal from="up" stagger={0.12} className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {/* Pro — anchor */}
               <PriceCard
                 name="Pro"
@@ -469,16 +530,18 @@ export default async function HomePage() {
                 desc="Free forever. Full compose-and-dispatch flow."
                 features={["Demo workspace", "Seeded accounts", "Unlimited local posts", "All transforms"]}
               />
-            </div>
+            </ScrollReveal>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/signup" className="btn btn-primary">
-                Start free
-              </Link>
-              <Link href="/dashboard" className="btn btn-ghost">
-                Try the demo
-              </Link>
-            </div>
+            <ScrollReveal from="fade" delay={0.3}>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link href="/signup" className="btn btn-primary">
+                  Start free
+                </Link>
+                <Link href="/dashboard" className="btn btn-ghost">
+                  Try the demo
+                </Link>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -489,36 +552,43 @@ export default async function HomePage() {
           <div className="container-page">
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="section-label mb-2">Comparisons</p>
-                <h2
+                <ScrollReveal from="fade">
+                  <p className="section-label mb-2">Comparisons</p>
+                </ScrollReveal>
+                <MagneticHeading
                   className="font-sans font-bold tracking-tight text-ink"
-                  style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)" }}
                 >
-                  How we stack up.
-                </h2>
+                  <span style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", display: "block" }}>
+                    How we stack up.
+                  </span>
+                </MagneticHeading>
               </div>
-              <Link
-                href="/compare"
-                className="text-sm font-semibold"
-                style={{ color: "var(--electric)" }}
-              >
-                Full comparison hub &rarr;
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-4"
-              style={{ borderColor: "var(--line)", background: "var(--line)" }}
-            >
-              {competitors.slice(0, 4).map((c) => (
+              <ScrollReveal from="fade" delay={0.1}>
                 <Link
-                  key={c.slug}
-                  href={`/compare/${c.slug}`}
-                  className="block bg-white p-5 transition-all hover:shadow-md"
+                  href="/compare"
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--electric)" }}
                 >
-                  <div className="mb-1.5 text-base font-bold text-ink">vs {c.name}</div>
-                  <p className="text-xs leading-relaxed text-muted">{c.blurb}</p>
+                  Full comparison hub &rarr;
                 </Link>
-              ))}
+              </ScrollReveal>
             </div>
+            <ScrollReveal from="up" stagger={0.08}>
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-4"
+                style={{ borderColor: "var(--line)", background: "var(--line)" }}
+              >
+                {competitors.slice(0, 4).map((c) => (
+                  <Link
+                    key={c.slug}
+                    href={`/compare/${c.slug}`}
+                    className="block bg-white p-5 transition-all hover:shadow-md"
+                  >
+                    <div className="mb-1.5 text-base font-bold text-ink">vs {c.name}</div>
+                    <p className="text-xs leading-relaxed text-muted">{c.blurb}</p>
+                  </Link>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -527,53 +597,68 @@ export default async function HomePage() {
         ═══════════════════════════════════════════════════════════════ */}
         <section className="border-t py-16 md:py-24" style={{ borderColor: "var(--line)", background: "oklch(99% 0.002 240)" }}>
           <div className="container-page max-w-3xl">
-            <h2
+            <MagneticHeading
               className="mb-10 font-sans font-bold tracking-tight text-ink"
-              style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
             >
-              Questions, answered.
-            </h2>
-            <div>
-              {FAQS.map((faq) => (
-                <details key={faq.q} className="faq-item">
-                  <summary>
-                    <span>{faq.q}</span>
-                    <span className="faq-icon">+</span>
-                  </summary>
-                  <div className="faq-answer">{faq.a}</div>
-                </details>
-              ))}
-            </div>
+              <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", display: "block" }}>
+                Questions, answered.
+              </span>
+            </MagneticHeading>
+            <ScrollReveal from="fade" stagger={0.1}>
+              <div>
+                {FAQS.map((faq) => (
+                  <details key={faq.q} className="faq-item">
+                    <summary>
+                      <span>{faq.q}</span>
+                      <span className="faq-icon">+</span>
+                    </summary>
+                    <div className="faq-answer">{faq.a}</div>
+                  </details>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
             CLOSING CTA — identity return
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="py-20 md:py-32">
-          <div className="container-page text-center">
-            <h2
-              className="font-sans font-extrabold tracking-tight text-ink"
-              style={{ fontSize: "clamp(2rem, 6vw, 4rem)", lineHeight: 1.05 }}
-            >
-              Stop managing tabs.
-              <br />
-              <span style={{ color: "var(--electric)" }}>Start shipping.</span>
-            </h2>
-            <p className="mx-auto mt-6 max-w-md text-base text-muted">
-              Join creators who collapsed their social workflow into one desk.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-base">
-                {user ? "Open desk" : "Start free"}
-                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-              <Link href="/journey" className="btn btn-ghost text-base">
-                See the journey
-              </Link>
-            </div>
+        <section className="relative overflow-hidden py-20 md:py-32">
+          <Parallax speed={0.1} className="parallax-orb">
+            <div style={{ position: "absolute", top: "20%", left: "10%", width: "400px", height: "400px", background: "var(--electric)" }} />
+          </Parallax>
+          <Parallax speed={-0.15} className="parallax-orb">
+            <div style={{ position: "absolute", bottom: "10%", right: "5%", width: "350px", height: "350px", background: "var(--wutang)" }} />
+          </Parallax>
+          <div className="container-page relative z-10 text-center">
+            <ScrollReveal from="scale" duration={1.2}>
+              <h2
+                className="font-sans font-extrabold tracking-tight text-ink"
+                style={{ fontSize: "clamp(2rem, 6vw, 4rem)", lineHeight: 1.05 }}
+              >
+                Stop managing tabs.
+                <br />
+                <span style={{ color: "var(--electric)" }}>Start shipping.</span>
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal from="up" delay={0.15}>
+              <p className="mx-auto mt-6 max-w-md text-base text-muted">
+                Join creators who collapsed their social workflow into one desk.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal from="up" delay={0.25}>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-base">
+                  {user ? "Open desk" : "Start free"}
+                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+                <Link href="/journey" className="btn btn-ghost text-base">
+                  See the journey
+                </Link>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
       </main>
