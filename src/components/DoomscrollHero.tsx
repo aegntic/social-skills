@@ -28,18 +28,17 @@ const POSTS = [
   "The uncomfortable truth about 'viral' content",
 ];
 
-function BrowserWindow({ platform, posts, speed, onBlur, onComplete, style }: {
+type Phase = "loading" | "scrolling" | "blur" | "reveal";
+
+function BrowserWindow({ platform, posts, speed, phase, index }: {
   platform: typeof PLATFORMS[0];
   posts: string[];
   speed: number;
-  onBlur: () => void;
-  onComplete: () => void;
-  style?: React.CSSProperties;
+  phase: Phase;
+  index: number;
 }) {
   const [currentPost, setCurrentPost] = useState(0);
   const [scrollY, setScrollY] = useState(0);
-  const [showChrome, setShowChrome] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,42 +55,30 @@ function BrowserWindow({ platform, posts, speed, onBlur, onComplete, style }: {
     };
   }, [speed, posts.length]);
 
-  useEffect(() => {
-    if (speed > 800) {
-      setShowChrome(false);
-      onBlur();
-    }
-    if (speed > 200) {
-      const t = setTimeout(onComplete, 2000);
-      return () => clearTimeout(t);
-    }
-  }, [speed, onBlur, onComplete]);
+  const isBlurry = phase === "blur";
 
   return (
     <div
-      ref={containerRef}
       className="browser-window"
       style={{
         background: platform.bg,
         borderColor: platform.color,
-        transform: `scale(${showChrome ? 1 : 0.3})`,
-        opacity: showChrome ? 1 : 0,
-        filter: speed > 400 ? `blur(${Math.min((speed - 400) / 200, 8)}px)` : "none",
-        ...style,
+        filter: isBlurry ? `blur(${4 + index * 0.3}px)` : "none",
+        opacity: isBlurry ? 0.4 : 1,
+        transform: isBlurry ? `scale(0.85) rotate(${(index - 5) * 1.5}deg)` : "scale(1)",
+        zIndex: PLATFORMS.length - index,
       }}
     >
-      {showChrome && (
-        <div className="browser-chrome" style={{ borderBottomColor: platform.color }}>
-          <div className="traffic-lights">
-            <span style={{ background: "#FF5F57" }} />
-            <span style={{ background: "#FEBC2E" }} />
-            <span style={{ background: "#28CA42" }} />
-          </div>
-          <div className="url-bar" style={{ background: platform.bg, color: platform.color }}>
-            {platform.name.toLowerCase()}.com/{platform.handle}
-          </div>
+      <div className="browser-chrome" style={{ borderBottomColor: platform.color }}>
+        <div className="traffic-lights">
+          <span style={{ background: "#FF5F57" }} />
+          <span style={{ background: "#FEBC2E" }} />
+          <span style={{ background: "#28CA42" }} />
         </div>
-      )}
+        <div className="url-bar" style={{ background: platform.bg, color: platform.color }}>
+          {platform.name.toLowerCase()}.com/{platform.handle}
+        </div>
+      </div>
       <div className="feed" style={{ transform: `translateY(-${scrollY}px)` }}>
         {posts.map((post, i) => (
           <div
@@ -123,42 +110,20 @@ function BrowserWindow({ platform, posts, speed, onBlur, onComplete, style }: {
 }
 
 export function DoomscrollHero() {
-  const [phase, setPhase] = useState<"loading" | "scrolling" | "blur" | "reveal">("loading");
-  const [speed, setSpeed] = useState(3000);
-  const windowsRef = useRef<HTMLDivElement>(null);
-  const completedCount = useRef(0);
+  const [phase, setPhase] = useState<Phase>("loading");
 
   useEffect(() => {
-    if (phase === "loading") {
-      const timer = setTimeout(() => {
-        setPhase("scrolling");
-        setSpeed(800);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    timers.push(setTimeout(() => setPhase("scrolling"), 2000));
+    timers.push(setTimeout(() => setPhase("blur"), 5500));
+    timers.push(setTimeout(() => setPhase("reveal"), 7500));
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
-    if (phase === "scrolling") {
-      const timer = setTimeout(() => {
-        setPhase("blur");
-        setSpeed(100);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-
-    if (phase === "blur") {
-      const timer = setTimeout(() => {
-        setPhase("reveal");
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, speed]);
-
-  const handleWindowComplete = () => {
-    completedCount.current += 1;
-    if (completedCount.current >= PLATFORMS.length) {
-      setPhase("blur");
-      setSpeed(50);
-    }
+  const speeds: Record<Exclude<Phase, "reveal">, number> = {
+    loading: 3000,
+    scrolling: 800,
+    blur: 100,
   };
 
   if (phase === "reveal") {
@@ -173,21 +138,19 @@ export function DoomscrollHero() {
     );
   }
 
+  const speed = speeds[phase];
+
   return (
     <div className="doomscroll-hero">
-      <div className="browser-grid" ref={windowsRef}>
+      <div className="browser-grid">
         {PLATFORMS.map((platform, i) => (
           <BrowserWindow
             key={platform.name}
             platform={platform}
             posts={POSTS.slice(i * 2, i * 2 + 4)}
             speed={speed}
-            onBlur={handleWindowComplete}
-            onComplete={handleWindowComplete}
-            style={{
-              animationDelay: `${i * 100}ms`,
-              zIndex: PLATFORMS.length - i,
-            }}
+            phase={phase}
+            index={i}
           />
         ))}
       </div>

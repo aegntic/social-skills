@@ -98,7 +98,7 @@ export default async function HomePage() {
 
                 <ScrollReveal from="up" delay={0.15}>
                   <h1
-                    className="font-sans font-extrabold tracking-tight"
+                    className="font-display font-extrabold tracking-tight"
                     style={{
                       fontSize: "clamp(2.75rem, 7vw, 5.5rem)",
                       lineHeight: 1.0,
@@ -106,7 +106,7 @@ export default async function HomePage() {
                     }}
                   >
                     content{" "}
-                    <span style={{ color: "var(--electric)" }}>needs</span>{" "}
+                    <span className="gradient-text-blue">needs</span>{" "}
                     distribution
                   </h1>
                 </ScrollReveal>
@@ -202,7 +202,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">The problem</p>
               </ScrollReveal>
-              <MagneticHeading className="font-sans font-bold tracking-tight">
+              <MagneticHeading className="font-display font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                   You&rsquo;re losing 30 minutes every day to tab-switching.
                 </span>
@@ -256,7 +256,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">How it works</p>
               </ScrollReveal>
-              <MagneticHeading className="font-sans font-bold tracking-tight">
+              <MagneticHeading className="font-display font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                   Three steps. That&rsquo;s the whole tool.
                 </span>
@@ -296,7 +296,7 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-3">Per-platform intelligence</p>
                 </ScrollReveal>
-                <MagneticHeading className="font-sans font-bold tracking-tight">
+                <MagneticHeading className="font-display font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                     Each network gets its own transform.
                   </span>
@@ -398,7 +398,7 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-3">The differentiator</p>
                 </ScrollReveal>
-                <MagneticHeading className="font-sans font-bold tracking-tight">
+                <MagneticHeading className="font-display font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, display: "block", color: "var(--foreground)" }}>
                     A memory layer that actually remembers.
                   </span>
@@ -481,7 +481,7 @@ export default async function HomePage() {
               <ScrollReveal from="fade">
                 <p className="section-label mb-3">Pricing</p>
               </ScrollReveal>
-              <MagneticHeading className="font-sans font-bold tracking-tight">
+              <MagneticHeading className="font-display font-bold tracking-tight">
                 <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", display: "block" }}>
                   Free to start. Pay when you grow.
                 </span>
@@ -537,7 +537,7 @@ export default async function HomePage() {
                 <ScrollReveal from="fade">
                   <p className="section-label mb-2">Comparisons</p>
                 </ScrollReveal>
-                <MagneticHeading className="font-sans font-bold tracking-tight">
+                <MagneticHeading className="font-display font-bold tracking-tight">
                   <span style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", display: "block", color: "var(--foreground)" }}>
                     How we stack up.
                   </span>
@@ -571,7 +571,7 @@ export default async function HomePage() {
         ═══════════════════════════════════════════════════════════════ */}
         <section className="py-16 md:py-24">
           <div className="container-page max-w-3xl">
-            <MagneticHeading className="mb-10 font-sans font-bold tracking-tight">
+            <MagneticHeading className="mb-10 font-display font-bold tracking-tight">
               <span style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", display: "block", color: "var(--foreground)" }}>
                 Questions, answered.
               </span>
@@ -605,12 +605,12 @@ export default async function HomePage() {
           <div className="container-page relative z-10 text-center">
             <ScrollReveal from="scale" duration={1.2}>
               <h2
-                className="font-sans font-extrabold tracking-tight"
+                className="font-display font-extrabold tracking-tight"
                 style={{ fontSize: "clamp(2rem, 6vw, 4rem)", lineHeight: 1.05, color: "var(--foreground)" }}
               >
                 Stop managing tabs.
                 <br />
-                <span style={{ color: "var(--electric)" }}>Start shipping.</span>
+                <span className="gradient-text-blue">Start shipping.</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal from="up" delay={0.15}>
