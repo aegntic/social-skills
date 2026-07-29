@@ -5,8 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS: { href: string; label: string }[] = [
-  { href: "/#how", label: "How" },
+  { href: "/#features", label: "Features" },
   { href: "/#pricing", label: "Pricing" },
+  { href: "/tools", label: "Free Tools" },
+  { href: "/growth-guide", label: "Growth Guide" },
   { href: "/journey", label: "Journey" },
   { href: "/compare", label: "Compare" },
 ];
@@ -17,7 +19,9 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   useEffect(() => {
@@ -29,36 +33,49 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
         style={{
-          background: "rgba(250, 247, 242, 0.85)",
-          borderBottom: "1px solid var(--line)",
+          background: "rgba(15, 23, 42, 0.95)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
         }}
       >
-        <div className="container-page flex items-center justify-between gap-4" style={{ height: "var(--navbar-height)" }}>
+        <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span
-              className="flex items-center justify-center rounded-xl px-2 py-1 text-sm font-black"
-              style={{ background: "var(--card)", border: "1px solid var(--line-bright)", color: "var(--foreground)", boxShadow: "var(--shadow-sm)" }}
+          <Link href="/" className="flex items-center gap-3 text-decoration-none">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-2xl"
+              style={{
+                background: "linear-gradient(135deg, #363b48 0%, #1e222a 100%)",
+                boxShadow: "0 6px 16px rgba(0,0,0,0.5), inset 0 2px 3px rgba(255,255,255,0.2)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}
             >
-              <span style={{ color: "var(--electric)" }}>s</span><span style={{ color: "var(--wutang)" }}>/</span>
-            </span>
-            <span className="text-sm font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
-              social<span style={{ color: "var(--muted)" }}>.</span>skills
-            </span>
+              <span className="text-xl font-black text-wutang-metallic">S/</span>
+            </div>
+            <div>
+              <span className="text-lg font-black tracking-tight text-white">
+                social<span className="text-wutang-metallic">.skills</span>
+              </span>
+              <span
+                className="ml-2 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest"
+                style={{
+                  background: "rgba(0, 240, 255, 0.15)",
+                  color: "var(--azure-neon)",
+                  border: "1px solid rgba(0, 240, 255, 0.3)",
+                }}
+              >
+                ninja
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-7 md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium transition-colors"
-                style={{ color: "var(--muted)" }}
+                className="text-xs font-bold text-slate-300 hover:text-white transition-colors"
               >
-                <span className="transition-colors hover:text-[var(--electric)]" style={{ color: "inherit" }}>
-                  {link.label}
-                </span>
+                {link.label}
               </Link>
             ))}
           </nav>
@@ -66,16 +83,16 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           {/* Desktop CTAs */}
           <div className="hidden items-center gap-3 md:flex">
             {authed ? (
-              <Link href="/dashboard" className="btn btn-primary">
-                Open desk
+              <Link href="/dashboard" className="btn-wutang px-5 py-2.5 text-xs font-black">
+                Open desk &rarr;
               </Link>
             ) : (
               <>
-                <Link href="/login" className="btn-link">
+                <Link href="/login" className="text-xs font-bold text-slate-300 hover:text-white transition-colors px-3 py-2">
                   Log in
                 </Link>
-                <Link href="/signup" className="btn btn-primary">
-                  Start free
+                <Link href="/signup" className="btn-wutang px-5 py-2.5 text-xs font-black">
+                  Try for free &rarr;
                 </Link>
               </>
             )}
@@ -85,14 +102,12 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-1.5 md:hidden"
+            className="flex items-center gap-1.5 md:hidden text-white font-bold text-xs"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <span className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>
-              {open ? "Close" : "Menu"}
-            </span>
-            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" style={{ color: "var(--foreground)" }}>
+            <span>{open ? "Close" : "Menu"}</span>
+            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
               {open ? (
                 <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               ) : (
@@ -103,141 +118,135 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
         </div>
       </header>
 
-      {/* Mobile overlay menu */}
-      <div
-        id="mobile-menu"
-        className="menu-overlay md:hidden"
-        data-open={open}
-        style={{ background: "var(--background)" }}
-      >
-        <nav className="flex h-full flex-col justify-between px-5 pb-12 pt-24">
-          <div className="space-y-1">
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden fixed inset-0 z-40 bg-[#0f172a] pt-20 px-6">
+          <div className="py-6 flex flex-col gap-5 text-base font-bold text-white">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="block border-b py-4 text-2xl font-semibold"
-                style={{
-                  borderColor: "var(--line)",
-                  color: "var(--foreground)",
-                }}
-              >
+              <Link key={link.href} href={link.href} className="py-1 border-b border-slate-800">
                 {link.label}
               </Link>
             ))}
-          </div>
-          <div className="flex flex-col gap-3">
-            <Link
-              href={authed ? "/dashboard" : "/signup"}
-              onClick={() => setOpen(false)}
-              className="btn btn-primary w-full"
-            >
-              {authed ? "Open desk" : "Start free"}
-            </Link>
-            {!authed && (
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="btn btn-ghost w-full"
-              >
+            <div className="pt-4 flex flex-col gap-3">
+              <Link href="/login" className="btn-dark py-3 text-xs font-bold text-center">
                 Log in
               </Link>
-            )}
+              <Link href="/signup" className="btn-wutang py-3.5 text-xs font-black text-center">
+                Try for free &rarr;
+              </Link>
+            </div>
           </div>
-        </nav>
-      </div>
+        </div>
+      )}
     </>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto">
-      {/* Gold marquee strip */}
-      <div
-        className="overflow-hidden border-y-2 py-3"
-        style={{
-          background: "var(--wutang)",
-          borderColor: "rgba(0,0,0,0.08)",
-        }}
-      >
-        <div className="marquee-banner">
-          <div className="marquee-banner-track">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <span
-                key={i}
-                className="px-4 text-xs font-bold uppercase tracking-widest"
-                style={{ color: "#fff" }}
-              >
-                content needs distribution &#9733;
-              </span>
-            ))}
+    <footer className="border-t border-slate-800 text-slate-300 py-16 px-6 text-xs font-medium" style={{ background: "#090d16" }}>
+      <div className="max-w-7xl mx-auto space-y-12">
+        {/* Top Tagline */}
+        <div className="max-w-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-white font-black text-lg">social<span className="text-wutang-metallic">.skills</span></span>
+            <span
+              className="rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest"
+              style={{
+                background: "rgba(0, 240, 255, 0.15)",
+                color: "var(--azure-neon)",
+                border: "1px solid rgba(0, 240, 255, 0.3)",
+              }}
+            >
+              ninja
+            </span>
+          </div>
+          <p className="text-slate-300 text-sm font-bold leading-relaxed">
+            Post content to multiple social media platforms at the same time, all-in one place. Cross posting made easy.
+          </p>
+        </div>
+
+        {/* 5-Column Navigation Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 border-t border-slate-800 pt-10">
+          {/* LINKS */}
+          <div className="space-y-3">
+            <div className="text-xs font-black uppercase tracking-widest text-wutang-metallic mb-2">LINKS</div>
+            <ul className="space-y-2 text-slate-400 font-semibold">
+              <li><Link href="/whyareyoulikethis" className="hover:text-white transition-colors">Support</Link></li>
+              <li><Link href="/#pricing" className="hover:text-white transition-colors">Pricing</Link></li>
+              <li><Link href="/growth-guide" className="hover:text-white transition-colors">Blog</Link></li>
+              <li><Link href="/affiliates" className="hover:text-white transition-colors">Affiliates</Link></li>
+              <li><Link href="/onboarding/plans" className="hover:text-white transition-colors">Billing</Link></li>
+              <li><Link href="/dashboard/api-keys" className="hover:text-white transition-colors">AI Agents</Link></li>
+              <li><Link href="/dashboard/api-keys" className="hover:text-white transition-colors">MCP</Link></li>
+              <li><Link href="/dashboard/api-keys" className="hover:text-white transition-colors">OpenClaw</Link></li>
+              <li><Link href="/dashboard/api-keys" className="hover:text-white transition-colors">Agent Skill</Link></li>
+            </ul>
+          </div>
+
+          {/* PLATFORMS */}
+          <div className="space-y-3">
+            <div className="text-xs font-black uppercase tracking-widest text-azure-neon mb-2">PLATFORMS</div>
+            <ul className="space-y-2 text-slate-400 font-semibold">
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Twitter/X scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Instagram scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">LinkedIn scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Facebook scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">TikTok scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">YouTube scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Bluesky scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Threads scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Pinterest scheduler</Link></li>
+              <li><Link href="/#platforms" className="hover:text-white transition-colors">Google Business scheduler</Link></li>
+            </ul>
+          </div>
+
+          {/* FREE TOOLS */}
+          <div className="space-y-3">
+            <div className="text-xs font-black uppercase tracking-widest text-emerald-400 mb-2">FREE TOOLS</div>
+            <ul className="space-y-2 text-slate-400 font-semibold">
+              <li><Link href="/growth-guide" className="hover:text-white transition-colors">Growth Guide</Link></li>
+              <li><Link href="/tools/instagram-grid-maker" className="hover:text-white transition-colors">Instagram Grid Maker</Link></li>
+              <li><Link href="/tools/instagram-carousel-splitter" className="hover:text-white transition-colors">Instagram Carousel Splitter</Link></li>
+              <li><Link href="/tools/instagram-handle-checker" className="hover:text-white transition-colors">Instagram Handle Checker</Link></li>
+              <li><Link href="/tools/tiktok-username-checker" className="hover:text-white transition-colors">TikTok Username Checker</Link></li>
+              <li><Link href="/tools/tiktok-caption-generator" className="hover:text-white transition-colors">TikTok Caption Generator</Link></li>
+              <li><Link href="/tools/linkedin-text-formatter" className="hover:text-white transition-colors">LinkedIn Text Formatter</Link></li>
+              <li><Link href="/tools/youtube-title-checker" className="hover:text-white transition-colors">YouTube Title Checker</Link></li>
+              <li><Link href="/tools/youtube-tag-generator" className="hover:text-white transition-colors">YouTube Tag Generator</Link></li>
+              <li><Link href="/tools/timeline-blocker-x" className="hover:text-white transition-colors">Timeline Blocker for X/Twitter</Link></li>
+            </ul>
+          </div>
+
+          {/* COMPARE */}
+          <div className="space-y-3">
+            <div className="text-xs font-black uppercase tracking-widest text-purple-400 mb-2">COMPARE</div>
+            <ul className="space-y-2 text-slate-400 font-semibold">
+              <li><Link href="/compare/buffer" className="hover:text-white transition-colors">Buffer alternative</Link></li>
+              <li><Link href="/compare/hootsuite" className="hover:text-white transition-colors">Hootsuite alternative</Link></li>
+              <li><Link href="/compare/later" className="hover:text-white transition-colors">Later alternative</Link></li>
+              <li><Link href="/compare/publer" className="hover:text-white transition-colors">Publer alternative</Link></li>
+              <li><Link href="/compare/postiz" className="hover:text-white transition-colors">Postiz alternative</Link></li>
+              <li><Link href="/compare/post-bridge" className="hover:text-white transition-colors">Best scheduling APIs</Link></li>
+            </ul>
+          </div>
+
+          {/* LEGAL */}
+          <div className="space-y-3">
+            <div className="text-xs font-black uppercase tracking-widest text-rose-400 mb-2">LEGAL</div>
+            <ul className="space-y-2 text-slate-400 font-semibold">
+              <li><Link href="/whyareyoulikethis" className="hover:text-white transition-colors">Terms of services</Link></li>
+              <li><Link href="/whyareyoulikethis" className="hover:text-white transition-colors">Privacy policy</Link></li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      {/* Footer body */}
-      <div style={{ background: "var(--background)" }}>
-        <div className="container-page py-14">
-          <div className="mb-12 grid grid-cols-2 gap-8 border-b pb-10 md:grid-cols-4"
-            style={{ borderColor: "var(--line)" }}
-          >
-            {[
-              { href: "/#how", label: "How" },
-              { href: "/#pricing", label: "Pricing" },
-              { href: "/journey", label: "Journey" },
-              { href: "/compare", label: "Compare" },
-            ].map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-sm font-medium uppercase tracking-wider transition-colors"
-                style={{ color: "var(--muted)" }}
-              >
-                <span className="transition-colors hover:text-[var(--foreground)]" style={{ color: "inherit" }}>
-                  {l.label}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-            <div>
-              <p className="mb-3 text-sm uppercase tracking-wider" style={{ color: "var(--muted)" }}>
-                Have something to ship?
-              </p>
-              <Link href="/signup">
-                <p
-                  className="text-3xl font-bold md:text-5xl"
-                  style={{ color: "var(--wutang)" }}
-                >
-                  start free &rarr;
-                </p>
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap gap-5 text-xs uppercase tracking-wider"
-              style={{ color: "var(--muted)" }}
-            >
-              <Link href="/signup" className="transition-colors hover:text-[var(--foreground)]">Signup</Link>
-              <Link href="/login" className="transition-colors hover:text-[var(--foreground)]">Login</Link>
-              <Link href="/dashboard" className="transition-colors hover:text-[var(--foreground)]">Demo</Link>
-              <Link href="/journey" className="transition-colors hover:text-[var(--foreground)]">Journey</Link>
-            </div>
-          </div>
-
-          <div
-            className="mt-12 flex flex-col justify-between gap-2 border-t pt-6 text-xs uppercase tracking-wider md:flex-row"
-            style={{
-              borderColor: "var(--line)",
-              color: "var(--muted-dim)",
-            }}
-          >
-            <span>&copy; {new Date().getFullYear()} Social Skills</span>
-            <span style={{ color: "var(--muted-dim)" }}>
-              the distribution layer for creators
-            </span>
+        {/* Copyright */}
+        <div className="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400">
+          <div>Copyright © 2026 - All rights reserved</div>
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>All systems operational &bull; Agent-Native API Active</span>
           </div>
         </div>
       </div>

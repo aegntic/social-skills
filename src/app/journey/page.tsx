@@ -65,7 +65,7 @@ export default async function JourneyPage() {
 
   const scopeColor: Record<string, string> = {
     product: "#8b5cf6",
-    user_demo: "#10b981",
+    user_demo: "#00f0ff",
     default: "#64748b",
   };
   const colorFor = (n: Node) => scopeColor[n.scope] || scopeColor.default;

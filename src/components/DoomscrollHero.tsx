@@ -100,7 +100,7 @@ function BrowserWindow({ platform, posts, speed, phase, index }: {
             <div className="post-stats">
               <span>♥ {Math.floor(Math.random() * 5000)}</span>
               <span>↗ {Math.floor(Math.random() * 500)}</span>
-              <span>💬 {Math.floor(Math.random() * 200)}</span>
+              <span>[reply] {Math.floor(Math.random() * 200)}</span>
             </div>
           </div>
         ))}

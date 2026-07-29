@@ -43,19 +43,19 @@ export default async function CompareHubPage() {
         </p>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {competitors.map((c) => (
-            <Link key={c.slug} href={`/compare/${c.slug}`} className="card block p-6 transition hover:-translate-y-0.5 hover:border-primary">
-              <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-primary-dark">Comparison</div>
-              <h2 className="text-xl font-bold text-ink">Social Skills vs {c.name}</h2>
-              <p className="prose-mute mt-2 text-sm">{c.blurb}</p>
-              <div className="mt-4 text-sm font-semibold text-primary-dark">Read comparison →</div>
+            <Link key={c.slug} href={`/compare/${c.slug}`} className="plush-card block p-6 transition hover:-translate-y-0.5 hover:border-yellow-400">
+              <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-azure-neon font-bold">Comparison</div>
+              <h2 className="text-xl font-bold text-white">Social Skills vs {c.name}</h2>
+              <p className="prose-mute mt-2 text-sm text-slate-300">{c.blurb}</p>
+              <div className="mt-4 text-sm font-black text-wutang-metallic">Read comparison &rarr;</div>
             </Link>
           ))}
         </div>
-        <div className="card mt-12 p-8 text-center">
-          <h2 className="text-2xl font-bold text-ink">Try the core flow free</h2>
-          <p className="prose-mute mx-auto mt-2 max-w-lg">Compose once, pick accounts, publish with real platform rules — no credit card on the demo.</p>
-          <Link href="/signup" className="btn btn-primary mt-5">
-            Open Social Skills
+        <div className="plush-card mt-12 p-8 text-center border-2 border-yellow-400/40">
+          <h2 className="text-2xl font-black text-white">Try the core flow free</h2>
+          <p className="prose-mute mx-auto mt-2 max-w-lg text-slate-300 text-sm font-medium">Compose once, pick accounts, publish with real platform rules — no credit card on the demo.</p>
+          <Link href="/signup" className="btn-wutang mt-5 inline-block px-6 py-3 text-sm font-black">
+            Open Social Skills &rarr;
           </Link>
         </div>
       </main>

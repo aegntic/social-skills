@@ -36,9 +36,10 @@ export function PlatformColorLogo({ id, className }: { id: Platform; className?:
 function XLogo({ className }: Props) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <rect width="24" height="24" rx="5" fill="#000000" stroke="rgba(255, 255, 255, 0.25)" strokeWidth="1" />
       <path
-        fill="#000"
-        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+        fill="#ffffff"
+        d="M17.25 5h2.2l-4.8 5.49L20.3 19h-4.43l-3.47-4.54L8.43 19H6.23l5.14-5.88L5.7 5h4.54l3.14 4.15zm-.77 12.68h1.22L9.58 6.25H8.27z"
       />
     </svg>
   );
@@ -76,7 +77,7 @@ function TikTokLogo({ className }: Props) {
         transform="translate(1.5, 1.5)"
       />
       <path
-        fill="#000"
+        fill="#ffffff"
         d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.52 2.86 2.89 2.89 0 0 1-3.18-3.63 2.89 2.89 0 0 1 2.8-2.13c.3 0 .59.04.88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V6.99a4.85 4.85 0 0 1-1.84-.3z"
       />
     </svg>

@@ -64,3 +64,4 @@ MEMORY.local.md
 .wrangler
 .dev.vars*
 !.dev.vars.example
+.gstack/

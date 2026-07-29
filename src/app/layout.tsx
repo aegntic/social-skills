@@ -26,26 +26,50 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
-const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3456";
+const site = process.env.NEXT_PUBLIC_SITE_URL || "https://socialskills.ninja";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),
   title: {
-    default: "Social Skills — post everywhere from one desk",
+    default: "Social Skills — Multi-Platform Social Media Auto-Poster & AI Cross-Publishing Engine",
     template: "%s · Social Skills",
   },
   description:
-    "Social Skills is the cross-post desk for creators. Schedule and publish to X, Instagram, TikTok, YouTube, LinkedIn, and more with real per-platform validation.",
+    "The ultimate multi-platform social media auto-poster and AI cross-publishing engine. Publish simultaneously to X, Instagram Reels, TikTok, YouTube Shorts, LinkedIn, Threads, Bluesky, Pinterest, and Facebook with per-platform validation and Claude/ChatGPT MCP integration.",
+  keywords: [
+    "multi-platform social media auto-poster",
+    "social media cross posting tool",
+    "schedule instagram reels and tiktok",
+    "ai social media publisher",
+    "postiz alternative",
+    "buffer alternative",
+    "model context protocol social media",
+    "cross post to all social networks",
+    "social media growth engine"
+  ],
+  authors: [{ name: "Social Skills Engineering Team" }],
   openGraph: {
     type: "website",
-    siteName: "Social Skills",
-    title: "Social Skills — cross-post desk",
-    description: "Ship once. Show up everywhere. The social skill that compounds.",
+    siteName: "Social Skills Ninja",
+    title: "Social Skills — Multi-Platform Social Media Cross-Publishing Engine",
+    description: "Publish content simultaneously across 10 social networks from one AI-powered desk. Built for creators, growth teams, and agencies.",
+    url: site,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Social Skills",
-    description: "Post to all your social accounts from one desk.",
+    title: "Social Skills — Multi-Platform Social Media Auto-Poster",
+    description: "Automate content distribution to X, IG Reels, TikTok, Shorts, and LinkedIn in seconds.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

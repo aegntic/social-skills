@@ -114,26 +114,26 @@ export default async function ComparePage({ params }: Props) {
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/signup" className="btn btn-primary">
-            Try Social Skills free
+          <Link href="/signup" className="btn-wutang px-6 py-3 text-xs font-black inline-flex">
+            Try Social Skills free &rarr;
           </Link>
-          <a href={c.website} className="btn btn-ghost" target="_blank" rel="noreferrer">
+          <a href={c.website} className="btn-dark px-5 py-3 text-xs font-bold inline-flex" target="_blank" rel="noreferrer">
             Visit {c.name}
           </a>
         </div>
 
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold text-ink">Side-by-side comparison</h2>
-          <div className="table-wrap bg-white">
-            <table className="compare">
+          <h2 className="mb-4 text-2xl font-black text-slate-900">Side-by-side comparison</h2>
+          <div className="table-wrap plush-card p-6 overflow-x-auto">
+            <table className="compare w-full text-left text-sm text-slate-200">
               <thead>
-                <tr>
-                  <th>Criteria</th>
-                  <th>Social Skills</th>
-                  <th>{c.name}</th>
+                <tr className="border-b border-slate-700 text-azure-neon font-black">
+                  <th className="py-3 px-4">Criteria</th>
+                  <th className="py-3 px-4">Social Skills</th>
+                  <th className="py-3 px-4">{c.name}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-800">
                 {[
                   ["Core job", "One caption → many accounts", c.blurb],
                   ["Pricing", APP.pricing, c.pricing],
@@ -146,9 +146,9 @@ export default async function ComparePage({ params }: Props) {
                   ["Speed to first post", "Minutes with seeded accounts", "Account connect + plan setup"],
                 ].map(([k, a, b]) => (
                   <tr key={k}>
-                    <td className="font-semibold text-ink">{k}</td>
-                    <td>{a}</td>
-                    <td>{b}</td>
+                    <td className="py-3 px-4 font-bold text-white">{k}</td>
+                    <td className="py-3 px-4 text-slate-300 font-medium">{a}</td>
+                    <td className="py-3 px-4 text-slate-400 font-medium">{b}</td>
                   </tr>
                 ))}
               </tbody>
@@ -157,7 +157,7 @@ export default async function ComparePage({ params }: Props) {
         </section>
 
         <section className="mt-12 grid gap-4 md:grid-cols-2">
-          <div className="card p-6">
+          <div className="plush-card p-6">
             <h2 className="text-xl font-bold text-ink">Social Skills pros</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
               <li>Compose once with multi-select accounts</li>

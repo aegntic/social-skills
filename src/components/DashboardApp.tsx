@@ -280,14 +280,11 @@ export function DashboardApp() {
   const scheduledCount = me.posts.filter((p) => p.status === "scheduled").length;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-line bg-white">
+    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+      <header className="border-b border-slate-300/60 bg-slate-900 text-white">
         <div className="container-page flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-2 font-bold text-ink">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-xs font-black text-white">
-              Ss
-            </span>
-            Social Skills
+          <a href="/" className="flex items-center gap-2 font-black text-white">
+            <span className="font-black text-wutang-metallic text-lg">S/</span> social.skills
           </a>
           <div className="flex items-center gap-3 text-sm">
             <div className="hidden text-right sm:block">
@@ -306,16 +303,16 @@ export function DashboardApp() {
       <div className="container-page py-8">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-ink md:text-3xl">Publishing desk</h1>
-            <p className="prose-mute mt-1 text-sm">Caption → accounts → go. That&apos;s the whole skill.</p>
+            <h1 className="text-2xl font-black text-slate-900 md:text-3xl">Publishing Desk</h1>
+            <p className="mt-1 text-sm font-bold text-slate-800">Caption &rarr; accounts &rarr; go. That&apos;s the whole skill.</p>
           </div>
-          <div className="flex gap-2 rounded-xl border border-line bg-white p-1">
+          <div className="flex gap-2 rounded-2xl border border-slate-700 bg-slate-900 p-1.5 shadow-sm">
             {(["compose", "posts", "accounts"] as const).map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
-                className={`rounded-lg px-3 py-2 text-sm font-semibold capitalize ${tab === t ? "bg-primary text-white" : "text-muted"}`}
+                className={`rounded-xl px-4 py-2 text-xs font-black capitalize transition-all ${tab === t ? "btn-wutang" : "text-slate-300 hover:text-white"}`}
               >
                 {t}
               </button>
@@ -348,7 +345,7 @@ export function DashboardApp() {
           </div>
         ) : null}
         {success ? (
-          <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900" role="status">
+          <div className="mb-4 rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-200" role="status">
             {success}
             {lastPostId && tab === "compose" ? (
               <button type="button" className="ml-2 font-semibold underline" onClick={() => setTab("posts")}>

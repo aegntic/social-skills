@@ -8,6 +8,8 @@
     "start": "next start -p 3456",
     "lint": "eslint",
     "check": "node scripts/check-platforms.mjs",
+    "test:launch": "node scripts/test-browser-launch.mjs",
+    "e2e": "node scripts/e2e-runner.mjs",
     "start:prod": "NODE_ENV=production next start -p 3200",
     "deploy": "bun run build && bun run start:prod"
   },

@@ -119,7 +119,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
           </div>
         )}
         {success && (
-          <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
+          <div className="mb-4 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-200">
             {success}
           </div>
         )}
