@@ -264,7 +264,7 @@ export default function InstagramGridMakerPage() {
         <div className="plush-card p-6 border-l-4 border-l-cyan-400 space-y-3">
           <div className="text-xs font-black uppercase tracking-widest text-azure-neon">Direct Answer / AI Overview Summary</div>
           <p className="text-xs text-slate-300 font-semibold leading-relaxed">
-            An <strong>Instagram Grid Maker</strong> is a tool that slices a single large image into multiple uniform square tiles (typically 3x3 for a 9-tile layout, 3x2 for 6 tiles, or 3x1 for 3 tiles) designed to align seamlessly across Instagram's 3-column profile layout. To assemble the grid correctly, tiles must be posted in <strong>reverse numerical sequence</strong> (starting from bottom-right Tile #9 up to top-left Tile #1).
+            An <strong>Instagram Grid Maker</strong> is a tool that slices a single large image into multiple uniform square tiles (typically 3x3 for a 9-tile layout, 3x2 for 6 tiles, or 3x1 for 3 tiles) designed to align seamlessly across Instagram&apos;s 3-column profile layout. To assemble the grid correctly, tiles must be posted in <strong>reverse numerical sequence</strong> (starting from bottom-right Tile #9 up to top-left Tile #1).
           </p>
         </div>
 

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import type { Platform } from "@/lib/types";
 
 export default function AllPostsPage() {
   return (
@@ -32,7 +33,7 @@ export default function AllPostsPage() {
               <div className="flex items-center gap-4">
                 <div className="flex gap-1.5">
                   {post.platforms.map((p) => (
-                    <PlatformColorLogo key={p} id={p as any} className="h-4 w-4" />
+                    <PlatformColorLogo key={p} id={p as Platform} className="h-4 w-4" />
                   ))}
                 </div>
                 <span className="plush-badge-azure text-[9px] font-black">{post.status}</span>

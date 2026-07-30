@@ -31,7 +31,7 @@ export default function AccountCreationPage() {
 
         {/* Missions */}
         <div className="plush-card p-6 space-y-4">
-          <div className="text-base font-black text-white">Today's Mission</div>
+          <div className="text-base font-black text-white">Today&apos;s Mission</div>
           <ul className="space-y-2 text-sm text-slate-300 font-medium">
             <li className="flex items-start gap-2">
               <span className="text-wutang-metallic font-bold">•</span>

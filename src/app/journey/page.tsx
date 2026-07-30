@@ -47,7 +47,7 @@ export default async function JourneyPage() {
     .filter((n) => n.timestamp)
     .sort((a, b) => (a.timestamp! - b.timestamp!));
   const startTs = dated.length ? dated[0].timestamp! : 0;
-  const endTs = dated.length ? dated[dated.length - 1].timestamp! : Date.now() / 1000;
+  const endTs = dated.length ? dated[dated.length - 1].timestamp! : 0;
   const span = Math.max(1, endTs - startTs);
 
   const W = 920;

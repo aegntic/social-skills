@@ -3,6 +3,7 @@
 import React from "react";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import type { Platform } from "@/lib/types";
 
 export default function ConnectionsPage() {
   return (
@@ -23,7 +24,7 @@ export default function ConnectionsPage() {
           ].map((acc, i) => (
             <div key={i} className="plush-card p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <PlatformColorLogo id={acc.platform as any} className="h-8 w-8" />
+                <PlatformColorLogo id={acc.platform as Platform} className="h-8 w-8" />
                 <div>
                   <div className="font-extrabold text-white text-sm capitalize">{acc.platform}</div>
                   <div className="text-xs text-slate-400 font-semibold">{acc.handle}</div>

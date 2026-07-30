@@ -226,7 +226,7 @@ export default function Home() {
               <div className="flex items-center justify-between border-b border-slate-700/60 pb-4 mb-6">
                 <div>
                   <div className="text-xs font-extrabold uppercase tracking-wider text-azure-neon">QUEUE CALENDAR</div>
-                  <div className="text-lg font-black text-white">This Week's Schedule</div>
+                  <div className="text-lg font-black text-white">This Week&apos;s Schedule</div>
                 </div>
                 <span className="rounded-full px-3 py-1 text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
                   Auto-Best Time Active
@@ -294,7 +294,7 @@ export default function Home() {
                 Manage content <span className="text-azure-metallic">efficiently</span>
               </h2>
               <p className="text-slate-900 text-base sm:text-lg leading-relaxed mb-6 font-bold">
-                View all your scheduled and published posts in one place. Track what's performing, edit upcoming posts, and stay on top of your content strategy with real-time feedback.
+                View all your scheduled and published posts in one place. Track what&apos;s performing, edit upcoming posts, and stay on top of your content strategy with real-time feedback.
               </p>
               <div className="flex items-center gap-4">
                 <a href="/signup" className="btn-wutang px-6 py-3 text-sm font-extrabold">

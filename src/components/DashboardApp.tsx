@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import type { MediaAsset, Platform, PlatformOverride, PlatformResult, Post, SocialAccount } from "@/lib/types";
 import { PLATFORMS, platformMeta } from "@/lib/platforms";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
@@ -46,7 +47,13 @@ export function DashboardApp() {
   const [lastResults, setLastResults] = useState<PlatformResult[] | null>(null);
   const [lastPostId, setLastPostId] = useState<string | null>(null);
   const [tab, setTab] = useState<"compose" | "posts" | "accounts">("compose");
-  const [showTips, setShowTips] = useState(false);
+  const [showTips, setShowTips] = useState(() => {
+    try {
+      return localStorage.getItem("ss_tips_done") !== "1";
+    } catch {
+      return true;
+    }
+  });
   const [showOverrides, setShowOverrides] = useState(false);
   const [overrides, setOverrides] = useState<Partial<Record<Platform, PlatformOverride>>>({});
   const [syncingPostId, setSyncingPostId] = useState<string | null>(null);
@@ -68,12 +75,9 @@ export function DashboardApp() {
   }
 
   useEffect(() => {
+    // refresh() is async — setState calls execute after await, not synchronously
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh().catch(() => setError("Failed to load"));
-    try {
-      setShowTips(localStorage.getItem("ss_tips_done") !== "1");
-    } catch {
-      setShowTips(true);
-    }
   }, []);
 
   const accountsById = useMemo(() => {
@@ -283,9 +287,9 @@ export function DashboardApp() {
     <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       <header className="border-b border-slate-300/60 bg-slate-900 text-white">
         <div className="container-page flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-2 font-black text-white">
+          <Link href="/" className="flex items-center gap-2 font-black text-white">
             <span className="font-black text-wutang-metallic text-lg">S/</span> social.skills
-          </a>
+          </Link>
           <div className="flex items-center gap-3 text-sm">
             <div className="hidden text-right sm:block">
               <div className="font-semibold text-ink">{me.user.name}</div>

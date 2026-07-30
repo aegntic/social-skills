@@ -1,6 +1,6 @@
 // Operator-only: returns the agent's gbrain memory graph. Never exposed to
 // unauthenticated callers — this is operator brain state, not product memory.
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { execFile } from "child_process";
 import path from "path";
 import { getSessionUser } from "@/lib/auth";
@@ -11,7 +11,7 @@ const PY_PATH =
   process.env.PY_PATH ||
   path.join(process.env.HOME || "/root", ".hermes", "skills", "gbrain", "learning_graph.py");
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const user = await getSessionUser();
   if (!user) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
         }
         try {
           const g = JSON.parse(stdout);
-          const nodes = (g.nodes || []).map((n: any) => ({
+          const nodes = (g.nodes || []).map((n: { id?: string; label?: string; title?: string; kind?: string; timestamp?: number | null; category?: string; body?: string; description?: string }) => ({
             id: String(n.id ?? n.label ?? Math.random()),
             label: n.label || n.title || "untitled",
             kind: n.kind === "skill" ? "skill" : "memory",
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
             body: n.body || n.description || "",
             source: "gbrain-memory",
           }));
-          const clusters = (g.clusters || []).map((c: any) => ({
+          const clusters = (g.clusters || []).map((c: { id?: string; label?: string; name?: string; nodeIds?: string[] }) => ({
             id: String(c.id ?? c.label),
             label: c.label || c.name || "cluster",
             nodeIds: c.nodeIds || [],
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
               },
             })
           );
-        } catch (e) {
+        } catch {
           resolve(
             NextResponse.json({ ok: false, error: "gbrain-parse-failed" }, { status: 500 })
           );

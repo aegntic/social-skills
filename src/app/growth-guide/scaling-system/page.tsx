@@ -12,7 +12,7 @@ export default function ScalingSystemPage() {
           <div className="text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">Section 7 of 7</div>
           <h1 className="text-3xl font-black text-white mb-3">Scaling System with Social Skills</h1>
           <p className="text-slate-300 text-base font-medium leading-relaxed">
-            Once you have a winning format that gets views on one account, it's time to scale! Social Skills lets you publish that winning video across 10 platforms and multiple accounts with 1 click.
+            Once you have a winning format that gets views on one account, it&apos;s time to scale! Social Skills lets you publish that winning video across 10 platforms and multiple accounts with 1 click.
           </p>
         </div>
 

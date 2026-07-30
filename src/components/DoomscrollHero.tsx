@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PLATFORMS = [
   { name: "X", color: "#000000", bg: "#ffffff", handle: "@aegntic" },
@@ -39,6 +39,13 @@ function BrowserWindow({ platform, posts, speed, phase, index }: {
 }) {
   const [currentPost, setCurrentPost] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [postStats] = useState(() =>
+    posts.map(() => ({
+      likes: Math.floor(Math.random() * 5000),
+      shares: Math.floor(Math.random() * 500),
+      replies: Math.floor(Math.random() * 200),
+    }))
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,9 +105,9 @@ function BrowserWindow({ platform, posts, speed, phase, index }: {
             </div>
             <p className="post-text">{post}</p>
             <div className="post-stats">
-              <span>♥ {Math.floor(Math.random() * 5000)}</span>
-              <span>↗ {Math.floor(Math.random() * 500)}</span>
-              <span>[reply] {Math.floor(Math.random() * 200)}</span>
+              <span>♥ {postStats[i].likes}</span>
+              <span>↗ {postStats[i].shares}</span>
+              <span>[reply] {postStats[i].replies}</span>
             </div>
           </div>
         ))}

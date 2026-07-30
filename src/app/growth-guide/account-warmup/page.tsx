@@ -13,7 +13,7 @@ export default function AccountWarmupPage() {
           <h1 className="text-3xl font-black text-white mb-3">Step 2: Account Warmup Protocol</h1>
           <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm font-extrabold mb-4">
             CRITICAL: DO NOT POST FOR 7 DAYS!
-            <p className="text-xs text-rose-200 font-normal mt-1">Skip this step and the algorithm will bury your new account's content under 0 views.</p>
+            <p className="text-xs text-rose-200 font-normal mt-1">Skip this step and the algorithm will bury your new account&apos;s content under 0 views.</p>
           </div>
         </div>
 
@@ -32,7 +32,7 @@ export default function AccountWarmupPage() {
 
         {/* Today's Mission Cards */}
         <div className="plush-card p-6 space-y-4">
-          <div className="text-base font-black text-white">Today's Mission</div>
+          <div className="text-base font-black text-white">Today&apos;s Mission</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
               <div className="text-xs font-extrabold text-wutang-metallic mb-1">1. Scroll In Your Niche (15 mins/day)</div>
@@ -48,7 +48,7 @@ export default function AccountWarmupPage() {
             </div>
             <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
               <div className="text-xs font-extrabold text-rose-400 mb-1">4. NO POSTING</div>
-              <div className="text-xs text-slate-300 font-medium">Do not post anything on a new account until you've warmed it up following the steps above for 7 days.</div>
+              <div className="text-xs text-slate-300 font-medium">Do not post anything on a new account until you&apos;ve warmed it up following the steps above for 7 days.</div>
             </div>
           </div>
         </div>

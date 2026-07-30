@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import type { Platform } from "@/lib/types";
 
 export default function ScheduledPostsPage() {
   return (
@@ -33,7 +34,7 @@ export default function ScheduledPostsPage() {
                 <div className="flex items-center gap-3">
                   <div className="flex gap-1">
                     {sp.platforms.map((p) => (
-                      <PlatformColorLogo key={p} id={p as any} className="h-4 w-4" />
+                      <PlatformColorLogo key={p} id={p as Platform} className="h-4 w-4" />
                     ))}
                   </div>
                   <button className="btn-dark text-[10px] px-2.5 py-1 font-bold">Edit</button>

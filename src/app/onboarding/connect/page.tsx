@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
 import { SiteHeader, SiteFooter } from "@/components/Shell";
+import type { Platform } from "@/lib/types";
 
 const CONNECTED_DEFAULTS = [
   { platform: "twitter", handle: "@aegntix", name: "Twitter/X" },
@@ -42,7 +43,7 @@ export default function OnboardingConnectPage() {
             {CONNECTED_DEFAULTS.map((acc, i) => (
               <div key={i} className="p-4 rounded-2xl bg-[#161920] border border-slate-700/80 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <PlatformColorLogo id={acc.platform as any} className="h-8 w-8" />
+                  <PlatformColorLogo id={acc.platform as Platform} className="h-8 w-8" />
                   <div>
                     <div className="text-xs font-extrabold text-white">{acc.name}</div>
                     <div className="text-[10px] text-slate-400 font-semibold">{acc.handle}</div>
@@ -86,7 +87,7 @@ export default function OnboardingConnectPage() {
                   onClick={() => setShowAddModal(false)}
                   className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-400 flex flex-col items-center gap-2 transition-colors"
                 >
-                  <PlatformColorLogo id={p as any} className="h-7 w-7" />
+                  <PlatformColorLogo id={p as Platform} className="h-7 w-7" />
                   <span className="text-[10px] font-extrabold capitalize text-white">{p}</span>
                   <span className="btn-wutang text-[9px] px-2 py-0.5 font-black">Add</span>
                 </button>

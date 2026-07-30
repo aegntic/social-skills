@@ -12,7 +12,7 @@ export default function ContentMarketFitPage() {
           <div className="text-xs font-bold uppercase tracking-wider text-azure-neon mb-1">Section 4 of 7</div>
           <h1 className="text-3xl font-black text-white mb-3">Step 3: Content Market Fit</h1>
           <p className="text-slate-300 text-base font-medium leading-relaxed">
-            NOW IT'S TIME TO CREATE CONTENT AND POST! After 7 days of warmup, you're ready to start making content that strikes key viral boxes.
+            NOW IT&apos;S TIME TO CREATE CONTENT AND POST! After 7 days of warmup, you&apos;re ready to start making content that strikes key viral boxes.
           </p>
         </div>
 

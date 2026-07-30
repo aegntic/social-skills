@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import type { Platform } from "@/lib/types";
 
 export default function CreateTextPostPage() {
   const [caption, setCaption] = useState("");
@@ -19,7 +19,7 @@ export default function CreateTextPostPage() {
             <div className="flex gap-2">
               {["twitter", "linkedin"].map((p) => (
                 <div key={p} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700">
-                  <PlatformColorLogo id={p as any} className="h-4 w-4" />
+                  <PlatformColorLogo id={p as Platform} className="h-4 w-4" />
                   <span className="text-xs font-extrabold capitalize text-white">{p}</span>
                 </div>
               ))}

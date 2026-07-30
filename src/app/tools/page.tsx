@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/Shell";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
+import type { Platform } from "@/lib/types";
 
 const TOOLS_LIST = [
   {
@@ -95,7 +96,7 @@ export default function ToolsHubPage() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="plush-badge-wutang text-[10px] font-black">{t.tag}</span>
-                  <PlatformColorLogo id={t.platform as any} className="h-6 w-6" />
+                  <PlatformColorLogo id={t.platform as Platform} className="h-6 w-6" />
                 </div>
                 <div className="font-black text-white text-lg mb-2">{t.name}</div>
                 <p className="text-slate-300 text-xs font-medium leading-relaxed mb-6">{t.desc}</p>

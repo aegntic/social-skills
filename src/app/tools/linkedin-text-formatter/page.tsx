@@ -74,7 +74,7 @@ export default function LinkedInTextFormatterPage() {
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-5xl font-black text-white mb-3">LinkedIn Text Formatter</h1>
           <p className="text-slate-300 text-sm max-w-lg mx-auto font-bold">
-            Convert standard text into bold (𝗕𝗼𝗹𝗱), italic (𝘐𝘵𝘢𝘭𝘪𝘤), and bullet points to bypass LinkedIn's plain-text limitations.
+            Convert standard text into bold (𝗕𝗼𝗹𝗱), italic (𝘐𝘵𝘢𝘭𝘪𝘤), and bullet points to bypass LinkedIn&apos;s plain-text limitations.
           </p>
         </div>
 

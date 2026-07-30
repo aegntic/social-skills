@@ -32,6 +32,7 @@ export function ComposeDeskMockup() {
   const [visibleTransforms, setVisibleTransforms] = useState(0);
   const [published, setPublished] = useState(false);
   const [cycle, setCycle] = useState(0);
+  const [prevCycle, setPrevCycle] = useState(0);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => {
@@ -39,14 +40,17 @@ export function ComposeDeskMockup() {
     timers.current = [];
   };
 
-  useEffect(() => {
-    clearTimers();
-
+  if (cycle !== prevCycle) {
+    setPrevCycle(cycle);
     setCharCount(0);
     setActivePlatforms(new Set());
     setVisibleTransforms(0);
     setPublished(false);
     setPhase("type");
+  }
+
+  useEffect(() => {
+    clearTimers();
 
     const caption = FULL_CAPTION;
     const totalChars = caption.length;

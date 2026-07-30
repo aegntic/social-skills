@@ -16,12 +16,15 @@ export function InteractiveBroadcastEngine() {
   const [activeIndices, setActiveIndices] = useState<number[]>([]);
   const [pathsLinked, setPathsLinked] = useState(false);
   const [cycle, setCycle] = useState(0);
+  const [prevCycle, setPrevCycle] = useState(0);
 
-  useEffect(() => {
-    // Reset state per cycle
+  if (cycle !== prevCycle) {
+    setPrevCycle(cycle);
     setActiveIndices([]);
     setPathsLinked(false);
+  }
 
+  useEffect(() => {
     // Step 1: Destination icons get clicked active one by one
     PLATFORMS.forEach((_, idx) => {
       setTimeout(() => {

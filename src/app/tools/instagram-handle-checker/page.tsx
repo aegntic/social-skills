@@ -94,7 +94,7 @@ export default function InstagramHandleCheckerPage() {
 
           {results && (
             <div className="space-y-4 pt-4 border-t border-slate-800">
-              <div className="text-sm font-black text-white">Multi-Network Availability Analysis for "@ {handle}"</div>
+              <div className="text-sm font-black text-white">Multi-Network Availability Analysis for &quot;@ {handle}&quot;</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {results.map((res) => (
                   <div key={res.platform} className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center">

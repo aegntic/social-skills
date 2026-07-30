@@ -12,7 +12,7 @@ export default function ViewsToCustomersPage() {
           <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1">Section 6 of 7</div>
           <h1 className="text-3xl font-black text-white mb-3">Views → Customers</h1>
           <p className="text-slate-300 text-base font-medium leading-relaxed">
-            Now let's turn those views into paying customers. Getting views is just the first step — the real goal is converting viewers into users who visit your site or download your app.
+            Now let&apos;s turn those views into paying customers. Getting views is just the first step — the real goal is converting viewers into users who visit your site or download your app.
           </p>
         </div>
 

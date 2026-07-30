@@ -24,9 +24,11 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
     };
   }, [open]);
 
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <>
