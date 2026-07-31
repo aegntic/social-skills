@@ -5,13 +5,20 @@ import { PLATFORMS } from "@/lib/platforms";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
 import type { Platform, SocialAccount } from "@/lib/types";
 
+/**
+ * Platforms whose connect flow needs a stored credential. Source of truth is
+ * `src/lib/publishers/index.ts` (NEEDS_CREDENTIALS); duplicated here so this
+ * client component doesn't pull server publisher code into the browser bundle.
+ */
+const NEEDS_CREDENTIALS = new Set<Platform>(["bluesky"]);
+
 type Props = {
   existing: SocialAccount[];
   onClose: () => void;
   onChanged: () => Promise<void>;
 };
 
-type Entry = { platform: Platform; username: string; displayName: string };
+type Entry = { platform: Platform; username: string; displayName: string; credentials: string };
 
 export function AccountManager({ existing, onClose, onChanged }: Props) {
   const existingPlatforms = new Set(existing.map((a) => a.platform));
@@ -33,7 +40,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
         if (!entries[platform]) {
           setEntries((e) => ({
             ...e,
-            [platform]: { platform, username: "", displayName: "" },
+            [platform]: { platform, username: "", displayName: "", credentials: "" },
           }));
         }
       }
@@ -41,7 +48,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
     });
   }
 
-  function updateField(platform: Platform, field: "username" | "displayName", value: string) {
+  function updateField(platform: Platform, field: "username" | "displayName" | "credentials", value: string) {
     setEntries((prev) => ({
       ...prev,
       [platform]: { ...prev[platform], [field]: value },
@@ -49,7 +56,12 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
   }
 
   const selectedList = PLATFORMS.filter((p) => selected.has(p.id));
-  const validCount = selectedList.filter((p) => entries[p.id]?.username.trim()).length;
+  const validCount = selectedList.filter((p) => {
+    const e = entries[p.id];
+    if (!e?.username.trim()) return false;
+    if (NEEDS_CREDENTIALS.has(p.id) && !e.credentials.trim()) return false;
+    return true;
+  }).length;
 
   async function addAccounts() {
     setBusy(true);
@@ -58,7 +70,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
     try {
       const valid = selectedList
         .map((p) => entries[p.id])
-        .filter((e) => e && e.username.trim());
+        .filter((e) => e && e.username.trim() && !(NEEDS_CREDENTIALS.has(e.platform) && !e.credentials.trim()));
       if (!valid.length) {
         throw new Error("Enter a username for at least one platform");
       }
@@ -70,6 +82,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
             platform: e.platform,
             username: e.username.trim(),
             displayName: e.displayName.trim() || undefined,
+            credentials: NEEDS_CREDENTIALS.has(e.platform) ? e.credentials.trim() || undefined : undefined,
           })),
         }),
       });
@@ -182,7 +195,8 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
             {selectedList.length > 0 && (
               <div className="grid gap-3">
                 {selectedList.map((p) => {
-                  const e = entries[p.id] || { platform: p.id, username: "", displayName: "" };
+                  const e = entries[p.id] || { platform: p.id, username: "", displayName: "", credentials: "" };
+                  const needsCred = NEEDS_CREDENTIALS.has(p.id);
                   return (
                     <div key={p.id} className="rounded-lg border border-line p-3">
                       <div className="mb-2 flex items-center gap-2">
@@ -208,6 +222,28 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
                           onChange={(ev) => updateField(p.id, "displayName", ev.target.value)}
                         />
                       </div>
+                      {needsCred && (
+                        <div className="mt-2 space-y-1">
+                          <input
+                            type="password"
+                            className="input"
+                            placeholder="App password"
+                            value={e.credentials}
+                            onChange={(ev) => updateField(p.id, "credentials", ev.target.value)}
+                            autoCapitalize="none"
+                            autoCorrect="off"
+                            autoComplete="off"
+                          />
+                          <a
+                            href="https://bsky.app/settings/app-passwords"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[11px] text-acc-cyan hover:underline"
+                          >
+                            Create a Bluesky app password →
+                          </a>
+                        </div>
+                      )}
                     </div>
                   );
                 })}

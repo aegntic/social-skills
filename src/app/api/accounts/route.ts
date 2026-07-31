@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const raw = Array.isArray(body.accounts) ? body.accounts : [];
-    const entries: { platform: Platform; username: string; displayName?: string }[] = [];
+    const entries: { platform: Platform; username: string; displayName?: string; credentials?: string }[] = [];
     for (const item of raw) {
       if (!item || typeof item !== "object") continue;
       const platform = item.platform as Platform;
@@ -42,6 +42,7 @@ export async function POST(req: Request) {
         platform,
         username,
         displayName: typeof item.displayName === "string" ? item.displayName : undefined,
+        credentials: typeof item.credentials === "string" ? item.credentials : undefined,
       });
     }
     const created = await createAccounts(user.id, entries);

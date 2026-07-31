@@ -28,6 +28,12 @@ export interface SocialAccount {
   displayName: string;
   avatarColor: string;
   connected: boolean;
+  /**
+   * Opaque AES-256-GCM ciphertext blob holding per-platform credentials
+   * (e.g. a Bluesky app password). Encrypted at rest with SS_MASTER_KEY.
+   * Absent for platforms that aren't credential-bearing yet.
+   */
+  credentials?: string;
 }
 
 export interface MediaAsset {
@@ -80,6 +86,12 @@ export interface PlatformResult {
   publishedTitle?: string;
   /** Per-platform metrics read-back. `null` once published but not yet synced. */
   metrics?: PostMetrics | null;
+  /**
+   * Platform-native post reference used to fetch metrics later without
+   * re-parsing the URL. For Bluesky this is the full `at://` URI returned by
+   * createRecord. Absent for platforms whose publish is not yet wired.
+   */
+  metricsRef?: string;
 }
 
 export interface Post {
