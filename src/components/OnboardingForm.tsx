@@ -7,18 +7,25 @@ import { PlatformColorLogo } from "@/components/PlatformColorLogo";
 import { SiteHeader, SiteFooter } from "@/components/Shell";
 import type { Platform } from "@/lib/types";
 
-type Entry = { platform: Platform; username: string; displayName: string };
+// Mirrors of src/lib/publishers/index.ts sets — duplicated client-side to keep
+// server publisher code out of the browser bundle. Only WIRED platforms can be
+// connected; others are shown as "coming soon".
+const WIRED_PLATFORMS = new Set<Platform>(["bluesky"]);
+const NEEDS_CREDENTIALS = new Set<Platform>(["bluesky"]);
+
+type Entry = { platform: Platform; username: string; displayName: string; credentials: string };
 
 export function OnboardingForm({ name }: { name: string }) {
   const router = useRouter();
-  const [selected, setSelected] = useState<Set<Platform>>(new Set(["tiktok"]));
+  const [selected, setSelected] = useState<Set<Platform>>(new Set(["bluesky"]));
   const [entries, setEntries] = useState<Record<Platform, Entry>>({
-    tiktok: { platform: "tiktok", username: "afterslop", displayName: "Afterslop" },
+    bluesky: { platform: "bluesky", username: "", displayName: "", credentials: "" },
   } as Record<Platform, Entry>);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
   function toggle(platform: Platform) {
+    if (!WIRED_PLATFORMS.has(platform)) return;
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(platform)) {
@@ -28,7 +35,7 @@ export function OnboardingForm({ name }: { name: string }) {
         if (!entries[platform]) {
           setEntries((e) => ({
             ...e,
-            [platform]: { platform, username: "", displayName: "" },
+            [platform]: { platform, username: "", displayName: "", credentials: "" },
           }));
         }
       }
@@ -36,17 +43,21 @@ export function OnboardingForm({ name }: { name: string }) {
     });
   }
 
-  function updateField(platform: Platform, field: "username" | "displayName", value: string) {
+  function updateField(platform: Platform, field: "username" | "displayName" | "credentials", value: string) {
     setEntries((prev) => ({
       ...prev,
       [platform]: { ...prev[platform], [field]: value },
     }));
   }
 
+  const connectable = PLATFORMS.filter((p) => WIRED_PLATFORMS.has(p.id));
+  const upcoming = PLATFORMS.filter((p) => !WIRED_PLATFORMS.has(p.id));
   const selectedList = PLATFORMS.filter((p) => selected.has(p.id));
   const validCount = selectedList.filter((p) => {
     const e = entries[p.id];
-    return e && e.username.trim();
+    if (!e?.username.trim()) return false;
+    if (NEEDS_CREDENTIALS.has(p.id) && !e.credentials.trim()) return false;
+    return true;
   }).length;
 
   async function submit() {
@@ -55,9 +66,9 @@ export function OnboardingForm({ name }: { name: string }) {
     try {
       const valid = selectedList
         .map((p) => entries[p.id])
-        .filter((e) => e && e.username.trim());
+        .filter((e) => e && e.username.trim() && !(NEEDS_CREDENTIALS.has(e.platform) && !e.credentials.trim()));
       if (!valid.length) {
-        throw new Error("Enter a username for at least one platform");
+        throw new Error("Enter your handle and app password for at least one platform");
       }
       const res = await fetch("/api/accounts", {
         method: "POST",
@@ -67,6 +78,7 @@ export function OnboardingForm({ name }: { name: string }) {
             platform: e.platform,
             username: e.username.trim(),
             displayName: e.displayName.trim() || undefined,
+            credentials: NEEDS_CREDENTIALS.has(e.platform) ? e.credentials.trim() || undefined : undefined,
           })),
         }),
       });
@@ -101,7 +113,7 @@ export function OnboardingForm({ name }: { name: string }) {
             Welcome, {name.split(" ")[0] || "creator"}! 👋
           </h1>
           <p className="text-ink text-sm max-w-lg mx-auto font-bold leading-relaxed">
-            Pick the platforms you publish to and enter your handle for each. You can change these anytime in your desk settings.
+            Connect a platform by logging into your own account. Publishing only ever uses your stored credentials — no app-level posting. You can connect more from your desk later.
           </p>
         </div>
 
@@ -121,7 +133,7 @@ export function OnboardingForm({ name }: { name: string }) {
           </div>
 
           <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-5">
-            {PLATFORMS.map((p) => {
+            {connectable.map((p) => {
               const active = selected.has(p.id);
               return (
                 <button
@@ -147,6 +159,18 @@ export function OnboardingForm({ name }: { name: string }) {
                 </button>
               );
             })}
+            {upcoming.map((p) => (
+              <div
+                key={p.id}
+                className="p-4 rounded-2xl opacity-40 flex flex-col items-center gap-2 text-center"
+                title={`${p.label} — publishing not yet wired`}
+                style={{ borderWidth: "2px", borderStyle: "solid", borderColor: "rgba(255, 255, 255, 0.06)", background: "rgb(var(--c-fill-3))" }}
+              >
+                <PlatformColorLogo id={p.id} className="h-10 w-10" />
+                <span className="text-xs font-black text-white">{p.label}</span>
+                <span className="text-[10px] text-slate-400">soon</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -154,12 +178,13 @@ export function OnboardingForm({ name }: { name: string }) {
         {selectedList.length > 0 && (
           <div className="plush-card p-6 md:p-8 space-y-6">
             <h2 className="text-xs font-black uppercase tracking-widest text-azure-neon">
-              2. ENTER YOUR HANDLES
+              2. ENTER YOUR HANDLE
             </h2>
 
             <div className="space-y-4">
               {selectedList.map((p) => {
-                const e = entries[p.id] || { platform: p.id, username: "", displayName: "" };
+                const e = entries[p.id] || { platform: p.id, username: "", displayName: "", credentials: "" };
+                const needsCred = NEEDS_CREDENTIALS.has(p.id);
                 return (
                   <div key={p.id} className="p-5 rounded-2xl bg-[rgb(var(--c-fill-2))] border border-slate-700/80 space-y-4">
                     <div className="flex items-center justify-between">
@@ -208,6 +233,30 @@ export function OnboardingForm({ name }: { name: string }) {
                         />
                       </div>
                     </div>
+
+                    {needsCred && (
+                      <div>
+                        <label className="block text-xs font-bold text-slate-300 mb-1.5">App password</label>
+                        <input
+                          type="password"
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border-2 border-slate-700 text-white font-bold text-sm focus:outline-none focus:border-cyan-400"
+                          placeholder="App password"
+                          value={e.credentials}
+                          onChange={(ev) => updateField(p.id, "credentials", ev.target.value)}
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          autoComplete="off"
+                        />
+                        <a
+                          href="https://bsky.app/settings/app-passwords"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-1.5 text-[11px] text-acc-cyan hover:underline"
+                        >
+                          Create a Bluesky app password →
+                        </a>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -226,7 +275,7 @@ export function OnboardingForm({ name }: { name: string }) {
             {busy
               ? "Saving Accounts..."
               : validCount === 0
-                ? "Enter a handle to continue"
+                ? "Enter your handle to continue"
                 : `Connect ${validCount} Account${validCount === 1 ? "" : "s"} &rarr;`}
           </button>
 

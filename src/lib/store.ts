@@ -20,6 +20,7 @@ import {
   fetchMetrics,
   NEEDS_CREDENTIALS,
   publishToPlatform,
+  WIRED_PLATFORMS,
   type PublishPayload,
 } from "./publishers";
 
@@ -162,6 +163,9 @@ export async function createAccounts(
 ): Promise<SocialAccount[]> {
   if (!entries.length) throw new Error("Select at least one account");
   for (const entry of entries) {
+    if (!WIRED_PLATFORMS.has(entry.platform)) {
+      throw new Error(`${platformMeta(entry.platform).label} isn't connectable yet — publishing not wired`);
+    }
     if (NEEDS_CREDENTIALS.has(entry.platform) && !entry.credentials?.trim()) {
       throw new Error(`${platformMeta(entry.platform).label} needs credentials (e.g. an app password)`);
     }

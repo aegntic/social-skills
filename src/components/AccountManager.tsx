@@ -12,6 +12,14 @@ import type { Platform, SocialAccount } from "@/lib/types";
  */
 const NEEDS_CREDENTIALS = new Set<Platform>(["bluesky"]);
 
+/**
+ * Platforms with a REAL publish path wired. Source of truth is
+ * `src/lib/publishers/index.ts` (WIRED_PLATFORMS); mirrored here for the same
+ * client-bundle reason. Only these can be connected — others are shown as
+ * "coming soon" so users never mistake a username-only entry for a connection.
+ */
+const WIRED_PLATFORMS = new Set<Platform>(["bluesky"]);
+
 type Props = {
   existing: SocialAccount[];
   onClose: () => void;
@@ -22,7 +30,8 @@ type Entry = { platform: Platform; username: string; displayName: string; creden
 
 export function AccountManager({ existing, onClose, onChanged }: Props) {
   const existingPlatforms = new Set(existing.map((a) => a.platform));
-  const available = PLATFORMS.filter((p) => !existingPlatforms.has(p.id));
+  const connectable = PLATFORMS.filter((p) => WIRED_PLATFORMS.has(p.id) && !existingPlatforms.has(p.id));
+  const upcoming = PLATFORMS.filter((p) => !WIRED_PLATFORMS.has(p.id));
 
   const [selected, setSelected] = useState<Set<Platform>>(new Set());
   const [entries, setEntries] = useState<Record<Platform, Entry>>({} as Record<Platform, Entry>);
@@ -167,13 +176,13 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
           </section>
         )}
 
-        {available.length > 0 ? (
-          <section>
+        {connectable.length > 0 && (
+          <section className="mb-6">
             <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">
-              Add a platform
+              Connect a platform
             </h3>
             <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-              {available.map((p) => {
+              {connectable.map((p) => {
                 const active = selected.has(p.id);
                 return (
                   <button
@@ -258,8 +267,38 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
               </div>
             )}
           </section>
-        ) : (
-          <p className="text-sm text-muted">All platforms are connected.</p>
+        )}
+
+        {connectable.length === 0 && (
+          <p className="mb-6 text-sm text-muted">All available platforms are connected.</p>
+        )}
+
+        {upcoming.length > 0 && (
+          <section>
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">
+              Coming soon
+            </h3>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
+              {upcoming.map((p) => (
+                <div
+                  key={p.id}
+                  className="platform-chip opacity-50"
+                  aria-disabled="true"
+                  title={`${p.label} — publishing not yet wired`}
+                >
+                  <div className="flex flex-col items-center gap-1 py-1">
+                    <PlatformColorLogo id={p.id} className="h-8 w-8" />
+                    <span className="text-xs font-semibold text-ink">{p.label}</span>
+                    <span className="text-[10px] text-muted">soon</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-muted">
+              Each platform logs you into your own account via OAuth. Publishing uses only your
+              stored credentials — no app-level posting.
+            </p>
+          </section>
         )}
 
         <div className="mt-6 flex justify-end">
