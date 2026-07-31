@@ -9,9 +9,9 @@ export default function AccountWarmupPage() {
     <GrowthGuideLayout>
       <div className="space-y-8">
         <div>
-          <div className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1">Section 3 of 7</div>
+          <div className="text-xs font-bold uppercase tracking-wider text-acc-rose mb-1">Section 3 of 7</div>
           <h1 className="text-3xl font-black text-white mb-3">Step 2: Account Warmup Protocol</h1>
-          <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm font-extrabold mb-4">
+          <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-acc-rose text-sm font-extrabold mb-4">
             CRITICAL: DO NOT POST FOR 7 DAYS!
             <p className="text-xs text-rose-200 font-normal mt-1">Skip this step and the algorithm will bury your new account&apos;s content under 0 views.</p>
           </div>
@@ -19,7 +19,7 @@ export default function AccountWarmupPage() {
 
         {/* Video Mockup */}
         <div className="plush-card p-6 text-center">
-          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #2b313d 0%, #171920 100%)", border: "2px solid rgba(255,100,100,0.3)" }}>
+          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "var(--clay-surface-grad)", border: "2px solid rgba(255,100,100,0.3)" }}>
             <div className="text-center">
               <div className="h-12 px-6 mx-auto mb-3 rounded-full flex items-center justify-center text-xs font-black text-black btn-wutang">
                 WATCH TUTORIAL
@@ -34,20 +34,20 @@ export default function AccountWarmupPage() {
         <div className="plush-card p-6 space-y-4">
           <div className="text-base font-black text-white">Today&apos;s Mission</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-extrabold text-wutang-metallic mb-1">1. Scroll In Your Niche (15 mins/day)</div>
               <div className="text-xs text-slate-300 font-medium">Only scroll content related to your app/niche. The algorithm watches what you engage with.</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-extrabold text-azure-neon mb-1">2. Engage Naturally</div>
               <div className="text-xs text-slate-300 font-medium">Follow accounts, watch videos relevant to your niche, leave real comments. Be human, not robotic.</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-extrabold text-azure-neon mb-1">3. Save Viral Content</div>
               <div className="text-xs text-slate-300 font-medium">Save videos with 100k+ views or 1k+ likes that you could recreate for your niche.</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
-              <div className="text-xs font-extrabold text-rose-400 mb-1">4. NO POSTING</div>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
+              <div className="text-xs font-extrabold text-acc-rose mb-1">4. NO POSTING</div>
               <div className="text-xs text-slate-300 font-medium">Do not post anything on a new account until you&apos;ve warmed it up following the steps above for 7 days.</div>
             </div>
           </div>

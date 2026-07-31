@@ -11,7 +11,7 @@ export default function BulkImageUploadPage() {
         <div className="plush-card p-8 text-center space-y-6">
           <div
             className="border-2 border-dashed border-slate-700 rounded-3xl p-12 hover:border-amber-400/50 transition-colors cursor-pointer"
-            style={{ background: "#20242e" }}
+            style={{ background: "rgb(var(--c-fill-1))" }}
           >
             <div className="font-black text-white text-base mb-1">Drag and drop images here</div>
             <div className="text-xs text-slate-400 font-semibold">Support PNG, JPG, WEBP up to 50MB each</div>

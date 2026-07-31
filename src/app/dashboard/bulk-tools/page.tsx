@@ -42,7 +42,7 @@ export default function BulkToolsHubPage() {
             className="plush-card p-8 flex flex-col justify-between hover:scale-105 transition-transform"
           >
             <div>
-              <div className="font-black text-2xl text-purple-400 mb-4">AI GENERATOR</div>
+              <div className="font-black text-2xl text-acc-purple mb-4">AI GENERATOR</div>
               <div className="font-extrabold text-white text-lg mb-2">Bulk Video Creation</div>
               <p className="text-xs text-slate-400 font-medium mb-6">
                 Generate dozens of UGC-style videos automatically using AI templates and script feeds.

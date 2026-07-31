@@ -46,7 +46,7 @@ export default function TimelineBlockerXPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteHeader />
 
@@ -62,7 +62,7 @@ export default function TimelineBlockerXPage() {
         </div>
 
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <span className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-300 border border-cyan-400/40">
+          <span className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-cyan-400/15 text-acc-cyan border border-cyan-400/40">
             Focus & Productivity Script Generator
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white">Timeline Blocker for X/Twitter</h1>
@@ -73,12 +73,12 @@ export default function TimelineBlockerXPage() {
 
         <div className="plush-card p-8 space-y-6">
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase text-amber-300">1. Customize What To Block</div>
+            <div className="text-xs font-black uppercase text-acc-amber">1. Customize What To Block</div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button
                 onClick={() => setHideFeed(!hideFeed)}
                 className={`p-3 rounded-xl text-xs font-bold border transition-all ${
-                  hideFeed ? "bg-amber-400/20 border-amber-400 text-amber-300" : "bg-slate-900 border-slate-800 text-slate-400"
+                  hideFeed ? "bg-amber-400/20 border-amber-400 text-acc-amber" : "bg-slate-900 border-slate-800 text-slate-400"
                 }`}
               >
                 {hideFeed ? "✓ Home Timeline Blocked" : "Block Home Timeline"}
@@ -87,7 +87,7 @@ export default function TimelineBlockerXPage() {
               <button
                 onClick={() => setHideTrends(!hideTrends)}
                 className={`p-3 rounded-xl text-xs font-bold border transition-all ${
-                  hideTrends ? "bg-amber-400/20 border-amber-400 text-amber-300" : "bg-slate-900 border-slate-800 text-slate-400"
+                  hideTrends ? "bg-amber-400/20 border-amber-400 text-acc-amber" : "bg-slate-900 border-slate-800 text-slate-400"
                 }`}
               >
                 {hideTrends ? "✓ Trending Sidebar Blocked" : "Block Trending Sidebar"}
@@ -96,7 +96,7 @@ export default function TimelineBlockerXPage() {
               <button
                 onClick={() => setHideExplore(!hideExplore)}
                 className={`p-3 rounded-xl text-xs font-bold border transition-all ${
-                  hideExplore ? "bg-amber-400/20 border-amber-400 text-amber-300" : "bg-slate-900 border-slate-800 text-slate-400"
+                  hideExplore ? "bg-amber-400/20 border-amber-400 text-acc-amber" : "bg-slate-900 border-slate-800 text-slate-400"
                 }`}
               >
                 {hideExplore ? "✓ Explore Tab Blocked" : "Block Explore Tab"}
@@ -112,7 +112,7 @@ export default function TimelineBlockerXPage() {
                 {copied ? "Copied!" : "⚡ Copy uBlock Filters"}
               </button>
             </div>
-            <pre className="p-4 rounded-xl bg-slate-900 text-cyan-300 font-mono text-xs overflow-x-auto border border-slate-800">
+            <pre className="p-4 rounded-xl bg-slate-900 text-acc-cyan font-mono text-xs overflow-x-auto border border-slate-800">
               {getUblockRules()}
             </pre>
           </div>
@@ -124,7 +124,7 @@ export default function TimelineBlockerXPage() {
                 Copy CSS
               </button>
             </div>
-            <pre className="p-4 rounded-xl bg-slate-900 text-amber-300 font-mono text-xs overflow-x-auto border border-slate-800">
+            <pre className="p-4 rounded-xl bg-slate-900 text-acc-amber font-mono text-xs overflow-x-auto border border-slate-800">
               {getCssRules()}
             </pre>
           </div>
@@ -142,7 +142,7 @@ export default function TimelineBlockerXPage() {
               {previewBlocked ? (
                 <div className="py-8 space-y-2">
                   <div className="text-2xl">⚡</div>
-                  <div className="text-sm font-black text-amber-300">Timeline Blocked & Focus Active</div>
+                  <div className="text-sm font-black text-acc-amber">Timeline Blocked & Focus Active</div>
                   <div className="text-xs text-slate-400 font-medium max-w-sm mx-auto">
                     No doomscrolling allowed. Use Social Skills to publish content to X without distractions.
                   </div>

@@ -46,7 +46,7 @@ export default function YouTubeTagGeneratorPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <SiteHeader />
 
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full">
@@ -87,7 +87,7 @@ export default function YouTubeTagGeneratorPage() {
                 <div>
                   <span className="text-xs font-extrabold text-azure-neon uppercase tracking-wider">Generated Tags ({tags.length}):</span>
                   <div className="text-[11px] text-slate-400 font-semibold">
-                    Character Budget: <span className={totalChars > 500 ? "text-rose-400 font-bold" : "text-emerald-300 font-bold"}>{totalChars} / 500 chars</span>
+                    Character Budget: <span className={totalChars > 500 ? "text-acc-rose font-bold" : "text-acc-emerald font-bold"}>{totalChars} / 500 chars</span>
                   </div>
                 </div>
                 <button

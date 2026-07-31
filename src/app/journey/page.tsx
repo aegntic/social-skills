@@ -107,11 +107,11 @@ export default async function JourneyPage() {
               <p className="text-muted">No learning signals yet.</p>
             ) : (
               <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Learning timeline">
-                <line x1={padL} y1={padX} x2={padL} y2={H - 40} stroke="#d8e5dd" strokeWidth={1} />
-                <text x={padL} y={padX - 10} fontSize={11} fill="#5c7268">
+                <line x1={padL} y1={padX} x2={padL} y2={H - 40} stroke="rgb(var(--c-line))" strokeWidth={1} />
+                <text x={padL} y={padX - 10} fontSize={11} fill="rgb(var(--c-muted))">
                   {fmt(startTs)}
                 </text>
-                <text x={W - padX} y={padX - 10} fontSize={11} fill="#5c7268" textAnchor="end">
+                <text x={W - padX} y={padX - 10} fontSize={11} fill="rgb(var(--c-muted))" textAnchor="end">
                   {fmt(endTs)}
                 </text>
                 {dated.map((n, i) => {
@@ -137,14 +137,14 @@ export default async function JourneyPage() {
                           y1={y}
                           x2={xFor(dated[i + 1].timestamp!)}
                           y2={y + rowH / 2}
-                          stroke="#eef2f0"
+                          stroke="rgb(var(--c-ink))"
                           strokeWidth={1}
                         />
                       )}
                     </g>
                   );
                 })}
-                <text x={padL} y={H - 16} fontSize={10} fill="#94a3b8">
+                <text x={padL} y={H - 16} fontSize={10} fill="rgb(var(--c-muted))">
                   ● product ◆ demo account · opacity = recency (forgetting curve)
                 </text>
               </svg>
@@ -166,7 +166,7 @@ export default async function JourneyPage() {
                         <span className="capitalize text-ink">{c.label}</span>
                         <span className="text-muted">{count}</span>
                       </div>
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-[#eef2f0]">
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-[rgb(var(--c-fill-1))]">
                         <div
                           className="h-full rounded-full"
                           style={{

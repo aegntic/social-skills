@@ -123,7 +123,7 @@ export default async function ComparePage({ params }: Props) {
         </div>
 
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-black text-slate-900">Side-by-side comparison</h2>
+          <h2 className="mb-4 text-2xl font-black text-ink">Side-by-side comparison</h2>
           <div className="table-wrap plush-card p-6 overflow-x-auto">
             <table className="compare w-full text-left text-sm text-slate-200">
               <thead>

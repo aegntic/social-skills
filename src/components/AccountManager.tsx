@@ -105,7 +105,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true">
-      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl md:p-8">
+      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl clay p-6 md:p-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-ink">Manage accounts</h2>
           <button type="button" className="btn btn-ghost" onClick={onClose} aria-label="Close">
@@ -114,7 +114,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
         </div>
 
         {error && (
-          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div className="mb-4 rounded-lg border border-red-400/40 bg-red-400/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {error}
           </div>
         )}
@@ -190,7 +190,7 @@ export function AccountManager({ existing, onClose, onChanged }: Props) {
                         <span className="text-sm font-semibold text-ink">{p.label}</span>
                       </div>
                       <div className="grid gap-2 sm:grid-cols-2">
-                        <div className="flex items-center rounded-lg border border-line bg-white">
+                        <div className="flex items-center rounded-lg border border-line clay">
                           <span className="pl-3 text-muted">@</span>
                           <input
                             className="input border-0 bg-transparent pl-0"

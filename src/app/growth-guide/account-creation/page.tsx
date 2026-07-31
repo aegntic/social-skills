@@ -18,7 +18,7 @@ export default function AccountCreationPage() {
 
         {/* Video Mockup */}
         <div className="plush-card p-6 text-center">
-          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #2b313d 0%, #171920 100%)", border: "2px solid rgba(255,200,0,0.3)" }}>
+          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "var(--clay-surface-grad)", border: "2px solid rgba(255,200,0,0.3)" }}>
             <div className="text-center">
               <div className="h-12 px-6 mx-auto mb-3 rounded-full flex items-center justify-center text-xs font-black text-black btn-wutang">
                 WATCH TUTORIAL
@@ -53,7 +53,7 @@ export default function AccountCreationPage() {
           <div className="text-base font-black text-white mb-4">Good Bio Examples (Click to enlarge)</div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {["curiosity_quench", "scoutr_app", "habitboard", "post_bridge"].map((name, idx) => (
-              <div key={idx} className="p-3 rounded-xl text-center" style={{ background: "#20242e", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <div key={idx} className="p-3 rounded-xl text-center" style={{ background: "rgb(var(--c-fill-1))", border: "1px solid rgb(var(--c-line) / 0.55)" }}>
                 <div className="h-10 w-10 mx-auto rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs mb-2 text-white">
                   @{name[0]}
                 </div>

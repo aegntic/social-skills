@@ -87,26 +87,26 @@ export function OnboardingForm({ name }: { name: string }) {
   }
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       <SiteHeader authed={false} />
 
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full space-y-8">
         {/* Onboarding Stepper Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-900 border border-cyan-400/40">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-800 dark:text-acc-cyan border border-cyan-400/40">
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
             Step 2 of 3 &bull; Connect Accounts
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900">
+          <h1 className="text-3xl sm:text-5xl font-black text-ink">
             Welcome, {name.split(" ")[0] || "creator"}! 👋
           </h1>
-          <p className="text-slate-800 text-sm max-w-lg mx-auto font-bold leading-relaxed">
+          <p className="text-ink text-sm max-w-lg mx-auto font-bold leading-relaxed">
             Pick the platforms you publish to and enter your handle for each. You can change these anytime in your desk settings.
           </p>
         </div>
 
         {error && (
-          <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-300 font-extrabold text-xs text-center" role="alert">
+          <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-acc-rose font-extrabold text-xs text-center" role="alert">
             ❌ {error}
           </div>
         )}
@@ -133,7 +133,7 @@ export function OnboardingForm({ name }: { name: string }) {
                     borderWidth: "2px",
                     borderStyle: "solid",
                     borderColor: active ? "var(--azure-neon)" : "rgba(255, 255, 255, 0.08)",
-                    background: active ? "rgba(0, 240, 255, 0.12)" : "#020617",
+                    background: active ? "rgba(0, 240, 255, 0.12)" : "rgb(var(--c-fill-3))",
                     transform: active ? "scale(1.04)" : "scale(1)",
                   }}
                 >
@@ -161,7 +161,7 @@ export function OnboardingForm({ name }: { name: string }) {
               {selectedList.map((p) => {
                 const e = entries[p.id] || { platform: p.id, username: "", displayName: "" };
                 return (
-                  <div key={p.id} className="p-5 rounded-2xl bg-[#161920] border border-slate-700/80 space-y-4">
+                  <div key={p.id} className="p-5 rounded-2xl bg-[rgb(var(--c-fill-2))] border border-slate-700/80 space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <PlatformColorLogo id={p.id} className="h-8 w-8" />
@@ -169,7 +169,7 @@ export function OnboardingForm({ name }: { name: string }) {
                       </div>
                       <button
                         type="button"
-                        className="text-xs font-bold text-rose-400 hover:text-rose-300 transition-colors px-2 py-1 rounded-lg bg-rose-500/10 border border-rose-500/20"
+                        className="text-xs font-bold text-acc-rose hover:text-acc-rose transition-colors px-2 py-1 rounded-lg bg-rose-500/10 border border-rose-500/20"
                         onClick={() => toggle(p.id)}
                       >
                         Remove

@@ -18,12 +18,12 @@ export function GrowthGuideLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }}>
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }}>
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgba(26, 29, 36, 0.9)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgb(var(--c-bg) / 0.92)", borderBottom: "1px solid rgb(var(--c-line) / 0.55)" }}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/growth-guide" className="flex items-center gap-3 text-decoration-none">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl font-bold text-wutang-metallic" style={{ background: "linear-gradient(135deg, #363b48 0%, #1e222a 100%)", border: "1px solid rgba(255,255,255,0.15)" }}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl font-bold text-wutang-metallic" style={{ background: "var(--clay-surface-grad)", border: "1px solid rgb(var(--c-line) / 0.6)" }}>
               S/
             </div>
             <div>
@@ -59,7 +59,7 @@ export function GrowthGuideLayout({ children }: { children: React.ReactNode }) {
                       href={href}
                       className={`flex items-start gap-3 p-3 rounded-2xl transition-all ${
                         active
-                          ? "bg-amber-400/15 border border-amber-400/40 text-amber-300 font-bold"
+                          ? "bg-amber-400/15 border border-amber-400/40 text-acc-amber font-bold"
                           : "text-slate-300 hover:bg-slate-800/60 hover:text-white"
                       }`}
                     >
@@ -83,7 +83,7 @@ export function GrowthGuideLayout({ children }: { children: React.ReactNode }) {
                       href={href}
                       className={`flex items-start gap-3 p-3 rounded-2xl transition-all ${
                         active
-                          ? "bg-cyan-400/15 border border-cyan-400/40 text-cyan-300 font-bold"
+                          ? "bg-cyan-400/15 border border-cyan-400/40 text-acc-cyan font-bold"
                           : "text-slate-300 hover:bg-slate-800/60 hover:text-white"
                       }`}
                     >

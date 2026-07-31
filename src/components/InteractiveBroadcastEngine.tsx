@@ -67,7 +67,7 @@ export function InteractiveBroadcastEngine() {
           <div
             className="h-16 w-16 sm:h-20 sm:w-20 rounded-full flex items-center justify-center transition-all duration-300"
             style={{
-              background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+              background: "var(--clay-surface-grad)",
               border: `2px solid ${pathsLinked ? "var(--azure-neon)" : "rgba(255, 255, 255, 0.2)"}`,
               boxShadow: pathsLinked
                 ? "0 0 25px rgba(0, 240, 255, 0.5), inset 0 2px 4px rgba(255,255,255,0.3)"
@@ -91,7 +91,7 @@ export function InteractiveBroadcastEngine() {
           <div
             className="h-20 w-20 sm:h-24 sm:w-24 rounded-full flex items-center justify-center transition-all duration-500"
             style={{
-              background: "linear-gradient(135deg, #334155 0%, #0f172a 100%)",
+              background: "var(--clay-surface-grad)",
               border: `3px solid ${pathsLinked ? "var(--wutang-yellow)" : "rgba(255, 200, 0, 0.4)"}`,
               boxShadow: pathsLinked
                 ? "0 0 35px rgba(255, 200, 0, 0.6), inset 0 2px 6px rgba(255,255,255,0.4)"
@@ -114,7 +114,7 @@ export function InteractiveBroadcastEngine() {
                 key={p}
                 className="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full flex items-center justify-center transition-all duration-300"
                 style={{
-                  background: isActive ? "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" : "#020617",
+                  background: isActive ? "var(--clay-surface-grad)" : "rgb(var(--c-fill-3))",
                   border: `2px solid ${isActive ? "var(--azure-neon)" : "rgba(255, 255, 255, 0.08)"}`,
                   boxShadow: isActive
                     ? "0 0 20px rgba(0, 240, 255, 0.5), 0 4px 12px rgba(0,0,0,0.4)"

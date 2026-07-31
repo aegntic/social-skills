@@ -82,7 +82,7 @@ export default function ContentStudioPage() {
               </div>
 
               {/* Video Preview Canvas */}
-              <div className="plush-card p-6 flex flex-col items-center justify-center min-h-[450px] relative overflow-hidden" style={{ background: "linear-gradient(135deg, #20242e 0%, #12141a 100%)" }}>
+              <div className="plush-card p-6 flex flex-col items-center justify-center min-h-[450px] relative overflow-hidden" style={{ background: "var(--clay-surface-grad)" }}>
                 <div className="w-[240px] aspect-[9/16] rounded-2xl bg-slate-900 border-2 border-amber-400/40 shadow-2xl flex items-center justify-center p-4 text-center relative">
                   <span className="text-sm font-black text-white">{videoText || "Select a template & enter text to preview"}</span>
                 </div>

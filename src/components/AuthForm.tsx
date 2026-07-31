@@ -56,7 +56,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/50 text-rose-900 text-xs font-bold text-center">
+          <div className="p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/50 text-rose-800 dark:text-rose-200 text-xs font-bold text-center">
             {error}
           </div>
         )}

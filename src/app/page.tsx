@@ -158,10 +158,10 @@ export default function Home() {
             <span className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 bg-slate-900 border border-slate-700 text-white">
               Connect any AI agent
             </span>
-            <span className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 bg-sky-950/80 border border-sky-500/40 text-cyan-300 font-black">
+            <span className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 bg-sky-950/80 border border-sky-500/40 text-acc-cyan font-black">
               Use from Claude, ChatGPT via MCP
             </span>
-            <span className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 font-black">
+            <span className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 bg-amber-950/80 border border-amber-500/40 text-acc-amber font-black">
               Connect your OpenClaw agent
             </span>
           </div>
@@ -198,7 +198,7 @@ export default function Home() {
               <h2 className="text-4xl sm:text-6xl font-black text-left leading-tight mb-6">
                 Auto-post to 10 networks <span className="text-azure-metallic">in 30 seconds</span>
               </h2>
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed mb-6 font-bold">
+              <p className="text-ink text-base sm:text-lg leading-relaxed mb-6 font-bold">
                 Stop wasting 45 minutes every day manually copying captions across 10 browser tabs. Social Skills automatically adapts your media, strips invalid links for X, formats Instagram Reels & TikTok videos, and broadcasts simultaneously with zero tab switching.
               </p>
               <div className="flex items-center gap-4">
@@ -228,7 +228,7 @@ export default function Home() {
                   <div className="text-xs font-extrabold uppercase tracking-wider text-azure-neon">QUEUE CALENDAR</div>
                   <div className="text-lg font-black text-white">This Week&apos;s Schedule</div>
                 </div>
-                <span className="rounded-full px-3 py-1 text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
+                <span className="rounded-full px-3 py-1 text-xs font-bold bg-cyan-500/20 text-acc-cyan border border-cyan-400/40">
                   Auto-Best Time Active
                 </span>
               </div>
@@ -266,7 +266,7 @@ export default function Home() {
               <h2 className="text-4xl sm:text-6xl font-black text-left leading-tight mb-6">
                 Automate your queue <span className="text-wutang-metallic">without limits</span>
               </h2>
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed mb-6 font-bold">
+              <p className="text-ink text-base sm:text-lg leading-relaxed mb-6 font-bold">
                 Queue up weeks of content with AI peak-time scheduling. Never miss a high-traffic engagement window or lose impressions to manual posting fatigue. Set your queue once and let the engine distribute reliably.
               </p>
               <div className="flex items-center gap-4">
@@ -293,7 +293,7 @@ export default function Home() {
               <h2 className="text-4xl sm:text-6xl font-black text-left leading-tight mb-6">
                 Manage content <span className="text-azure-metallic">efficiently</span>
               </h2>
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed mb-6 font-bold">
+              <p className="text-ink text-base sm:text-lg leading-relaxed mb-6 font-bold">
                 View all your scheduled and published posts in one place. Track what&apos;s performing, edit upcoming posts, and stay on top of your content strategy with real-time feedback.
               </p>
               <div className="flex items-center gap-4">
@@ -349,7 +349,7 @@ export default function Home() {
           <h2 className="text-4xl sm:text-6xl font-black text-center mb-4">
             Publish anywhere your <span className="text-wutang-metallic">audience lives</span>
           </h2>
-          <p className="text-slate-900 text-base sm:text-lg max-w-xl mx-auto mb-12 font-extrabold">
+          <p className="text-ink text-base sm:text-lg max-w-xl mx-auto mb-12 font-extrabold">
             Native integrations for all major platforms with platform-specific video formatting and caption adaptations.
           </p>
 
@@ -385,7 +385,7 @@ export default function Home() {
               <h2 className="text-4xl sm:text-6xl font-black text-left leading-tight mb-6">
                 Trigger posts from <span className="text-azure-metallic">Claude & ChatGPT</span>
               </h2>
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed mb-6 font-bold">
+              <p className="text-ink text-base sm:text-lg leading-relaxed mb-6 font-bold">
                 Social Skills features a native Model Context Protocol (MCP) server and REST API. Connect your AI agents to schedule, publish, and query social analytics directly from your LLM workflows.
               </p>
               <div className="flex items-center gap-4">
@@ -453,13 +453,13 @@ export default function Home() {
           <h2 className="text-4xl sm:text-6xl font-black text-center mb-4">
             Simple, transparent <span className="text-wutang-metallic">pricing</span>
           </h2>
-          <p className="text-slate-900 text-base sm:text-lg max-w-lg mx-auto mb-8 font-extrabold">
+          <p className="text-ink text-base sm:text-lg max-w-lg mx-auto mb-8 font-extrabold">
             No per-channel add-on fees. Start free, upgrade when you scale.
           </p>
 
           {/* Billing Cycle Toggle */}
           <div className="flex items-center justify-center gap-4 mb-12">
-            <span className={`text-xs font-extrabold ${billingCycle === "monthly" ? "text-slate-900" : "text-slate-600"}`}>Monthly</span>
+            <span className={`text-xs font-extrabold ${billingCycle === "monthly" ? "text-ink" : "text-muted"}`}>Monthly</span>
             <button
               onClick={() => setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")}
               className="w-14 h-8 rounded-full bg-slate-900 p-1 relative transition-colors"
@@ -470,7 +470,7 @@ export default function Home() {
                 }`}
               />
             </button>
-            <span className={`text-xs font-extrabold ${billingCycle === "yearly" ? "text-slate-900" : "text-slate-600"}`}>
+            <span className={`text-xs font-extrabold ${billingCycle === "yearly" ? "text-ink" : "text-muted"}`}>
               Yearly <span className="text-azure-neon font-black">(Save 20%)</span>
             </span>
           </div>
@@ -519,7 +519,7 @@ export default function Home() {
             {/* Agency */}
             <div className="plush-card p-8 flex flex-col justify-between">
               <div>
-                <div className="text-xs font-extrabold uppercase tracking-wider text-purple-400 mb-2">Agency</div>
+                <div className="text-xs font-extrabold uppercase tracking-wider text-acc-purple mb-2">Agency</div>
                 <div className="text-4xl font-black text-white mb-4">
                   {billingCycle === "monthly" ? "$49" : "$39"}<span className="text-sm font-medium text-slate-400">/mo</span>
                 </div>
@@ -583,7 +583,7 @@ export default function Home() {
       </section>
 
       {/* ─── 11. BOTTOM CTA SECTION ("Ready to get started") ─── */}
-      {/* Clean Sapphire Obsidian Container (#0f172a) — ZERO cheap/murky background gradients */}
+      {/* Clean Clay Container — ZERO cheap/murky background gradients */}
       <section className="py-24 border-t border-slate-300/60">
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
           <div className="plush-card p-10 sm:p-16 text-center border-2 border-slate-700 bg-slate-900 relative overflow-hidden">

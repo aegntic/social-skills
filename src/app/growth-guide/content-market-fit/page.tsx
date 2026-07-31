@@ -18,7 +18,7 @@ export default function ContentMarketFitPage() {
 
         {/* Video Tutorial */}
         <div className="plush-card p-6 text-center">
-          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #2b313d 0%, #171920 100%)", border: "2px solid rgba(0,240,255,0.3)" }}>
+          <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 flex items-center justify-center" style={{ background: "var(--clay-surface-grad)", border: "2px solid rgba(0,240,255,0.3)" }}>
             <div className="text-center">
               <div className="h-12 px-6 mx-auto mb-3 rounded-full flex items-center justify-center text-xs font-black text-black btn-azure">
                 WATCH MASTERCLASS
@@ -39,7 +39,7 @@ export default function ContentMarketFitPage() {
               { step: "Step 3: Recreate the format", body: "Take that viral video format and make it about YOUR niche. Keep the exact same hook & structure." },
               { step: "Step 4: Focus on Watch Time & Comments", body: "Hook people in the first 3 seconds to maximize watch time percentage." }
             ].map((s, idx) => (
-              <div key={idx} className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+              <div key={idx} className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
                 <div className="text-xs font-extrabold text-wutang-metallic mb-1">{s.step}</div>
                 <div className="text-xs text-slate-300 font-medium">{s.body}</div>
               </div>

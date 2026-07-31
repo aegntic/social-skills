@@ -88,7 +88,7 @@ export default function TikTokCaptionGeneratorPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteHeader />
 
@@ -104,7 +104,7 @@ export default function TikTokCaptionGeneratorPage() {
         </div>
 
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <span className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-400/15 text-amber-300 border border-amber-400/40">
+          <span className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-400/15 text-acc-amber border border-amber-400/40">
             Viral Hook & Hashtag Stack Generator
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white">TikTok Caption Generator</h1>
@@ -150,7 +150,7 @@ export default function TikTokCaptionGeneratorPage() {
               {captions.map((cap, idx) => (
                 <div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
                   <div className="flex justify-between items-start">
-                    <div className="text-xs font-black text-amber-300">Option #{idx + 1}</div>
+                    <div className="text-xs font-black text-acc-amber">Option #{idx + 1}</div>
                     <button
                       onClick={() => handleCopy(cap.fullText, idx)}
                       className="btn-wutang px-3.5 py-1 text-xs font-black"

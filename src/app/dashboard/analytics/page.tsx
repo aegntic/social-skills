@@ -26,7 +26,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="plush-card p-6 text-center">
             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Link Clicks</div>
-            <div className="text-3xl font-black text-purple-400">12,450</div>
+            <div className="text-3xl font-black text-acc-purple">12,450</div>
             <div className="text-[10px] text-azure-neon font-bold mt-1">8.7% CTR</div>
           </div>
         </div>

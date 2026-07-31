@@ -9,7 +9,7 @@ export default function BulkVideoUploadPage() {
     <DashboardShell title="Bulk Video Upload">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="plush-card p-8 text-center space-y-6">
-          <div className="border-2 border-dashed border-slate-700 rounded-3xl p-12 text-center hover:border-cyan-400 transition-colors cursor-pointer" style={{ background: "#020617" }}>
+          <div className="border-2 border-dashed border-slate-700 rounded-3xl p-12 text-center hover:border-cyan-400 transition-colors cursor-pointer" style={{ background: "rgb(var(--c-fill-3))" }}>
             <div className="text-xs font-bold text-azure-neon uppercase tracking-wider mb-2">MP4, MOV, WEBM UP TO 500MB EACH</div>
             <div className="text-xs text-slate-400 font-semibold">Upload up to 50 short-form video files</div>
           </div>

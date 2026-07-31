@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function ThankYouPage() {
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex items-center justify-center p-6 relative overflow-hidden">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex items-center justify-center p-6 relative overflow-hidden">
       <div className="plush-card p-10 max-w-md w-full text-center relative z-10 space-y-6">
-        <div className="h-16 w-16 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl font-black">
+        <div className="h-16 w-16 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-acc-cyan text-3xl font-black">
           ✓
         </div>
 

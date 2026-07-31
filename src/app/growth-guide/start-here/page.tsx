@@ -19,23 +19,23 @@ export default function StartHerePage() {
         <div className="plush-card p-6 border-l-4 border-wutang-yellow">
           <div className="text-sm font-extrabold text-white mb-2">The 30-Day Timeline</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-bold text-wutang-metallic">DAY 1</div>
               <div className="text-sm font-extrabold text-white">Account Creation</div>
               <div className="text-xs text-slate-400 mt-1">Set up new TikTok & Instagram accounts properly</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-bold text-azure-neon">DAYS 2–8</div>
               <div className="text-sm font-extrabold text-white">Account Warmup</div>
               <div className="text-xs text-slate-400 mt-1">Train the algorithm (DO NOT POST YET)</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-xs font-bold text-azure-neon">DAYS 8–30</div>
               <div className="text-sm font-extrabold text-white">Content Testing</div>
               <div className="text-xs text-slate-400 mt-1">Find your winning content format</div>
             </div>
-            <div className="p-4 rounded-xl" style={{ background: "#20242e" }}>
-              <div className="text-xs font-bold text-purple-400">DAYS 30+</div>
+            <div className="p-4 rounded-xl" style={{ background: "rgb(var(--c-fill-1))" }}>
+              <div className="text-xs font-bold text-acc-purple">DAYS 30+</div>
               <div className="text-sm font-extrabold text-white">Scaling Up</div>
               <div className="text-xs text-slate-400 mt-1">Multiply reach across multiple platforms</div>
             </div>

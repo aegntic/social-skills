@@ -18,12 +18,12 @@ export default function OnboardingConnectPage() {
   const [showAddModal, setShowAddModal] = useState(false);
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       <SiteHeader authed={false} />
 
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full space-y-8">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-300 border border-cyan-400/40">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-acc-cyan border border-cyan-400/40">
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
             Step 2 of 3 &bull; Connected Accounts
           </div>
@@ -36,12 +36,12 @@ export default function OnboardingConnectPage() {
         <div className="plush-card p-6 md:p-8 space-y-6">
           <div className="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-200 text-xs font-bold flex items-center justify-center gap-2">
             <span>⚡ Connection Manager Active</span>
-            <span className="font-normal text-amber-300/80">Manage accounts connected to your desk below.</span>
+            <span className="font-normal text-acc-amber">Manage accounts connected to your desk below.</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
             {CONNECTED_DEFAULTS.map((acc, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-[#161920] border border-slate-700/80 flex items-center justify-between">
+              <div key={i} className="p-4 rounded-2xl bg-[rgb(var(--c-fill-2))] border border-slate-700/80 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <PlatformColorLogo id={acc.platform as Platform} className="h-8 w-8" />
                   <div>
@@ -54,7 +54,7 @@ export default function OnboardingConnectPage() {
             ))}
             <button
               onClick={() => setShowAddModal(true)}
-              className="p-4 rounded-2xl border-2 border-dashed border-slate-700 hover:border-cyan-400 flex items-center justify-center gap-2 text-xs font-bold text-slate-300 hover:text-white transition-colors bg-[#161920]"
+              className="p-4 rounded-2xl border-2 border-dashed border-slate-700 hover:border-cyan-400 flex items-center justify-center gap-2 text-xs font-bold text-slate-300 hover:text-white transition-colors bg-[rgb(var(--c-fill-2))]"
             >
               <span>+ Add Connection</span>
             </button>

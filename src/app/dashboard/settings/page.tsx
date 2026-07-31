@@ -46,7 +46,7 @@ export default function SettingsPage() {
             type="text"
             value={mcpUrl}
             onChange={(e) => setMcpUrl(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-amber-300 font-mono text-xs focus:outline-none focus:border-amber-400"
+            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-acc-amber font-mono text-xs focus:outline-none focus:border-amber-400"
           />
           <button className="btn-wutang px-6 py-2.5 text-xs font-black">Save MCP Settings</button>
         </div>

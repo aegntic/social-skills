@@ -32,7 +32,7 @@ export default function CalendarPage() {
                   key={day}
                   className={`min-h-[70px] p-2 rounded-xl border flex flex-col justify-between transition-colors ${
                     hasPost
-                      ? "bg-amber-400/10 border-amber-400/40 text-amber-300 font-bold"
+                      ? "bg-amber-400/10 border-amber-400/40 text-acc-amber font-bold"
                       : "bg-slate-900/60 border-slate-800 text-slate-400"
                   }`}
                 >

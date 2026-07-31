@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function AffiliatesPage() {
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgba(26, 29, 36, 0.85)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgb(var(--c-bg) / 0.92)", borderBottom: "1px solid rgb(var(--c-line) / 0.55)" }}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <span className="font-black text-wutang-metallic text-lg">S/</span>

@@ -26,10 +26,10 @@ export default function ScheduledPostsPage() {
               { id: "s1", text: "New tool alert: Instagram Carousel Splitter is now live for free!", time: "Tomorrow at 9:00 AM", platforms: ["twitter", "instagram"] },
               { id: "s2", text: "5 viral hooks you can copy today for your SaaS app.", time: "In 2 days at 3:00 PM", platforms: ["linkedin", "tiktok"] }
             ].map((sp) => (
-              <div key={sp.id} className="p-4 rounded-xl flex items-center justify-between" style={{ background: "#20242e" }}>
+              <div key={sp.id} className="p-4 rounded-xl flex items-center justify-between" style={{ background: "rgb(var(--c-fill-1))" }}>
                 <div className="space-y-1">
                   <div className="text-xs font-bold text-white max-w-md truncate">{sp.text}</div>
-                  <div className="text-[10px] text-amber-300 font-semibold">Scheduled for {sp.time}</div>
+                  <div className="text-[10px] text-acc-amber font-semibold">Scheduled for {sp.time}</div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex gap-1">

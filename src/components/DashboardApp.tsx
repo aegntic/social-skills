@@ -6,6 +6,7 @@ import type { MediaAsset, Platform, PlatformOverride, PlatformResult, Post, Soci
 import { PLATFORMS, platformMeta } from "@/lib/platforms";
 import { PlatformColorLogo } from "@/components/PlatformColorLogo";
 import { AccountManager } from "./AccountManager";
+import { ThemeToggle } from "@/components/clay/ThemeToggle";
 
 type Me = {
   user: { id: string; email: string; name: string };
@@ -284,13 +285,14 @@ export function DashboardApp() {
   const scheduledCount = me.posts.filter((p) => p.status === "scheduled").length;
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       <header className="border-b border-slate-300/60 bg-slate-900 text-white">
         <div className="container-page flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-black text-white">
             <span className="font-black text-wutang-metallic text-lg">S/</span> social.skills
           </Link>
           <div className="flex items-center gap-3 text-sm">
+            <ThemeToggle />
             <div className="hidden text-right sm:block">
               <div className="font-semibold text-ink">{me.user.name}</div>
               <div className="text-xs text-muted">
@@ -307,8 +309,8 @@ export function DashboardApp() {
       <div className="container-page py-8">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 md:text-3xl">Publishing Desk</h1>
-            <p className="mt-1 text-sm font-bold text-slate-800">Caption &rarr; accounts &rarr; go. That&apos;s the whole skill.</p>
+            <h1 className="text-2xl font-black text-ink md:text-3xl">Publishing Desk</h1>
+            <p className="mt-1 text-sm font-bold text-muted">Caption &rarr; accounts &rarr; go. That&apos;s the whole skill.</p>
           </div>
           <div className="flex gap-2 rounded-2xl border border-slate-700 bg-slate-900 p-1.5 shadow-sm">
             {(["compose", "posts", "accounts"] as const).map((t) => (
@@ -344,7 +346,7 @@ export function DashboardApp() {
         )}
 
         {error ? (
-          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+          <div className="mb-4 rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300" role="alert">
             {error}
           </div>
         ) : null}
@@ -413,7 +415,7 @@ export function DashboardApp() {
               </div>
 
               {mediaRequiredMissing.length > 0 && (
-                <div className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                <div className="mb-4 rounded-lg border border-amber-400/40 bg-amber-400/15 px-3 py-2 text-xs font-semibold text-amber-800 dark:text-acc-amber">
                   {mediaRequiredMissing.join(", ")} need media for a clean publish.
                 </div>
               )}
@@ -422,7 +424,7 @@ export function DashboardApp() {
                 <div className="mb-4">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between rounded-lg border border-line bg-white px-3 py-2 text-sm font-semibold text-ink"
+                    className="flex w-full items-center justify-between rounded-lg border border-line clay px-3 py-2 text-sm font-semibold text-ink"
                     onClick={() => setShowOverrides((v) => !v)}
                     aria-expanded={showOverrides}
                   >
@@ -445,7 +447,7 @@ export function DashboardApp() {
                         const ov = effectiveOverrides[a.platform] || {};
                         const hasTitle = meta.hasTitle;
                         return (
-                          <div key={a.id} className="rounded-lg border border-line bg-white p-3">
+                          <div key={a.id} className="rounded-lg border border-line clay p-3">
                             <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-semibold text-ink">
                                 {meta.label} <span className="text-muted">@{a.username}</span>

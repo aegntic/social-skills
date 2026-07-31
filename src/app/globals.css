@@ -1,259 +1,586 @@
 @import "tailwindcss";
 
+/* Class-based dark mode for Tailwind v4 — flips via .dark on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme-aware accent text utilities — @utility so dark:/hover: variants work.
+   Deep tones on light clay, bright tones on dark clay (vars flip in .dark). */
+@utility text-acc-amber { color: rgb(var(--at-amber)); }
+@utility text-acc-cyan { color: rgb(var(--at-cyan)); }
+@utility text-acc-purple { color: rgb(var(--at-purple)); }
+@utility text-acc-rose { color: rgb(var(--at-rose)); }
+@utility text-acc-emerald { color: rgb(var(--at-emerald)); }
+
+/* ─── Soft Industrial Clay system (alpha-aware, themeable) ───
+   Palette is stored as RGB channels so Tailwind opacity modifiers and the
+   `.dark` theme both work: flip the channels, everything (surfaces, shadows,
+   text, utilities) follows. Ported from clayui (aesthetic-blanks). */
 :root {
-  /* Sleek Obsidian Dark Studio Base */
-  --bg-page: #0b0d14;
-  --bg-page-gradient: linear-gradient(180deg, #0b0d14 0%, #0f131d 50%, #131722 100%);
-  
-  /* Deep Obsidian Slate Plush Cards */
-  --bg-card: #151924;
-  --bg-card-hover: #1c2232;
-  --bg-surface: #1c2232;
-  --bg-inset: #090b10;
-  
-  /* Text Colors */
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dark: #cbd5e1;
-  
-  /* PURE ELECTRIC WU-TANG YELLOW (#ffc800) */
-  --wutang-yellow: #ffc800;
-  --wutang-gradient: linear-gradient(135deg, #ffe033 0%, #ffc800 100%);
-  --wutang-metallic: linear-gradient(180deg, #fff399 0%, #ffc800 100%);
-  --wutang-glow: 0 0 25px rgba(255, 200, 0, 0.45);
-  
-  /* Electric Azure Neon Cyan Metallic (#00f0ff) */
+  color-scheme: light;
+  --c-base: 201 199 196; /* #C9C7C4 matte clay */
+  --c-bg: 230 228 223; /* #E6E4DF page backdrop */
+  --c-surface: 210 208 204;
+  --c-light: 220 218 214;
+  --c-dark: 182 180 175;
+  --c-ink: 43 39 36; /* #2B2724 primary text */
+  --c-ink-soft: 74 69 63; /* secondary text */
+  --c-muted: 107 102 96; /* tertiary text */
+  --c-line: 168 165 159; /* borders */
+  --c-fill-1: 216 214 210; /* raised fill (ex slate-800) */
+  --c-fill-2: 201 199 196; /* deep fill (ex slate-900) */
+  --c-fill-3: 188 186 181; /* inset well (ex slate-950) */
+  --c-cyan: 79 179 196;
+  --c-navy: 22 38 58;
+  --c-warm: 199 93 75;
+
+  /* Brand accents (kept): wu-tang yellow + azure cyan.
+     *-strong = readable as text on clay, *-soft = translucent fill. */
+  --accent-wutang: #ffc800;
+  --accent-wutang-strong: #8f6e00;
+  --accent-wutang-soft: #f5e3a1;
+  --accent-azure: #00b4d8;
+  --accent-azure-strong: #0077a8;
+  --accent-azure-soft: #bfeef7;
+
+  --clay-surface-grad: linear-gradient(155deg, rgb(var(--c-light)) 0%, rgb(var(--c-dark)) 100%);
+
+  --clay-raised:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 2px rgba(43, 39, 36, 0.12),
+    0 1px 2px rgba(43, 39, 36, 0.1),
+    0 10px 20px -6px rgba(43, 39, 36, 0.18),
+    0 24px 48px -16px rgba(43, 39, 36, 0.22);
+  --clay-pressed:
+    inset 0 2px 5px rgba(43, 39, 36, 0.3),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.35);
+
+  /* text depth (adaptive) */
+  --ct-edge: 255 255 255;
+  --ct-drop: 43 39 36;
+
+  /* inverted clay button surface — dark in light mode so carved text reads */
+  --cd-top: 64 58 52;
+  --cd-bot: 34 31 27;
+  --cd-text: 236 234 229;
+  --cd-edge: 255 255 255;
+  --cd-drop: 0 0 0;
+
+  --clay-radius: 1.5rem;
+  --clay-radius-sm: 1rem;
+  --ease-clay: cubic-bezier(0.16, 1, 0.3, 1);
+  --font-sans: var(--font-nunito), "Nunito", system-ui, sans-serif;
+  --font-display: var(--font-baloo), "Baloo 2", system-ui, sans-serif;
+  --clay-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+
+  /* legacy aliases (kept so old var() refs keep working) */
+  --bg-page: rgb(var(--c-bg));
+  --bg-page-gradient: linear-gradient(180deg, rgb(var(--c-bg)) 0%, rgb(var(--c-fill-1)) 55%, rgb(var(--c-fill-2)) 100%);
+  --bg-card: rgb(var(--c-fill-2));
+  --bg-card-hover: rgb(var(--c-fill-1));
+  --bg-surface: rgb(var(--c-fill-1));
+  --bg-inset: rgb(var(--c-fill-3));
+  --text-main: rgb(var(--c-ink));
+  --text-muted: rgb(var(--c-muted));
+  --text-dark: rgb(var(--c-ink-soft));
+  --wutang-yellow: var(--accent-wutang);
+  --azure-neon: var(--accent-azure-strong);
+  --scrollbar-thumb: rgb(var(--c-line));
+  --scrollbar-track: rgb(var(--c-fill-3));
+
+  /* accent TEXT channels — bright enough for dark clay, deep enough for light */
+  --at-amber: 161 98 7; /* amber-700 */
+  --at-cyan: 14 116 144; /* cyan-700 */
+  --at-purple: 126 34 206; /* purple-700 */
+  --at-rose: 190 24 93; /* rose-700 */
+  --at-emerald: 4 120 87; /* emerald-700 */
+}
+
+/* Dark clay theme */
+.dark {
+  color-scheme: dark;
+  --c-base: 122 126 132;
+  --c-bg: 23 27 32;
+  --c-surface: 38 42 49;
+  --c-light: 47 52 60;
+  --c-dark: 28 32 38;
+  --c-ink: 236 234 229;
+  --c-ink-soft: 200 197 191;
+  --c-muted: 158 163 170;
+  --c-line: 62 68 78;
+  --c-fill-1: 45 50 58;
+  --c-fill-2: 33 37 44;
+  --c-fill-3: 26 30 36;
+
+  --accent-wutang: #ffc800;
+  --accent-wutang-strong: #ffd84d;
+  --accent-wutang-soft: #3d3005;
+  --accent-azure: #00f0ff;
+  --accent-azure-strong: #5ff7ff;
+  --accent-azure-soft: #06333a;
+
+  --clay-raised:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.07),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 10px 20px -6px rgba(0, 0, 0, 0.45),
+    0 24px 48px -16px rgba(0, 0, 0, 0.55);
+  --clay-pressed:
+    inset 0 2px 6px rgba(0, 0, 0, 0.65),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  --ct-drop: 0 0 0;
+  --cd-top: 224 222 218;
+  --cd-bot: 188 186 181;
+  --cd-text: 43 39 36;
+  --cd-edge: 255 255 255;
+  --cd-drop: 0 0 0;
+
   --azure-neon: #00f0ff;
-  --azure-gradient: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%);
-  --azure-metallic: linear-gradient(180deg, #a6fbff 0%, #00f0ff 100%);
-  --azure-glow: 0 0 25px rgba(0, 240, 255, 0.45);
 
-  /* Pixar Plushy & Lego 3D Shadows & Bevel Rims */
-  --plush-card-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.5), 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.1);
-    
-  --plush-btn-wutang-shadow: 
-    0 10px 25px -4px rgba(255, 200, 0, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.2);
-
-  --plush-btn-azure-shadow: 
-    0 10px 25px -4px rgba(0, 240, 255, 0.4),
-    0 4px 10px rgba(0, 0, 0, 0.2);
-
-  --plush-btn-dark-shadow: 
-    0 8px 20px -4px rgba(0, 0, 0, 0.4);
+  --at-amber: 252 211 77; /* amber-300 */
+  --at-cyan: 103 232 249; /* cyan-300 */
+  --at-purple: 192 132 252; /* purple-400 */
+  --at-rose: 253 164 175; /* rose-300 */
+  --at-emerald: 110 231 183; /* emerald-300 */
 }
 
-html, body {
-  background: var(--bg-page-gradient);
-  background-color: var(--bg-page);
-  color: #f8fafc;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+/* ─── Tailwind v4 theme tokens ───
+   The site was built dark-first with white/slate utilities everywhere.
+   Remapping the palette to clay channel vars makes ALL existing markup
+   theme-aware with zero class changes: text-white/text-slate-300 flip to
+   dark ink on light clay, bg-slate-900 becomes a clay fill, etc. */
+@theme {
+  --color-white: rgb(var(--c-ink));
+  --color-slate-50: rgb(var(--c-ink));
+  --color-slate-100: rgb(var(--c-ink));
+  --color-slate-200: rgb(var(--c-ink));
+  --color-slate-300: rgb(var(--c-ink-soft));
+  --color-slate-400: rgb(var(--c-muted));
+  --color-slate-500: rgb(var(--c-muted));
+  --color-slate-600: rgb(var(--c-line));
+  --color-slate-700: rgb(var(--c-line));
+  --color-slate-800: rgb(var(--c-fill-1));
+  --color-slate-900: rgb(var(--c-fill-2));
+  --color-slate-950: rgb(var(--c-fill-3));
+
+  /* design-system tokens referenced across the app (previously undefined) */
+  --color-ink: rgb(var(--c-ink));
+  --color-muted: rgb(var(--c-muted));
+  --color-line: rgb(var(--c-line));
+  --color-primary: var(--accent-wutang);
+  --color-primary-dark: var(--accent-wutang-strong);
+  --color-primary-soft: var(--accent-wutang-soft);
+  --color-wutang: var(--accent-wutang);
+  --color-azure: var(--accent-azure);
+
+  /* clay tokens */
+  --color-clay-base: rgb(var(--c-base));
+  --color-clay-bg: rgb(var(--c-bg));
+  --color-clay-surface: rgb(var(--c-surface));
+  --color-clay-light: rgb(var(--c-light));
+  --color-clay-dark: rgb(var(--c-dark));
+  --color-clay-ink: rgb(var(--c-ink));
+  --color-clay-muted: rgb(var(--c-muted));
+  --color-clay-cyan: rgb(var(--c-cyan));
+  --color-clay-navy: rgb(var(--c-navy));
+  --color-clay-warm: rgb(var(--c-warm));
+
+  --font-sans: var(--font-nunito), "Nunito", system-ui, sans-serif;
+  --font-display: var(--font-baloo), "Baloo 2", system-ui, sans-serif;
+
+  --radius-clay: 1.5rem;
+  --radius-clay-sm: 1rem;
+  --radius-clay-lg: 2rem;
+  --radius-clay-xl: 2.75rem;
+
+  --shadow-raised: var(--clay-raised);
+  --shadow-pressed: var(--clay-pressed);
+
+  --ease-clay: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-h1, h2, h3 {
-  font-weight: 900;
-  letter-spacing: -0.03em;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: rgb(var(--c-bg));
+    background-image: var(--clay-grain);
+    color: rgb(var(--c-ink));
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* Fields sit IN the clay — theme-aware, never hardcoded */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  textarea,
+  select {
+    color: rgb(var(--c-ink));
+    background-color: rgb(var(--c-fill-2));
+    border-radius: var(--clay-radius-sm);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: rgb(var(--c-muted) / 0.75);
+  }
 }
 
-/* Headings INSIDE dark .plush-card containers: PURE WHITE */
-.plush-card h1, 
-.plush-card h2, 
-.plush-card h3 {
-  color: #ffffff;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+@layer components {
+  /* ═══ Clay primitives (ported) ═══ */
+
+  /* base matte clay surface */
+  .clay {
+    background-image: var(--clay-surface-grad);
+    border-radius: var(--clay-radius);
+    box-shadow: var(--clay-raised);
+  }
+
+  /* sunk-in clay (inputs, wells, pressed) */
+  .clay-inset {
+    background-image: var(--clay-surface-grad);
+    border-radius: var(--clay-radius-sm);
+    box-shadow: var(--clay-pressed);
+  }
+
+  /* press-to-sink: the clay deforms under touch */
+  .clay-pressable {
+    transition:
+      box-shadow 0.28s var(--ease-clay),
+      transform 0.28s var(--ease-clay);
+    will-change: transform, box-shadow;
+  }
+  .clay-pressable:hover {
+    transform: translateY(-2px);
+  }
+  .clay-pressable:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: var(--clay-pressed);
+  }
+
+  /* gradient clay (cyan->navy) */
+  .clay-gradient {
+    background-image: linear-gradient(160deg, rgb(var(--c-cyan)) 0%, rgb(var(--c-navy)) 100%);
+    border-radius: var(--clay-radius);
+    box-shadow: var(--clay-raised);
+    color: #f4fafb;
+  }
+
+  /* inverted clay button — dark in light mode, light in dark mode */
+  .clay-dark {
+    background-image: linear-gradient(155deg, rgb(var(--cd-top)) 0%, rgb(var(--cd-bot)) 100%);
+    border-radius: var(--clay-radius-sm);
+    box-shadow: var(--clay-raised);
+    color: rgb(var(--cd-text));
+  }
+
+  /* raised matte claymation heading extrusion */
+  .clay-text {
+    text-shadow:
+      0 1px 0 rgb(var(--ct-edge) / 0.45),
+      0 1px 0 rgb(var(--ct-drop) / 0.25),
+      0 2px 1px rgb(var(--ct-drop) / 0.3),
+      0 4px 3px rgb(var(--ct-drop) / 0.28),
+      0 7px 8px rgb(var(--ct-drop) / 0.3),
+      0 14px 18px rgb(var(--ct-drop) / 0.22);
+  }
+
+  /* engraved button text — reads on .clay-dark / .clay-gradient / dark mode */
+  .clay-text-carved {
+    text-shadow:
+      -1px -1px 1px rgb(var(--cd-drop)),
+      -2px -2px 3px rgb(var(--cd-drop) / 0.55),
+      1px 1px 1px rgb(var(--cd-edge) / 0.9),
+      2px 2px 3px rgb(var(--cd-edge) / 0.5);
+  }
+
+  .clay-text-embossed {
+    text-shadow:
+      0 1px 1px rgb(var(--ct-edge) / 0.65),
+      0 -1px 1px rgb(var(--ct-drop) / 0.28);
+  }
+
+  .clay-text-gradient {
+    background: linear-gradient(165deg, rgb(var(--c-cyan)) 0%, rgb(var(--c-navy)) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 8px rgba(43, 39, 36, 0.28));
+  }
+
+  /* ═══ Design-system classes referenced across the app ═══
+     (previously undefined — the invisible-text bug) */
+
+  .container-page {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .card {
+    background-image: var(--clay-surface-grad);
+    border-radius: var(--clay-radius);
+    box-shadow: var(--clay-raised);
+    color: rgb(var(--c-ink));
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ffe033 0%, var(--accent-wutang) 100%);
+    color: #000000 !important;
+    font-weight: 800;
+    border-radius: 9999px;
+    box-shadow: var(--clay-raised);
+    transition: box-shadow 0.28s var(--ease-clay), transform 0.28s var(--ease-clay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -4px rgba(255, 200, 0, 0.55);
+  }
+  .btn-primary:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: var(--clay-pressed);
+  }
+
+  .btn-ghost {
+    background-image: var(--clay-surface-grad);
+    box-shadow: var(--clay-pressed);
+    color: rgb(var(--c-ink-soft));
+    border-radius: 9999px;
+    font-weight: 700;
+    transition: box-shadow 0.28s var(--ease-clay), transform 0.28s var(--ease-clay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-ghost:hover {
+    color: rgb(var(--c-ink));
+    transform: translateY(-1px);
+  }
+
+  .badge-muted,
+  .badge-ok,
+  .badge-warn,
+  .badge-bad,
+  .badge-wutang,
+  .badge-azure {
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid transparent;
+  }
+  .badge-muted {
+    background: rgb(var(--c-fill-1));
+    color: rgb(var(--c-muted));
+    border-color: rgb(var(--c-line));
+  }
+  .badge-ok {
+    background: rgba(16, 185, 129, 0.16);
+    color: #059669;
+    border-color: rgba(16, 185, 129, 0.45);
+  }
+  .badge-warn {
+    background: rgba(245, 158, 11, 0.16);
+    color: #b45309;
+    border-color: rgba(245, 158, 11, 0.45);
+  }
+  .badge-bad {
+    background: rgba(244, 63, 94, 0.14);
+    color: #e11d48;
+    border-color: rgba(244, 63, 94, 0.45);
+  }
+  .badge-wutang,
+  .plush-badge-wutang {
+    background: rgba(255, 200, 0, 0.18);
+    color: var(--accent-wutang-strong) !important;
+    border: 1.5px solid rgba(255, 200, 0, 0.5);
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge-azure,
+  .plush-badge-azure {
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--accent-azure-strong) !important;
+    border: 1.5px solid rgba(0, 240, 255, 0.45);
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ═══ Legacy brand classes — remapped onto the clay system ═══ */
+
+  .plush-card {
+    background-image: var(--clay-surface-grad);
+    border-radius: 28px;
+    box-shadow: var(--clay-raised);
+    transition: box-shadow 0.3s var(--ease-clay), transform 0.3s var(--ease-clay);
+    position: relative;
+    color: rgb(var(--c-ink));
+  }
+  .plush-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      inset 0 1.5px 1px rgba(255, 255, 255, 0.35),
+      0 30px 60px -12px rgba(43, 39, 36, 0.3),
+      0 0 25px rgba(255, 200, 0, 0.28);
+  }
+  .plush-card h1,
+  .plush-card h2,
+  .plush-card h3 {
+    color: rgb(var(--c-ink));
+  }
+
+  .btn-wutang {
+    background: linear-gradient(135deg, #ffe033 0%, var(--accent-wutang) 100%);
+    color: #000000 !important;
+    font-weight: 900;
+    border-radius: 9999px;
+    box-shadow: var(--clay-raised), 0 10px 25px -4px rgba(255, 200, 0, 0.45);
+    transition: box-shadow 0.28s var(--ease-clay), transform 0.28s var(--ease-clay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-wutang:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 30px -4px rgba(255, 200, 0, 0.6),
+      0 0 25px rgba(255, 200, 0, 0.4);
+    color: #000000 !important;
+  }
+  .btn-wutang:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: var(--clay-pressed);
+  }
+
+  .btn-azure {
+    background: linear-gradient(135deg, var(--accent-azure) 0%, #00b4d8 100%);
+    color: #000000 !important;
+    font-weight: 900;
+    border-radius: 9999px;
+    box-shadow: var(--clay-raised), 0 10px 25px -4px rgba(0, 240, 255, 0.35);
+    transition: box-shadow 0.28s var(--ease-clay), transform 0.28s var(--ease-clay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-azure:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 30px -4px rgba(0, 240, 255, 0.5),
+      0 0 25px rgba(0, 240, 255, 0.35);
+    color: #000000 !important;
+  }
+  .btn-azure:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: var(--clay-pressed);
+  }
+
+  /* Dark plush button → inverted clay (dark on light clay, light on dark clay) */
+  .btn-dark {
+    background-image: linear-gradient(155deg, rgb(var(--cd-top)) 0%, rgb(var(--cd-bot)) 100%);
+    color: rgb(var(--cd-text)) !important;
+    font-weight: 700;
+    border-radius: 9999px;
+    box-shadow: var(--clay-raised);
+    transition: box-shadow 0.28s var(--ease-clay), transform 0.28s var(--ease-clay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-dark:hover {
+    transform: translateY(-2px);
+    color: rgb(var(--cd-text)) !important;
+  }
+  .btn-dark:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: var(--clay-pressed);
+  }
+
+  /* Metallic accent text — flips with the theme so it stays readable */
+  .text-wutang-metallic {
+    color: var(--accent-wutang-strong) !important;
+    font-weight: 900;
+  }
+  .text-azure-metallic {
+    color: var(--accent-azure-strong) !important;
+    font-weight: 900;
+  }
+  .text-azure-neon {
+    color: var(--accent-azure-strong) !important;
+  }
+
+  /* Stylized custom scrollbar — theme-aware */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-azure);
+  }
+
+  textarea.custom-resize {
+    resize: vertical;
+  }
+  textarea.custom-resize::-webkit-resizer {
+    background-color: var(--accent-azure);
+    border-radius: 4px;
+  }
+
+  /* Laser flow energy animation */
+  .laser-pulse-active {
+    stroke-dasharray: 8 6;
+    animation: laserFlow 0.8s linear infinite;
+  }
 }
 
-/* Inside dark .plush-card containers (#0f172a), text is crisp pure white / light slate */
-.plush-card {
-  background: var(--bg-card);
-  border-radius: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: var(--plush-card-shadow);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  color: #f8fafc;
-}
-
-.plush-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(255, 200, 0, 0.6);
-  transform: translateY(-4px);
-  box-shadow: 
-    0 30px 60px -12px rgba(15, 23, 42, 0.4), 
-    0 0 25px rgba(255, 200, 0, 0.35);
-}
-
-/* Crisp input styles */
-input, textarea {
-  color: #ffffff;
-  background-color: #0f172a;
-}
-
-/* PURE WU-TANG YELLOW BUTTON (#ffc800) */
-.btn-wutang {
-  background: linear-gradient(135deg, #ffe033 0%, #ffc800 100%);
-  color: #000000 !important;
-  font-weight: 900;
-  border-radius: 9999px;
-  box-shadow: var(--plush-btn-wutang-shadow);
-  transition: all 0.2s ease;
-  border: 2px solid #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.btn-wutang:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 
-    0 14px 30px -4px rgba(255, 200, 0, 0.6),
-    0 0 25px rgba(255, 200, 0, 0.4);
-  color: #000000 !important;
-}
-
-/* Azure Neon Cyan Button (#00f0ff) */
-.btn-azure {
-  background: linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%);
-  color: #000000 !important;
-  font-weight: 900;
-  border-radius: 9999px;
-  box-shadow: var(--plush-btn-azure-shadow);
-  transition: all 0.2s ease;
-  border: 2px solid #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.btn-azure:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 
-    0 14px 30px -4px rgba(0, 240, 255, 0.6),
-    0 0 25px rgba(0, 240, 255, 0.4);
-  color: #000000 !important;
-}
-
-/* Dark Plush Button */
-.btn-dark {
-  background: #0f172a;
-  color: #ffffff !important;
-  font-weight: 700;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: var(--plush-btn-dark-shadow);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.btn-dark:hover {
-  background: #1e293b;
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  color: #ffffff !important;
-}
-
-/* Plush Badge Pills */
-.plush-badge-wutang {
-  background: rgba(255, 200, 0, 0.18);
-  color: #b38b00 !important;
-  border: 1.5px solid rgba(255, 200, 0, 0.5);
-  border-radius: 9999px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.plush-badge-azure {
-  background: rgba(0, 240, 255, 0.15);
-  color: #007799 !important;
-  border: 1.5px solid rgba(0, 240, 255, 0.5);
-  border-radius: 9999px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Pure Wu-Tang Yellow Metallic Gradient (#ffc800) */
-.text-wutang-metallic {
-  color: #d9a000 !important;
-  font-weight: 900;
-}
-
-.text-azure-metallic {
-  color: #0099b8 !important;
-  font-weight: 900;
-}
-
-.text-azure-neon {
-  color: #0088a3 !important;
-}
-
-/* Inside dark plush cards, keep Wu-Tang Yellow & Azure Neon bright (#ffc800 & #00f0ff) */
-.plush-card .text-wutang-metallic {
-  color: #ffc800 !important;
-}
-
-.plush-card .text-azure-metallic {
-  color: #00f0ff !important;
-}
-
-.plush-card .text-azure-neon {
-  color: #00f0ff !important;
-}
-
-/* Stylized Custom Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #020617;
-  border-radius: 9999px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #00f0ff;
-  border-radius: 9999px;
-  border: 2px solid #020617;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
-}
-
-/* Stylized Resize Handle */
-textarea.custom-resize {
-  resize: vertical;
-}
-
-textarea.custom-resize::-webkit-resizer {
-  background-color: #00f0ff;
-  border-radius: 4px;
-}
-
-/* Laser Flow Energy Animation */
 @keyframes laserFlow {
   from {
     stroke-dashoffset: 24;
@@ -263,8 +590,15 @@ textarea.custom-resize::-webkit-resizer {
   }
 }
 
-.laser-pulse-active {
-  stroke-dasharray: 8 6;
-  animation: laserFlow 0.8s linear infinite;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
-

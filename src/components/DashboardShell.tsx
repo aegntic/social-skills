@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "@/components/clay/ThemeToggle";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -36,12 +37,12 @@ export function DashboardShell({ children, title }: DashboardShellProps) {
   ];
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }}>
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }}>
       {/* Top Banner Offer */}
-      <div className="py-2.5 px-6 flex items-center justify-between text-xs font-bold text-slate-200" style={{ background: "linear-gradient(90deg, #1e2634 0%, #151b24 100%)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="py-2.5 px-6 flex items-center justify-between text-xs font-bold text-slate-200" style={{ background: "rgb(var(--c-fill-2))", borderBottom: "1px solid rgb(var(--c-line) / 0.5)" }}>
         <div className="flex items-center gap-2">
           <span>Special Offer: 2 Months Free</span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 font-extrabold">23h 57m left</span>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-400/20 text-acc-amber font-extrabold">23h 57m left</span>
         </div>
         <Link href="/onboarding/plans" className="btn-wutang text-[10px] px-3 py-1 font-black">
           Claim 2 Months Free &rarr;
@@ -50,11 +51,14 @@ export function DashboardShell({ children, title }: DashboardShellProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] min-h-[calc(100vh-42px)]">
         {/* Dashboard Left Sidebar */}
-        <aside className="p-5 border-r border-slate-800 space-y-6" style={{ background: "#16181f" }}>
-          <Link href="/dashboard" className="flex items-center gap-2 mb-4 text-decoration-none">
-            <span className="font-black text-wutang-metallic text-base">S/</span>
-            <span className="font-extrabold text-white text-base">post bridge</span>
-          </Link>
+        <aside className="p-5 border-r border-slate-800 space-y-6" style={{ background: "rgb(var(--c-fill-2))" }}>
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/dashboard" className="flex items-center gap-2 text-decoration-none">
+              <span className="font-black text-wutang-metallic text-base">S/</span>
+              <span className="font-extrabold text-white text-base">post bridge</span>
+            </Link>
+            <ThemeToggle />
+          </div>
 
           <Link href="/dashboard/create" className="btn-wutang w-full py-2.5 text-xs font-black text-center block">
             + Create post
@@ -75,7 +79,7 @@ export function DashboardShell({ children, title }: DashboardShellProps) {
                         href={item.href}
                         className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                           active
-                            ? "bg-amber-400/15 text-amber-300 border border-amber-400/30"
+                            ? "bg-amber-400/15 text-acc-amber border border-amber-400/30"
                             : "text-slate-400 hover:text-white hover:bg-slate-800/60"
                         }`}
                       >

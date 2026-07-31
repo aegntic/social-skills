@@ -8,12 +8,12 @@ export default function OnboardingPlansPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       <SiteHeader authed={false} />
 
       <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full space-y-8">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-300 border border-cyan-400/40">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-cyan-400/15 text-acc-cyan border border-cyan-400/40">
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
             Step 3 of 3 &bull; Select Plan
           </div>

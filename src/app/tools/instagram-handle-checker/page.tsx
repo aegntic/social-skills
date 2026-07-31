@@ -54,7 +54,7 @@ export default function InstagramHandleCheckerPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <SiteHeader />
 
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full">
@@ -104,9 +104,9 @@ export default function InstagramHandleCheckerPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase ${
-                        res.status === "available" ? "bg-emerald-400/20 text-emerald-300 border border-emerald-400/30" :
-                        res.status === "taken" ? "bg-amber-400/20 text-amber-300 border border-amber-400/30" :
-                        "bg-rose-400/20 text-rose-300 border border-rose-400/30"
+                        res.status === "available" ? "bg-emerald-400/20 text-acc-emerald border border-emerald-400/30" :
+                        res.status === "taken" ? "bg-amber-400/20 text-acc-amber border border-amber-400/30" :
+                        "bg-rose-400/20 text-acc-rose border border-rose-400/30"
                       }`}>
                         {res.status}
                       </span>

@@ -25,7 +25,7 @@ export default function DashboardCreateHubPage() {
           </div>
 
           <div className="plush-card p-8 text-center flex flex-col items-center justify-center hover:scale-105 transition-transform opacity-90">
-            <span className="font-black text-2xl text-purple-400 mb-4">VIDEO</span>
+            <span className="font-black text-2xl text-acc-purple mb-4">VIDEO</span>
             <div className="font-extrabold text-white text-base mb-1">Video Post</div>
             <div className="text-xs text-slate-400 font-medium">Reels, Shorts & TikToks</div>
           </div>

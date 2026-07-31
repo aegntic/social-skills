@@ -154,7 +154,7 @@ export default function InstagramGridMakerPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebApp) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />
@@ -175,7 +175,7 @@ export default function InstagramGridMakerPage() {
           </div>
 
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="inline-block px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-cyan-400/15 text-cyan-300 border border-cyan-400/40">
+            <span className="inline-block px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-cyan-400/15 text-acc-cyan border border-cyan-400/40">
               Free Online Tool &bull; 100% Client-Side Canvas Processing
             </span>
             <h1 className="text-3xl sm:text-5xl font-black text-white">
@@ -218,7 +218,7 @@ export default function InstagramGridMakerPage() {
           <div
             onClick={() => fileInputRef.current?.click()}
             className="border-2 border-dashed border-slate-700 rounded-3xl p-10 hover:border-cyan-400 transition-all cursor-pointer group"
-            style={{ background: "#020617" }}
+            style={{ background: "rgb(var(--c-fill-3))" }}
           >
             <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">📸</div>
             <div className="font-black text-white text-base mb-1">Click to select or drop an image</div>
@@ -274,7 +274,7 @@ export default function InstagramGridMakerPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left text-slate-300 border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-amber-400 font-black">
+                <tr className="border-b border-slate-800 text-acc-amber font-black">
                   <th className="py-2.5 px-3">Grid Type</th>
                   <th className="py-2.5 px-3">Total Tiles</th>
                   <th className="py-2.5 px-3">Recommended Image Resolution</th>
@@ -286,21 +286,21 @@ export default function InstagramGridMakerPage() {
                 <tr>
                   <td className="py-2.5 px-3 font-bold text-white">3x3 Grid (Giant Square)</td>
                   <td className="py-2.5 px-3">9 Tiles</td>
-                  <td className="py-2.5 px-3 font-mono text-cyan-300">3240 x 3240 px</td>
+                  <td className="py-2.5 px-3 font-mono text-acc-cyan">3240 x 3240 px</td>
                   <td className="py-2.5 px-3 font-mono">1080 x 1080 px</td>
                   <td className="py-2.5 px-3">1:1 Square</td>
                 </tr>
                 <tr>
                   <td className="py-2.5 px-3 font-bold text-white">3x2 Grid (Medium Banner)</td>
                   <td className="py-2.5 px-3">6 Tiles</td>
-                  <td className="py-2.5 px-3 font-mono text-cyan-300">3240 x 2160 px</td>
+                  <td className="py-2.5 px-3 font-mono text-acc-cyan">3240 x 2160 px</td>
                   <td className="py-2.5 px-3 font-mono">1080 x 1080 px</td>
                   <td className="py-2.5 px-3">3:2 Landscape</td>
                 </tr>
                 <tr>
                   <td className="py-2.5 px-3 font-bold text-white">3x1 Grid (Header Panorama)</td>
                   <td className="py-2.5 px-3">3 Tiles</td>
-                  <td className="py-2.5 px-3 font-mono text-cyan-300">3240 x 1080 px</td>
+                  <td className="py-2.5 px-3 font-mono text-acc-cyan">3240 x 1080 px</td>
                   <td className="py-2.5 px-3 font-mono">1080 x 1080 px</td>
                   <td className="py-2.5 px-3">3:1 Wide Panorama</td>
                 </tr>
@@ -316,7 +316,7 @@ export default function InstagramGridMakerPage() {
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
               Because Instagram displays profile posts chronologically from top-left (newest) to bottom-right (oldest), publishing grid tiles in chronological order will scramble your layout.
             </p>
-            <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-amber-300 font-bold">
+            <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-acc-amber font-bold">
               👉 Rule: Always post Tile #9 first, followed by #8, #7, #6, #5, #4, #3, #2, and finally Tile #1 last.
             </div>
           </div>
@@ -336,7 +336,7 @@ export default function InstagramGridMakerPage() {
           <h2 className="text-base font-extrabold text-white">Frequently Asked Questions</h2>
           <div className="space-y-3 text-xs">
             <details className="p-4 rounded-xl bg-slate-900 border border-slate-800 group">
-              <summary className="font-bold text-white cursor-pointer hover:text-amber-400 transition-colors">
+              <summary className="font-bold text-white cursor-pointer hover:text-acc-amber transition-colors">
                 What is the best image resolution for an Instagram 3x3 grid?
               </summary>
               <p className="mt-2 text-slate-300 leading-relaxed font-medium">
@@ -345,7 +345,7 @@ export default function InstagramGridMakerPage() {
             </details>
 
             <details className="p-4 rounded-xl bg-slate-900 border border-slate-800 group">
-              <summary className="font-bold text-white cursor-pointer hover:text-amber-400 transition-colors">
+              <summary className="font-bold text-white cursor-pointer hover:text-acc-amber transition-colors">
                 Will creating a 3x3 grid harm my engagement?
               </summary>
               <p className="mt-2 text-slate-300 leading-relaxed font-medium">
@@ -354,7 +354,7 @@ export default function InstagramGridMakerPage() {
             </details>
 
             <details className="p-4 rounded-xl bg-slate-900 border border-slate-800 group">
-              <summary className="font-bold text-white cursor-pointer hover:text-amber-400 transition-colors">
+              <summary className="font-bold text-white cursor-pointer hover:text-acc-amber transition-colors">
                 Are my uploaded images secure?
               </summary>
               <p className="mt-2 text-slate-300 leading-relaxed font-medium">

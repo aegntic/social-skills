@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function GrowthGuideMainPage() {
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="min-h-screen flex flex-col">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="min-h-screen flex flex-col">
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgba(26, 29, 36, 0.85)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgb(var(--c-bg) / 0.92)", borderBottom: "1px solid rgb(var(--c-line) / 0.55)" }}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <span className="font-black text-wutang-metallic text-lg">S/</span>
@@ -60,11 +60,11 @@ export default function GrowthGuideMainPage() {
           <div className="text-4xl font-black text-wutang-metallic mb-2">500M+ Views Generated</div>
           <div className="text-sm font-semibold text-slate-400 mb-6">Real Instagram & TikTok stats using this exact strategy</div>
           <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-            <div className="p-4 rounded-2xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-2xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-2xl font-black text-white">132,000+</div>
               <div className="text-xs text-slate-400 font-semibold">Direct Downloads</div>
             </div>
-            <div className="p-4 rounded-2xl" style={{ background: "#20242e" }}>
+            <div className="p-4 rounded-2xl" style={{ background: "rgb(var(--c-fill-1))" }}>
               <div className="text-2xl font-black text-azure-neon">$33,000+</div>
               <div className="text-xs text-slate-400 font-semibold">App Revenue</div>
             </div>

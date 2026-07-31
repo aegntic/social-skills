@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "@/components/clay/ThemeToggle";
 
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/#features", label: "Features" },
@@ -35,8 +36,8 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
         style={{
-          background: "rgba(15, 23, 42, 0.95)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+          background: "rgb(var(--c-bg) / 0.92)",
+          borderBottom: "1px solid rgb(var(--c-line) / 0.5)",
         }}
       >
         <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between gap-4">
@@ -45,9 +46,8 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
             <div
               className="flex h-10 w-10 items-center justify-center rounded-2xl"
               style={{
-                background: "linear-gradient(135deg, #363b48 0%, #1e222a 100%)",
-                boxShadow: "0 6px 16px rgba(0,0,0,0.5), inset 0 2px 3px rgba(255,255,255,0.2)",
-                border: "1px solid rgba(255,255,255,0.12)",
+                background: "var(--clay-surface-grad)",
+                boxShadow: "var(--clay-raised)",
               }}
             >
               <span className="text-xl font-black text-wutang-metallic">S/</span>
@@ -84,6 +84,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 
           {/* Desktop CTAs */}
           <div className="hidden items-center gap-3 md:flex">
+            <ThemeToggle />
             {authed ? (
               <Link href="/dashboard" className="btn-wutang px-5 py-2.5 text-xs font-black">
                 Open desk &rarr;
@@ -101,13 +102,15 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           </div>
 
           {/* Mobile menu button */}
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-1.5 md:hidden text-white font-bold text-xs"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
+          <div className="flex items-center gap-3 md:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="flex items-center gap-1.5 text-white font-bold text-xs"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+            >
             <span>{open ? "Close" : "Menu"}</span>
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
               {open ? (
@@ -116,13 +119,14 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
                 <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               )}
             </svg>
-          </button>
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden fixed inset-0 z-40 bg-[#0f172a] pt-20 px-6">
+        <div className="md:hidden fixed inset-0 z-40 pt-20 px-6" style={{ background: "rgb(var(--c-bg))" }}>
           <div className="py-6 flex flex-col gap-5 text-base font-bold text-white">
             {NAV_LINKS.map((link) => (
               <Link key={link.href} href={link.href} className="py-1 border-b border-slate-800">
@@ -146,7 +150,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-800 text-slate-300 py-16 px-6 text-xs font-medium" style={{ background: "#090d16" }}>
+    <footer className="border-t border-slate-800 text-slate-300 py-16 px-6 text-xs font-medium" style={{ background: "rgb(var(--c-fill-2))" }}>
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Top Tagline */}
         <div className="max-w-2xl">
@@ -205,7 +209,7 @@ export function SiteFooter() {
 
           {/* FREE TOOLS */}
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase tracking-widest text-emerald-400 mb-2">FREE TOOLS</div>
+            <div className="text-xs font-black uppercase tracking-widest text-acc-emerald mb-2">FREE TOOLS</div>
             <ul className="space-y-2 text-slate-400 font-semibold">
               <li><Link href="/growth-guide" className="hover:text-white transition-colors">Growth Guide</Link></li>
               <li><Link href="/tools/instagram-grid-maker" className="hover:text-white transition-colors">Instagram Grid Maker</Link></li>
@@ -222,7 +226,7 @@ export function SiteFooter() {
 
           {/* COMPARE */}
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase tracking-widest text-purple-400 mb-2">COMPARE</div>
+            <div className="text-xs font-black uppercase tracking-widest text-acc-purple mb-2">COMPARE</div>
             <ul className="space-y-2 text-slate-400 font-semibold">
               <li><Link href="/compare/buffer" className="hover:text-white transition-colors">Buffer alternative</Link></li>
               <li><Link href="/compare/hootsuite" className="hover:text-white transition-colors">Hootsuite alternative</Link></li>
@@ -235,7 +239,7 @@ export function SiteFooter() {
 
           {/* LEGAL */}
           <div className="space-y-3">
-            <div className="text-xs font-black uppercase tracking-widest text-rose-400 mb-2">LEGAL</div>
+            <div className="text-xs font-black uppercase tracking-widest text-acc-rose mb-2">LEGAL</div>
             <ul className="space-y-2 text-slate-400 font-semibold">
               <li><Link href="/whyareyoulikethis" className="hover:text-white transition-colors">Terms of services</Link></li>
               <li><Link href="/whyareyoulikethis" className="hover:text-white transition-colors">Privacy policy</Link></li>

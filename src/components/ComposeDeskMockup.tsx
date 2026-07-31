@@ -167,8 +167,8 @@ export function ComposeDeskMockup() {
                 borderWidth: "2px",
                 borderStyle: "solid",
                 borderColor: isTyping ? "var(--azure-neon)" : "rgba(0, 240, 255, 0.3)",
-                background: "#161920",
-                color: "#ffffff",
+                background: "rgb(var(--c-fill-2))",
+                color: "rgb(var(--c-ink))",
                 minHeight: "140px",
                 maxHeight: "220px",
                 boxShadow: isTyping
@@ -194,8 +194,8 @@ export function ComposeDeskMockup() {
                 <div
                   className="mt-4 flex items-center gap-3 rounded-xl p-3"
                   style={{
-                    background: "#20242e",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    background: "rgb(var(--c-fill-1))",
+                    border: "1px solid rgb(var(--c-line) / 0.55)",
                   }}
                 >
                   <div
@@ -226,7 +226,7 @@ export function ComposeDeskMockup() {
             </button>
             <span
               className="text-xs font-black font-mono"
-              style={{ color: charCount > 0 ? "var(--azure-neon)" : "#94a3b8" }}
+              style={{ color: charCount > 0 ? "var(--azure-neon)" : "rgb(var(--c-muted))" }}
             >
               {charCount} / 2200 chars
             </span>
@@ -248,7 +248,7 @@ export function ComposeDeskMockup() {
                       borderWidth: "2px",
                       borderStyle: "solid",
                       borderColor: isActive ? "var(--azure-neon)" : "rgba(255, 255, 255, 0.1)",
-                      background: isActive ? "rgba(0, 240, 255, 0.15)" : "#020617",
+                      background: isActive ? "rgba(0, 240, 255, 0.15)" : "rgb(var(--c-fill-3))",
                       transform: isActive ? "scale(1.05)" : "scale(1)",
                       opacity: isActive ? 1 : 0.5,
                     }}
@@ -277,8 +277,8 @@ export function ComposeDeskMockup() {
                     key={p.id}
                     className="flex items-center gap-3 rounded-xl p-3"
                     style={{
-                      background: "#0f172a",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      background: "rgb(var(--c-fill-2))",
+                      border: "1px solid rgb(var(--c-line) / 0.55)",
                     }}
                   >
                     <PlatformColorLogo id={p.id} className="h-5 w-5 shrink-0" />
@@ -288,7 +288,7 @@ export function ComposeDeskMockup() {
                       </span>
                       <span className="text-xs text-slate-200 font-medium truncate">{p.adapted}</span>
                     </div>
-                    {published && <span className="text-xs font-black text-cyan-400">✓</span>}
+                    {published && <span className="text-xs font-black text-acc-cyan">✓</span>}
                   </div>
                 ))}
               </div>

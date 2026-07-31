@@ -72,7 +72,7 @@ export default function CarouselSplitterPage() {
   };
 
   return (
-    <div style={{ background: "var(--bg-page-gradient)", color: "#0f172a", minHeight: "100vh" }} className="flex flex-col min-h-screen">
+    <div style={{ background: "var(--bg-page-gradient)", color: "rgb(var(--c-ink))", minHeight: "100vh" }} className="flex flex-col min-h-screen">
       <SiteHeader />
 
       <main className="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
@@ -123,7 +123,7 @@ export default function CarouselSplitterPage() {
           <div
             onClick={() => fileInputRef.current?.click()}
             className="border-2 border-dashed border-slate-700 rounded-3xl p-10 hover:border-cyan-400 transition-all cursor-pointer group"
-            style={{ background: "#020617" }}
+            style={{ background: "rgb(var(--c-fill-3))" }}
           >
             <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🖼️</div>
             <div className="font-black text-white text-base mb-1">Click to select panoramic image</div>
