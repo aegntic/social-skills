@@ -243,6 +243,8 @@ export default function InstagramGridMakerPage() {
               >
                 {tiles.map((tile) => (
                   <div key={tile.id} className="relative group rounded-xl overflow-hidden border border-slate-700 bg-slate-900">
+                    {/* Runtime canvas data URL — unoptimizable, next/image adds no value */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={tile.dataUrl} alt={`Tile ${tile.id}`} className="w-full h-auto object-cover" />
                     <div className="absolute top-2 left-2 bg-black/80 px-2 py-0.5 rounded text-[10px] font-black text-amber-300">
                       Post #{tile.id}

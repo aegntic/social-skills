@@ -1,0 +1,14 @@
+; BIND zone file for socialskills.ninja
+; Purpose: repoint apex + www from Cloudflare Tunnel to Vercel
+; Imported via: Cloudflare DNS dashboard → "Import" button
+; Pairs with manual deletion of the two existing Tunnel records first
+;
+; IMPORTANT: a BIND import ADDS records; it does not delete existing ones.
+; Delete the two existing Tunnel-typed rows for @ and www BEFORE importing,
+; or you'll have orphan records and a config conflict.
+
+$ORIGIN socialskills.ninja.
+$TTL 1   ; 1 = "Auto" in the Cloudflare UI
+
+@     IN  A  76.76.21.21
+www   IN  A  76.76.21.21

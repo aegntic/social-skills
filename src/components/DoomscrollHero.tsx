@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const PLATFORMS = [
@@ -136,9 +137,11 @@ export function DoomscrollHero() {
   if (phase === "reveal") {
     return (
       <div className="reveal-container">
-        <img
+        <Image
           src="/whyareyoulikethis.png"
           alt="why are you like this"
+          width={1536}
+          height={1024}
           className="reveal-image"
         />
       </div>

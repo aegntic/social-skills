@@ -143,6 +143,8 @@ export default function CarouselSplitterPage() {
               <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
                 {slides.map((slide) => (
                   <div key={slide.id} className="min-w-[200px] max-w-[240px] flex-shrink-0 relative group rounded-xl overflow-hidden border border-slate-700 bg-slate-900">
+                    {/* Runtime canvas data URL — unoptimizable, next/image adds no value */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={slide.dataUrl} alt={`Slide ${slide.id}`} className="w-full h-auto object-cover" />
                     <div className="absolute top-2 left-2 bg-black/80 px-2 py-0.5 rounded text-[10px] font-black text-cyan-300">
                       Slide {slide.id}/{slides.length}
