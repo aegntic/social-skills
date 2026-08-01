@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/clay/ThemeToggle";
+import { BrandMark } from "@/components/BrandMark";
+import { AegnticAttribution } from "@/components/AegnticAttribution";
 
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/#features", label: "Features" },
@@ -50,7 +52,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
                 boxShadow: "var(--clay-raised)",
               }}
             >
-              <span className="text-xl font-black text-wutang-metallic">S/</span>
+              <BrandMark className="h-7 text-wutang-metallic" />
             </div>
             <div>
               <span className="text-lg font-black tracking-tight text-white">
@@ -250,9 +252,12 @@ export function SiteFooter() {
         {/* Copyright */}
         <div className="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400">
           <div>Copyright © 2026 - All rights reserved</div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>All systems operational &bull; Agent-Native API Active</span>
+          <div className="flex items-center gap-4">
+            <AegnticAttribution size={18} />
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>All systems operational &bull; Agent-Native API Active</span>
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/clay/ThemeToggle";
+import { BrandMark } from "@/components/BrandMark";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -54,7 +55,7 @@ export function DashboardShell({ children, title }: DashboardShellProps) {
         <aside className="p-5 border-r border-slate-800 space-y-6" style={{ background: "rgb(var(--c-fill-2))" }}>
           <div className="flex items-center justify-between mb-4">
             <Link href="/dashboard" className="flex items-center gap-2 text-decoration-none">
-              <span className="font-black text-wutang-metallic text-base">S/</span>
+              <BrandMark className="h-5 text-wutang-metallic" />
               <span className="font-extrabold text-white text-base">post bridge</span>
             </Link>
             <ThemeToggle />
