@@ -1,0 +1,487 @@
+# Instincts generated from https://github.com/aegntic/social-skills
+# Generated: 2026-07-24T01:09:53.064Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: social-skills-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, fix, docs
+
+## Evidence
+
+- 5 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat(journey): isolate operator gbrain behind /api/journey/operator, fix(journey): type-annotate operator route Promise; sync tsconfig
+
+---
+id: social-skills-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Commit Length
+
+## Action
+
+Write moderate-length commit messages (~65 characters)
+
+## Evidence
+
+- Average commit message length: 65 chars
+- Based on 5 commits
+
+---
+id: social-skills-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: social-skills-import-alias
+trigger: "when importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Import Alias
+
+## Action
+
+Use path aliases (@/, ~/) instead of relative imports
+
+## Evidence
+
+- Import analysis shows alias pattern
+- Example: import { x } from '@/lib/x'
+
+---
+id: social-skills-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Export Style
+
+## Action
+
+Prefer mixed exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: mixed
+
+---
+id: social-skills-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: social-skills-workflow-api-endpoint-refactor-or-addition
+trigger: "when doing api endpoint refactor or addition"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Workflow Api Endpoint Refactor Or Addition
+
+## Action
+
+Follow the api-endpoint-refactor-or-addition workflow:
+1. Create or modify a route handler file under src/app/api/[feature]/[route]/route.ts
+2. Adjust authentication/authorization logic as needed (e.g., add 401 for unauthenticated access)
+3. Update the public route to change its data source or response shape
+4. Reference or close relevant planning docs/issues
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/app/api/journey/route.ts, src/app/api/journey/operator/route.ts
+
+---
+id: social-skills-workflow-api-route-type-safety-and-config-sync
+trigger: "when doing api route type safety and config sync"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/aegntic/social-skills
+---
+
+# Social Skills Workflow Api Route Type Safety And Config Sync
+
+## Action
+
+Follow the api-route-type-safety-and-config-sync workflow:
+1. Annotate API route handler return types (e.g., Promise<NextResponse>)
+2. Update or reformat tsconfig.json as needed for Next.js compatibility
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/app/api/journey/operator/route.ts, tsconfig.json
+
+---
+id: social-skills-instinct-file-naming
+trigger: "When creating or renaming a file in the codebase"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct File Naming
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in namingConventions.files
+- All files in src/app/api/journey/operator/route.ts follow camelCase
+
+---
+id: social-skills-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in namingConventions.functions
+
+---
+id: social-skills-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in namingConventions.classes
+
+---
+id: social-skills-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in namingConventions.constants
+
+---
+id: social-skills-instinct-import-alias
+trigger: "When importing modules"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Import Alias
+
+## Action
+
+Use import aliases instead of relative paths
+
+## Evidence
+
+- Pattern in importStyle: alias
+
+---
+id: social-skills-instinct-export-mixed
+trigger: "When exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Export Mixed
+
+## Action
+
+Use both named and default exports as appropriate
+
+## Evidence
+
+- Pattern in exportStyle: mixed
+
+---
+id: social-skills-instinct-try-catch-error-handling
+trigger: "When handling errors in code"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Try Catch Error Handling
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style: try-catch
+
+---
+id: social-skills-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Test Location
+
+## Action
+
+Place tests in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation: separate
+
+---
+id: social-skills-instinct-git-commit-format
+trigger: "When making a git commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Git Commit Format
+
+## Action
+
+Use conventional commit prefixes: feat, fix, or docs, followed by (scope): message
+
+## Evidence
+
+- Seen in commit: feat(journey): isolate operator gbrain behind /api/journey/operator
+- Pattern in commits.prefixes
+
+---
+id: social-skills-instinct-git-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Git Commit Length
+
+## Action
+
+Keep commit messages concise, around 65 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: social-skills-instinct-api-endpoint-refactor-or-addition
+trigger: "When changing the behavior or access control of an API endpoint, especially to separate public and operator-only routes"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Api Endpoint Refactor Or Addition
+
+## Action
+
+Create or modify a route handler file under src/app/api/[feature]/[route]/route.ts
+
+## Evidence
+
+- Workflow: api-endpoint-refactor-or-addition
+- Seen in commit: feat(journey): isolate operator gbrain behind /api/journey/operator
+
+---
+id: social-skills-instinct-api-endpoint-auth-adjust
+trigger: "When creating or modifying an API endpoint that requires access control"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Api Endpoint Auth Adjust
+
+## Action
+
+Adjust authentication/authorization logic as needed (e.g., add 401 for unauthenticated access)
+
+## Evidence
+
+- Workflow: api-endpoint-refactor-or-addition
+- Seen in commit: fix(journey): type-annotate operator route Promise; sync tsconfig
+
+---
+id: social-skills-instinct-api-endpoint-public-data
+trigger: "When updating a public API route"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Api Endpoint Public Data
+
+## Action
+
+Change its data source or response shape as needed
+
+## Evidence
+
+- Workflow: api-endpoint-refactor-or-addition
+- Seen in commit: feat(journey): public route serves seeded product + demo memory
+
+---
+id: social-skills-instinct-api-endpoint-docs-reference
+trigger: "When completing an API endpoint refactor or addition"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Api Endpoint Docs Reference
+
+## Action
+
+Reference or close relevant planning docs/issues
+
+## Evidence
+
+- Workflow: api-endpoint-refactor-or-addition
+- Pattern in commitSequence
+
+---
+id: social-skills-instinct-api-route-type-annotation
+trigger: "When adding or modifying an API route handler"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Api Route Type Annotation
+
+## Action
+
+Annotate API route handler return types (e.g., Promise<NextResponse>)
+
+## Evidence
+
+- Workflow: api-route-type-safety-and-config-sync
+- Seen in commit: fix(journey): type-annotate operator route Promise; sync tsconfig
+
+---
+id: social-skills-instinct-tsconfig-sync
+trigger: "When adding or modifying an API route handler"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: aegntic/social-skills
+---
+
+# Social Skills Instinct Tsconfig Sync
+
+## Action
+
+Update or reformat tsconfig.json as needed for Next.js compatibility
+
+## Evidence
+
+- Workflow: api-route-type-safety-and-config-sync
+- Seen in commit: fix(journey): type-annotate operator route Promise; sync tsconfig
+
