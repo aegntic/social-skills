@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/architecture.svg" alt="Social Skills memory architecture" width="760"/>
+  <img src="docs/hero-journey.gif" alt="Social Skills — the /journey memory view scrolling through what the app has learned about an account" width="760"/>
 </p>
 
 <h1 align="center">Social Skills</h1>
@@ -10,12 +10,18 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/stack-Next.js%2016%20%2F%20React%2019-blue" alt="stack"/>
+  <img src="https://img.shields.io/badge/stack-Next.js%2015%20%2F%20React%2019-blue" alt="stack"/>
+  <img src="https://img.shields.io/badge/publishers_real-1%20of%2010-orange" alt="publishers"/>
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license"/>
   <img src="https://img.shields.io/badge/memory-Cognitive%20OS%20v3-8b5cf6" alt="memory"/>
-  <img src="https://img.shields.io/badge/status-public%20trust%20surface-10b981" alt="status"/>
   <img src="https://img.shields.io/badge/self--host-yes-0ea5e9" alt="self-host"/>
 </p>
+
+> **Honest scope, right now:** 1 of 10 publishers is wired for real
+> (Bluesky — commit `85f9a4e`). The other 9 transform your caption to each
+> platform's rules but return an honest "not yet wired" error on publish —
+> no fake success URLs. The rollout order for the rest lives in
+> [`ROADMAP.md`](ROADMAP.md).
 
 ---
 
@@ -37,9 +43,10 @@ surface**: a prospect can *see* the memory thesis before they sign up.
 ## What it does
 
 - ✍️ **Compose once** — one caption, optional media.
-- 🌐 **Publish everywhere** — ten platforms, each transformed to its own rules
+- 🌐 **Transform for ten platforms** — each platform gets its own rules applied
   (IG needs media, X strips links, Threads wants a question hook, LinkedIn
-  keeps the long form).
+  keeps the long form). Direct publish is real for **Bluesky**; the other 9
+  honest-fail until wired (see scope note above).
 - 🧠 **Learns per account** — brand voice, cadence, top platform, audience
   insight, surfaced on `/journey`.
 - 📊 **SEO compare hub** — `/compare` pits Social Skills against 8 competitors.
@@ -48,7 +55,9 @@ surface**: a prospect can *see* the memory thesis before they sign up.
 
 ## Architecture
 
-The memory split is the whole point (see diagram above):
+The memory split is the whole point:
+
+![Memory architecture](docs/architecture.svg)
 
 | Surface | Route | Auth | What it exposes |
 |----------|-------|------|----------------|
@@ -71,8 +80,8 @@ export NEXT_PUBLIC_SITE_URL=https://socialskills.ninja
 
 Other cheap TLDs probed open: `.live`, `.studio`, `.io`. `.fun` / `.xyz` /
 `.app` / `.dev` / `.co` / `.com` were taken at probe time. Register on
-Porkbun, point DNS at the deploy, set the env var. `.env.example` has the
-template.
+Porkbun, point DNS at the deploy, set the env var. [`.env.sample`](.env.sample)
+has the template.
 
 > Note: the demo login (`demo@socialskills.app`) is the demo *account*
 > namespace, independent of the public site domain above.
@@ -80,6 +89,7 @@ template.
 ## Run it
 
 ```bash
+git clone https://github.com/aegntic/social-skills.git
 cd social-skills
 bun install
 bun run dev        # http://localhost:3456
